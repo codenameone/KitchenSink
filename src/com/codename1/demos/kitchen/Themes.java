@@ -141,13 +141,19 @@ public class Themes  extends Demo {
                     parentForm.revalidate();
                     return;
                 }
+                // we are in the middle of downloading this theme...
+                if(theme.getClientProperty("downloading") != null) {
+                    return;
+                }
                 if(Storage.getInstance().exists(currentThemeFile)) {
                     setTheme(parentForm, currentThemeFile);
                 } else {
+                    theme.putClientProperty("downloading", Boolean.TRUE);
                     ConnectionRequest cr = new ConnectionRequest(BASE_URL + currentThemeFile);
                     cr.setDestinationStorage(currentThemeFile);
                     ToastBar.showConnectionProgress("Downloading theme", cr, ee -> {
                         setTheme(parentForm, currentThemeFile);
+                        theme.putClientProperty("downloading", null);
                     }, (sender, err, errorCode, errorMessage) -> {
                         ToastBar.showErrorMessage("There was an error downloading the file: " + err);
                         Log.e(err);
