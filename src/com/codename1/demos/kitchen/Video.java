@@ -23,6 +23,10 @@
 package com.codename1.demos.kitchen;
 
 import com.codename1.components.MediaPlayer;
+import com.codename1.components.ToastBar;
+import com.codename1.io.Log;
+import com.codename1.media.Media;
+import com.codename1.media.MediaManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
@@ -45,16 +49,23 @@ public class Video  extends Demo {
     }
 
     public Image getDemoIcon() {
-        return getResources().getImage("avidemux.png");
+        return getResources().getImage("video.png");
     }
 
     public Container createDemo() {
         Container player = new Container(new BorderLayout());
-        final MediaPlayer mp = new MediaPlayer();
-        mp.setDataSource("http://www.codenameone.com/files/hello-codenameone.mp4");
-        mp.setAutoplay(true);
-        
-        player.addComponent(BorderLayout.CENTER, mp);
+        try {
+            Media video = MediaManager.createMedia("http://www.codenameone.com/files/hello-codenameone.mp4", true);        
+            final MediaPlayer mp = new MediaPlayer(video);
+            mp.setAutoplay(true);
+            mp.setLoop(true);
+            video.setNativePlayerMode(true);
+
+            player.addComponent(BorderLayout.CENTER, mp);
+        } catch(IOException err) {
+            Log.e(err);
+            ToastBar.showErrorMessage("Error loading video: " + err);
+        }
         return player;
     }
     

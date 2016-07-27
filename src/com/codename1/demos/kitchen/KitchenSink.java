@@ -81,7 +81,7 @@ public class KitchenSink  {
         Toolbar.setGlobalToolbar(true);
         Dialog.setDefaultBlurBackgroundRadius(10);
     }
-    
+        
     private void showDemoInformation(Form back, Demo d) {
         Form f = new Form("Information", new BorderLayout());
         Button sourceCode = new Button("View Source");
@@ -390,12 +390,17 @@ public class KitchenSink  {
         
         f.getToolbar().setVisible(false);
         cnt.setVisible(false);
+        for(Component c : cnt) {
+            c.setVisible(false);
+        }
         f.addShowListener(e -> {
             f.getToolbar().setHeight(0);
             f.getToolbar().setVisible(true);
             f.animateLayoutFadeAndWait(200, 100);
             for(Component c : cnt) {
                 c.setY(f.getHeight());
+                c.setVisible(true);
+                c.getUnselectedStyle().setOpacity(100);
             }
             cnt.setVisible(true);
             cnt.animateLayoutFadeAndWait(400, 100);

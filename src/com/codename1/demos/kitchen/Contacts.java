@@ -69,8 +69,6 @@ public class Contacts extends Demo {
     private int circleMaskHeight;
     private Font letterFont;
     private boolean finishedLoading;
-    private Label scrollLetter;
-    private int screenY;
     
     public String getDisplayName() {
         return "Contacts";
@@ -124,91 +122,11 @@ public class Contacts extends Demo {
         letterFont = Font.createTrueTypeFont("native:MainThin", "native:MainThin");
         letterFont = letterFont.derive(circleMaskHeight - circleMaskHeight/ 3, Font.STYLE_PLAIN);
         
-        parentForm.addPointerReleasedListener(e -> {
-            if(scrollLetter != null) {
-                parentForm.getLayeredPane().removeAll();
-                scrollLetter = null;
-            }
-        });
-        parentForm.addPointerDraggedListener(e -> {
-            screenY = e.getY();
-        });
-        
-        final Container scrollbarParent = new Container(new BorderLayout());
         final Container contactsDemo = new Container(BoxLayout.y());        
         contactsDemo.setScrollableY(true);
         contactsDemo.add(FlowLayout.encloseCenterMiddle(new InfiniteProgress()));
         
-        
-        contactsDemo.setScrollVisible(false);
-        Slider scroll = new Slider();
-        scroll.setUIID("Container");
-        scroll.setThumbImage(Image.createImage(5,40, 0xff000000));
-        scroll.setVertical(true);
-        scroll.setMinValue(0);
-        scroll.setEditable(true);
-        scrollbarParent.add(BorderLayout.EAST, scroll);
-        scrollbarParent.add(BorderLayout.CENTER, contactsDemo);
-        
-        final boolean[] lock = new boolean[1];
-        scroll.addDataChangedListener((type, index) -> {
-            if(!lock[0]) {
-                lock[0] = true;
-                if(scrollLetter == null) {
-                    scrollLetter = new Label();
-                    Style ss = scrollLetter.getUIManager().getComponentStyle("Blank5");
-                    ss.setFgColor(ss.getBgColor());
-                    ss.setBgTransparency(0);
-                    Style us = scrollLetter.getUnselectedStyle();
-                    us.setBgImage(FontImage.createMaterial(FontImage.MATERIAL_LABEL, 
-                            ss, 10));
-                    us.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FIT);
-                    us.setFgColor(0xffffff);
-                    us.setMarginUnit(Style.UNIT_TYPE_PIXELS);
-                    us.setPaddingUnit(Style.UNIT_TYPE_DIPS);
-                    us.setFont(us.getFont().derive(Display.getInstance().convertToPixels(6), Font.STYLE_PLAIN));
-                    us.setPadding(4, 4, 4, 4);
-                    Container cnt = parentForm.getLayeredPane();
-                    cnt.setLayout(new BorderLayout());
-                    cnt.add(BorderLayout.EAST, scrollLetter);
-                    scrollLetter.getUnselectedStyle().setMargin(Component.RIGHT, scroll.getWidth());
-                }
-                scrollLetter.getUnselectedStyle().setMargin(Component.TOP, Math.max(0, screenY - parentForm.getContentPane().getY() - contactsDemo.getScrollY()));
-                contactsDemo.scrollRectToVisible(0, scroll.getMaxValue() - index, 5, contactsDemo.getHeight(), contactsDemo);
-                scroll.setMaxValue(contactsDemo.getScrollDimension().getHeight());
-                Component cmp = contactsDemo.getComponentAt(contactsDemo.getWidth() / 2, screenY);
-                if(cmp == null) {
-                    scrollLetter.setText("");
-                    lock[0] = false;
-                    return;
-                }
-                while(!(cmp instanceof MultiButton)) {
-                    cmp = cmp.getParent();
-                    if(cmp == null) {
-                        scrollLetter.setText("");
-                        lock[0] = false;
-                        return;
-                    }
-                }
-                if(cmp instanceof MultiButton) {
-                    String s = (String)cmp.getClientProperty("char");
-                    if(!s.equals(scrollLetter.getText())) {
-                        scrollLetter.setText(s);
-                        scrollLetter.getParent().revalidate();
-                    }
-                }
-                lock[0] = false;
-            }
-        });
-        contactsDemo.addScrollListener((scrollX, scrollY, oldscrollX, oldscrollY) -> {
-            if(!lock[0]) {
-                lock[0] = true;
-                scroll.setProgress(scroll.getMaxValue() - scrollY);
-                scroll.setMaxValue(contactsDemo.getScrollDimension().getHeight());
-                lock[0] = false;
-            }
-        });        
-        
+                
         Display.getInstance().scheduleBackgroundTask(() -> {
             Contact[] contacts = Display.getInstance().getAllContacts(true, true, false, true, true, false);
             CaseInsensitiveOrder co = new CaseInsensitiveOrder();
@@ -238,12 +156,6 @@ public class Contacts extends Demo {
                     }
                     MultiButton mb = new MultiButton(dname);
                     mb.setIconUIID("ContactIcon");
-                    String fname = c.getFamilyName();
-                    if(fname != null && fname.length() > 0) {
-                        mb.putClientProperty("char", "" + fname.charAt(0));
-                    } else {
-                        mb.putClientProperty("char", "" + dname.charAt(0));                        
-                    }
                     
                     // we need this for the SwipableContainer below
                     mb.getAllStyles().setBgTransparency(255);
@@ -400,15 +312,13 @@ public class Contacts extends Demo {
                     });
                 }
                 contactsDemo.revalidate();
-                scroll.setMaxValue(contactsDemo.getScrollDimension().getHeight());
-                scroll.setProgress(scroll.getMaxValue());
                                 
                 finishedLoading = true;
                 ToastBar.showMessage("Swipe the contacts to both sides to expose additional options", FontImage.MATERIAL_COMPARE_ARROWS, 5000);
             });
         });
                 
-        return scrollbarParent;
+        return contactsDemo;
     }
     
 }
