@@ -22,16 +22,22 @@
  */
 package com.codename1.demos.kitchen;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.MediaPlayer;
 import com.codename1.components.ToastBar;
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
+import com.codename1.io.NetworkManager;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
+import com.codename1.ui.Form;
 import com.codename1.ui.Image;
+import com.codename1.ui.Label;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
@@ -52,21 +58,57 @@ public class Video  extends Demo {
         return getResources().getImage("video.png");
     }
 
-    public Container createDemo() {
-        Container player = new Container(new BorderLayout());
-        try {
-            Media video = MediaManager.createMedia("http://www.codenameone.com/files/hello-codenameone.mp4", true);        
-            final MediaPlayer mp = new MediaPlayer(video);
-            mp.setAutoplay(true);
-            mp.setLoop(true);
-            video.setNativePlayerMode(true);
-
-            player.addComponent(BorderLayout.CENTER, mp);
-        } catch(IOException err) {
-            Log.e(err);
-            ToastBar.showErrorMessage("Error loading video: " + err);
+    public Container createDemo(Form parent) {
+        FileSystemStorage fs = FileSystemStorage.getInstance();
+        if(!fs.exists(fs.getAppHomePath() + "hello-codenameone.mp4")) {
+            Container downloading = BorderLayout.center(new Label("Downloading"));
+            if(Display.getInstance().isTablet()) {
+                downloadFile(downloading);
+            } else {
+                parent.addShowListener(e -> downloadFile(downloading));
+            }
+            return downloading;
         }
-        return player;
+        return createVideoPlayer();
+    }
+
+    void downloadFile(final Container downloading) {
+        ConnectionRequest cr = new ConnectionRequest("https://www.codenameone.com/files/hello-codenameone.mp4") {
+            @Override
+            protected void postResponse() {
+                if(downloading.getParent() != null) {
+                    downloading.getParent().replace(downloading, createVideoPlayer(), null);
+                }
+            }
+        };
+        cr.setPost(false);
+        cr.setDestinationFile(FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
+        ToastBar.showConnectionProgress("Downloading video", cr, null, null);
+        NetworkManager.getInstance().addToQueue(cr);        
     }
     
+    private Container createVideoPlayer() {
+        FileSystemStorage fs = FileSystemStorage.getInstance();
+        Container player = new Container(new BorderLayout());
+        player.add(BorderLayout.CENTER, new InfiniteProgress());
+        Display.getInstance().scheduleBackgroundTask(() -> {
+            try {
+                Media video = MediaManager.createMedia(fs.getAppHomePath() + "hello-codenameone.mp4", true);        
+                video.prepare();
+                Display.getInstance().callSerially(() ->{
+                    final MediaPlayer mp = new MediaPlayer(video);
+                    mp.setAutoplay(true);
+                    mp.setLoop(true);
+                    video.setNativePlayerMode(true);
+                    player.removeAll();
+                    player.addComponent(BorderLayout.CENTER, mp);
+                    player.revalidate();
+                });
+            } catch(IOException err) {
+                Log.e(err);
+                ToastBar.showErrorMessage("Error loading video: " + err);
+            }
+        });
+        return player;
+    }
 }

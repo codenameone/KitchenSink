@@ -23,13 +23,10 @@
 package com.codename1.demos.kitchen;
 
 
-import com.codename1.components.MultiButton;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.io.Log;
 import com.codename1.io.Preferences;
-import com.codename1.payment.PurchaseCallback;
-import com.codename1.push.PushCallback;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
 import com.codename1.ui.Component;
@@ -44,19 +41,13 @@ import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.animations.CommonTransitions;
 import com.codename1.ui.animations.ComponentAnimation;
-import com.codename1.ui.animations.FlipTransition;
-import com.codename1.ui.animations.Motion;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
-import com.codename1.ui.util.UITimer;
 
 public class KitchenSink  {
     private Resources res;
@@ -216,23 +207,13 @@ public class KitchenSink  {
 
     private void showMainUI() {
         final Form f = new Form("KitchenSink", new BorderLayout());
-        //f.getToolbar().setTitleCentered(false);
-        //f.getToolbar().getTitleComponent().getAllStyles().setAlignment(Component.LEFT);
         
         Demo[] demos = new Demo[] {
             new Layouts(), new WebServices(), 
+            new ClockDemo(),
             new Themes(), new Contacts(),
             new Input(), 
             new Video(), new SalesDemo(),
-            new RSS()
-            
-            /*new Effects(), 
-            new DialogDemo(), 
-            new Mail(), 
-            new Web(), new Components(),
-            new Camera(), 
-            new WebServices(),
-            new Share(), */
         };
         
         for(Demo d : demos) {
@@ -275,9 +256,6 @@ public class KitchenSink  {
         } else {
             cnt = new Container(BoxLayout.y());
             for(Demo d : demos) {
-                /*MultiButton mb = createDemoButton(d);
-                mb.setUIIDLine1("MultiLine1");
-                mb.setIconPosition(BorderLayout.WEST);*/
                 cnt.add(createDemoButton(d));
             }
         }
@@ -315,9 +293,6 @@ public class KitchenSink  {
                 }
                 arr[offset] = cnt.createAnimateHierarchy(1000);
 
-                //cnt.getAnimationManager().addAnimation(ComponentAnimation.sequentialAnimation(ComponentAnimation.compoundAnimation(arr),
-                //        ComponentAnimation.compoundAnimation(arr2)));
-                
                 cnt.getAnimationManager().addAnimationAndBlock(ComponentAnimation.compoundAnimation(arr));
                 cnt.getParent().revalidate();
                 
@@ -328,7 +303,6 @@ public class KitchenSink  {
                     arr2[offset] = mb.lineToGridStage2();
                     offset++;
                 }
-                //arr2[offset] = cnt.createAnimateHierarchy(5000);
 
                 cnt.getAnimationManager().addAnimationAndBlock(ComponentAnimation.compoundAnimation(arr2));
 

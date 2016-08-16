@@ -112,6 +112,37 @@ public class Contacts extends Demo {
         return b.toString();
     }
     
+    Contact[] got() {
+        String[] characters = { "Tyrion Lannister", "Jaime Lannister", "Cersei Lannister", "Daenerys Targaryen",
+            "Jon Snow", "Petyr Baelish", "Jorah Mormont", "Sansa Stark", "Arya Stark", "Theon Greyjoy",
+            "Bran Stark", "Sandor Clegane", "Joffrey Baratheon", "Catelyn Stark", "Robb Stark", "Ned Stark",
+            "Robert Baratheon", "Viserys Targaryen", "Varys", "Samwell Tarly", "Bronn","Tywin Lannister",
+            "Shae", "Jeor Mormont","Gendry","Tommen Baratheon","Jaqen H'ghar","Khal Drogo","Davos Seaworth", 
+            "Melisandre","Margaery Tyrell","Stannis Baratheon","Ygritte","Talisa Stark","Brienne of Tarth","Gilly",
+            "Roose Bolton","Tormund Giantsbane","Ramsay Bolton","Daario Naharis","Missandei","Ellaria Sand",
+            "The High Sparrow","Grand Maester Pycelle","Loras Tyrell","Hodor","Gregor Clegane","Meryn Trant",
+            "Alliser Thorne","Othell Yarwyck","Kevan Lannister","Lancel Lannister","Myrcella Baratheon",
+            "Rickon Stark","Osha","Janos Slynt","Barristan Selmy","Maester Aemon","Grenn","Hot Pie",
+            "Pypar","Rast","Ros","Rodrik Cassel","Maester Luwin","Irri","Doreah","Eddison Tollett","Podrick Payne",
+            "Yara Greyjoy","Selyse Baratheon","Olenna Tyrell","Qyburn","Grey Worm","Meera Reed","Shireen Baratheon",
+            "Jojen Reed","Mace Tyrell","Olly","The Waif","Bowen Marsh"
+        };
+        Contact[] ct = new Contact[characters.length];
+        for(int iter = 0 ; iter < characters.length ; iter++) {
+            ct[iter] = new Contact();
+            ct[iter].setDisplayName(characters[iter]);
+        }
+        return ct;
+    }
+    
+    Contact[] getContacts() {
+        try {
+            return Display.getInstance().getAllContacts(true, true, false, true, true, false);
+        } catch(Throwable t) {
+            return null;
+        }
+    }
+    
     public Container createDemo(Form parentForm) {
         Image circleImage = getResources().getImage("circle.png");
         circleLineImage = getResources().getImage("circle-line.png");
@@ -125,10 +156,13 @@ public class Contacts extends Demo {
         final Container contactsDemo = new Container(BoxLayout.y());        
         contactsDemo.setScrollableY(true);
         contactsDemo.add(FlowLayout.encloseCenterMiddle(new InfiniteProgress()));
-        
-                
+                      
         Display.getInstance().scheduleBackgroundTask(() -> {
-            Contact[] contacts = Display.getInstance().getAllContacts(true, true, false, true, true, false);
+            Contact[] tcontacts = getContacts();
+            if(tcontacts == null) {
+                tcontacts = got();
+            }
+            Contact[] contacts = tcontacts;
             CaseInsensitiveOrder co = new CaseInsensitiveOrder();
             Arrays.sort(contacts, (o1, o2) -> {
                 String sname1  = o1.getFamilyName();
@@ -279,37 +313,43 @@ public class Contacts extends Demo {
                                         
                     delete.addActionListener(e -> {
                         if(Dialog.show("Delete", "Are you sure?\nThis will delete this contact permanently!", "Delete", "Cancel")) {
-                            Display.getInstance().deleteContact(c.getId());
+                            // can happen in the case of got() contacts
+                            if(c.getId() != null) {
+                                Display.getInstance().deleteContact(c.getId());
+                            }
                             sc.remove();
                             contactsDemo.animateLayout(800);
                         }
                     });
-                    
-                    Display.getInstance().scheduleBackgroundTask(() -> {
-                        // let the UI finish loading first before we proceed with the images
-                        while(!finishedLoading) {
-                            Util.sleep(100);
-                        }
-                        
-                        // fetch only the picture which is the last missing piece
-                        Contact picContact = Display.getInstance().getContactById(c.getId(), false, true, false, false, false);
-                        Image img = picContact.getPhoto();
-                        if(img != null) {
-                            // UI/Image manipulation must be done on the EDT
-                            Display.getInstance().callSerially(() -> {
-                                Image rounded = img.fill(circleMaskWidth, circleMaskHeight).applyMask(circleMask);
-                                Image mutable = Image.createImage(circleMaskWidth, circleMaskHeight, 0);
-                                Graphics g = mutable.getGraphics();
-                                g.drawImage(rounded, 0, 0);
-                                g.drawImage(circleLineImage, 0, 0);
-                                mb.setIcon(mutable);
-                                mb.getIconComponent().repaint();
-                            });
-                            
-                            // yield slightly so we don't choke the EDT while a user might be scrolling...
-                            Util.sleep(5);
-                        }
-                    });
+
+                    // can happen in the case of got() contacts
+                    if(c.getId() != null)  {
+                        Display.getInstance().scheduleBackgroundTask(() -> {
+                            // let the UI finish loading first before we proceed with the images
+                            while(!finishedLoading) {
+                                Util.sleep(100);
+                            }
+
+                            // fetch only the picture which is the last missing piece
+                            Contact picContact = Display.getInstance().getContactById(c.getId(), false, true, false, false, false);
+                            Image img = picContact.getPhoto();
+                            if(img != null) {
+                                // UI/Image manipulation must be done on the EDT
+                                Display.getInstance().callSerially(() -> {
+                                    Image rounded = img.fill(circleMaskWidth, circleMaskHeight).applyMask(circleMask);
+                                    Image mutable = Image.createImage(circleMaskWidth, circleMaskHeight, 0);
+                                    Graphics g = mutable.getGraphics();
+                                    g.drawImage(rounded, 0, 0);
+                                    g.drawImage(circleLineImage, 0, 0);
+                                    mb.setIcon(mutable);
+                                    mb.getIconComponent().repaint();
+                                });
+
+                                // yield slightly so we don't choke the EDT while a user might be scrolling...
+                                Util.sleep(5);
+                            }
+                        });
+                    }
                 }
                 contactsDemo.revalidate();
                                 
