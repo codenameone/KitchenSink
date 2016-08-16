@@ -5,7 +5,7 @@
  * under the terms of the GNU General Public License version 2 only, as
  * published by the Free Software Foundation.  Codename One designates this
  * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ *  in the LICENSE file that accompanied this code.
  *  
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -220,16 +220,19 @@ public class KitchenSink  {
         //f.getToolbar().getTitleComponent().getAllStyles().setAlignment(Component.LEFT);
         
         Demo[] demos = new Demo[] {
-            new Layouts(), new Input(),
-            new Themes(), 
+            new Layouts(), new WebServices(), 
+            new Themes(), new Contacts(),
+            new Input(), 
+            new Video(), new SalesDemo(),
+            new RSS()
             
-            new Effects(), 
-            new DialogDemo(), new Contacts(), 
+            /*new Effects(), 
+            new DialogDemo(), 
             new Mail(), 
             new Web(), new Components(),
-            new Video(), new Camera(), 
+            new Camera(), 
             new WebServices(),
-            new Share(), 
+            new Share(), */
         };
         
         for(Demo d : demos) {

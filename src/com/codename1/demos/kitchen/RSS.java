@@ -5,7 +5,7 @@
  * under the terms of the GNU General Public License version 2 only, as
  * published by the Free Software Foundation.  Codename One designates this
  * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * in the LICENSE file that accompanied this code.
  *  
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -47,11 +47,11 @@ import java.io.IOException;
 public class RSS  extends Demo {
 
     public String getDisplayName() {
-        return "RSS";
+        return "RSS*";
     }
 
     public Image getDemoIcon() {
-        return getResources().getImage("share-icon.png");
+        return getResources().getImage("layout.png");
     }
 
     public Container createDemo() {
