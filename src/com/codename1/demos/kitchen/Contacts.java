@@ -69,6 +69,7 @@ public class Contacts extends Demo {
     private int circleMaskHeight;
     private Font letterFont;
     private boolean finishedLoading;
+    private long lastScroll;
     
     public String getDisplayName() {
         return "Contacts";
@@ -146,6 +147,8 @@ public class Contacts extends Demo {
     public Container createDemo(Form parentForm) {
         Image circleImage = getResources().getImage("circle.png");
         circleLineImage = getResources().getImage("circle-line.png");
+
+        parentForm.addPointerDraggedListener(e -> lastScroll = System.currentTimeMillis());
         
         circleMask = circleImage.createMask();
         circleMaskWidth = circleImage.getWidth();
@@ -301,6 +304,7 @@ public class Contacts extends Demo {
                                 if(initial < 0) {
                                     initial = scrollY;
                                 }
+                                lastScroll = System.currentTimeMillis();
                                 if(Math.abs(scrollY - initial) > mb.getHeight() / 2) {
                                     if(sc.getParent() != null) {
                                         sc.close();
@@ -328,6 +332,13 @@ public class Contacts extends Demo {
                             // let the UI finish loading first before we proceed with the images
                             while(!finishedLoading) {
                                 Util.sleep(100);
+                            }
+                            
+                            // don't do anything while we are scrolling or animating
+                            long idle = System.currentTimeMillis() - lastScroll;
+                            while(idle < 500 || contactsDemo.getAnimationManager().isAnimating()) {
+                                Util.sleep(Math.max(100, 500 - ((int)idle)));
+                                idle = System.currentTimeMillis() - lastScroll;
                             }
 
                             // fetch only the picture which is the last missing piece
