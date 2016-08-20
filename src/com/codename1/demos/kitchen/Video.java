@@ -22,25 +22,31 @@
  */
 package com.codename1.demos.kitchen;
 
+import com.codename1.capture.Capture;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.MediaPlayer;
+import com.codename1.components.MultiButton;
 import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
+import com.codename1.io.Util;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.BoxLayout;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -59,26 +65,77 @@ public class Video  extends Demo {
     }
 
     public Container createDemo(Form parent) {
-        FileSystemStorage fs = FileSystemStorage.getInstance();
-        if(!fs.exists(fs.getAppHomePath() + "hello-codenameone.mp4")) {
-            Container downloading = BorderLayout.center(new Label("Downloading"));
-            if(Display.getInstance().isTablet()) {
-                downloadFile(downloading);
+        MultiButton helloOnline = new MultiButton("Hello (Online)");
+        MultiButton helloOffline = new MultiButton("Hello (Offline)");
+        helloOnline.setTextLine2("Play thru http");
+        helloOffline.setTextLine2("Download & play");
+        MultiButton capture = new MultiButton("Capture Video");
+        capture.setTextLine2("Record video");
+        MultiButton playCapturedFile = new MultiButton("Play Captured Video");
+        playCapturedFile.setTextLine2("Last capture...");
+        String capturedFile = FileSystemStorage.getInstance().getAppHomePath() + "captured-file.mp4";
+        
+        FontImage.setMaterialIcon(helloOnline, FontImage.MATERIAL_VIDEO_LIBRARY);
+        FontImage.setMaterialIcon(helloOffline, FontImage.MATERIAL_VIDEO_LIBRARY);
+        FontImage.setMaterialIcon(capture, FontImage.MATERIAL_VIDEOCAM);
+        FontImage.setMaterialIcon(playCapturedFile, FontImage.MATERIAL_PERSONAL_VIDEO);
+        
+        Container cnt = BoxLayout.encloseY(ComponentGroup.enclose(helloOnline, helloOffline, capture, playCapturedFile));
+        cnt.setScrollableY(true);
+        
+        helloOffline.addActionListener(e -> {
+            FileSystemStorage fs = FileSystemStorage.getInstance();
+            if(!fs.exists(fs.getAppHomePath() + "hello-codenameone.mp4")) {
+                downloadFile(parent);
             } else {
-                parent.addShowListener(e -> downloadFile(downloading));
+                playVideo(parent, fs.getAppHomePath() + "hello-codenameone.mp4");
             }
-            return downloading;
+        });
+        
+        // special case: the simulator doesn't support https URLs for media due to JavaFX limitations
+        if(Display.getInstance().isSimulator()) {
+            helloOnline.addActionListener(e -> playVideo(parent, "http://www.codenameone.com/files/hello-codenameone.mp4"));
+        } else {
+            helloOnline.addActionListener(e -> playVideo(parent, "https://www.codenameone.com/files/hello-codenameone.mp4"));
         }
-        return createVideoPlayer();
+        
+        capture.addActionListener(e -> {
+            String result = Capture.captureVideo();
+            if(result != null) {
+                FileSystemStorage fs = FileSystemStorage.getInstance();
+                try {
+                    Util.copy(fs.openInputStream(result), fs.openOutputStream(capturedFile));
+                } catch(IOException err) {
+                    Log.e(err);
+                    ToastBar.showErrorMessage("Error in copying captured file: " + err);
+                }
+            }
+        });
+        
+        playCapturedFile.addActionListener(e -> {
+            if(FileSystemStorage.getInstance().exists(capturedFile)) {
+                playVideo(parent, capturedFile);
+            } else {
+                ToastBar.showErrorMessage("You need to capture a video first...");
+            }
+        });
+        
+        return cnt;
     }
 
-    void downloadFile(final Container downloading) {
+    
+    void downloadFile(final Form parent) {
         ConnectionRequest cr = new ConnectionRequest("https://www.codenameone.com/files/hello-codenameone.mp4") {
             @Override
             protected void postResponse() {
-                if(downloading.getParent() != null) {
-                    downloading.getParent().replace(downloading, createVideoPlayer(), null);
+                if(parent != Display.getInstance().getCurrent()) {
+                    if(!Dialog.show("Download Finished", "Downloading the video completed!\nDo you want to show it now?",
+                            "Show", "Later")) {
+                        return;
+                    }
+                    parent.show();
                 }
+                playVideo(parent, FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
             }
         };
         cr.setPost(false);
@@ -86,19 +143,18 @@ public class Video  extends Demo {
         ToastBar.showConnectionProgress("Downloading video", cr, null, null);
         NetworkManager.getInstance().addToQueue(cr);        
     }
-    
-    private Container createVideoPlayer() {
-        FileSystemStorage fs = FileSystemStorage.getInstance();
-        Container player = new Container(new BorderLayout());
+
+    private void playVideo(Form parent, String videoUrl) {
+        Form player = new Form(new BorderLayout());
+        player.getToolbar().setBackCommand("", e -> parent.showBack());
         player.add(BorderLayout.CENTER, new InfiniteProgress());
         Display.getInstance().scheduleBackgroundTask(() -> {
             try {
-                Media video = MediaManager.createMedia(fs.getAppHomePath() + "hello-codenameone.mp4", true);        
+                Media video = MediaManager.createMedia(videoUrl, true, () -> parent.showBack());        
                 video.prepare();
                 Display.getInstance().callSerially(() ->{
                     final MediaPlayer mp = new MediaPlayer(video);
                     mp.setAutoplay(true);
-                    mp.setLoop(true);
                     video.setNativePlayerMode(true);
                     player.removeAll();
                     player.addComponent(BorderLayout.CENTER, mp);
@@ -109,6 +165,6 @@ public class Video  extends Demo {
                 ToastBar.showErrorMessage("Error loading video: " + err);
             }
         });
-        return player;
+        player.show();
     }
 }

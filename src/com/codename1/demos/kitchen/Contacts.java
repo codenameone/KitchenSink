@@ -41,15 +41,12 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
-import com.codename1.ui.Label;
-import com.codename1.ui.Slider;
 import com.codename1.ui.SwipeableContainer;
 import com.codename1.ui.events.ScrollListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.plaf.Style;
 import com.codename1.ui.table.TableLayout;
 import com.codename1.util.CaseInsensitiveOrder;
 import java.util.Arrays;
@@ -58,6 +55,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A list of contacts is a very common use case for developers, we tried to make this list as realistic as 
+ * possible allowing you to dial, email, share and even delete contacts. Notice that some platforms might 
+ * not support contacts access (e.g. JavaScript) in which case we fallback to fake contacts.
  *
  * @author Shai Almog
  */
@@ -78,6 +78,19 @@ public class Contacts extends Demo {
     public Image getDemoIcon() {
         return getResources().getImage("contacts.png");
     }
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Contacts.java";
+    }
+
+    @Override
+    public String getDescription() {
+        return "A list of contacts is a very common use case for developers, we tried to make this list as realistic as possible allowing "
+                + "you to dial, email, share and even delete contacts. Notice that some platforms might not support contacts access (e.g. "
+                + "JavaScript) in which case we fallback to fake contacts.";
+    }
+
     
     public Image getLetter(char c, Component cmp) {
         c = Character.toUpperCase(c);
@@ -333,11 +346,14 @@ public class Contacts extends Demo {
                             while(!finishedLoading) {
                                 Util.sleep(100);
                             }
+
+                            int scrollY = contactsDemo.getScrollY();
                             
                             // don't do anything while we are scrolling or animating
                             long idle = System.currentTimeMillis() - lastScroll;
-                            while(idle < 500 || contactsDemo.getAnimationManager().isAnimating()) {
-                                Util.sleep(Math.max(100, 500 - ((int)idle)));
+                            while(idle < 1500 || contactsDemo.getAnimationManager().isAnimating() || scrollY != contactsDemo.getScrollY()) {
+                                scrollY = contactsDemo.getScrollY();
+                                Util.sleep(Math.min(1500, Math.max(100, 2000 - ((int)idle))));
                                 idle = System.currentTimeMillis() - lastScroll;
                             }
 
@@ -353,17 +369,16 @@ public class Contacts extends Demo {
                                     g.drawImage(rounded, 0, 0);
                                     g.drawImage(circleLineImage, 0, 0);
                                     mb.setIcon(mutable);
-                                    mb.getIconComponent().repaint();
                                 });
 
                                 // yield slightly so we don't choke the EDT while a user might be scrolling...
                                 Util.sleep(5);
-                            }
+                            } 
                         });
                     }
                 }
                 contactsDemo.revalidate();
-                                
+
                 finishedLoading = true;
                 ToastBar.showMessage("Swipe the contacts to both sides to expose additional options", FontImage.MATERIAL_COMPARE_ARROWS, 5000);
             });

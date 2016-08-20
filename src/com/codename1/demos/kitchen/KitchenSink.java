@@ -26,6 +26,7 @@ package com.codename1.demos.kitchen;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.io.Log;
+import com.codename1.io.NetworkManager;
 import com.codename1.io.Preferences;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
@@ -68,6 +69,8 @@ public class KitchenSink  {
     private int currentColor;
     
     public void init(Object context){
+        // use 2 network threads for slightly faster networking but not too much to overburden the UI
+        NetworkManager.getInstance().updateThreadCount(2);
         res = UIManager.initFirstTheme("/theme");
         Toolbar.setGlobalToolbar(true);
         Dialog.setDefaultBlurBackgroundRadius(10);
