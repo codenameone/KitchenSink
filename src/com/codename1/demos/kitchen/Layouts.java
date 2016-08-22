@@ -22,14 +22,11 @@
  */
 package com.codename1.demos.kitchen;
 
-import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -51,6 +48,12 @@ public class Layouts  extends Demo {
     public Image getDemoIcon() {
         return getResources().getImage("layout.png");
     }
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Layouts.java";
+    }
+    
 
     private void resetMargin(Container c) {
         for(Component cc : c) {
@@ -199,8 +202,8 @@ public class Layouts  extends Demo {
 
     @Override
     public String getDescription() {
-        return "Layouts allow the UI of Codename One to adapt to the different resolutions and DPI's supported by the various OS's. This is just the tip of the iceberg. Layouts can be nested deeply and there are very complex layouts such as MiG, Group, GridBag etc. that aren't fully represented here...";
+        return "Layouts allow the UI of Codename One to adapt to the different resolutions and DPI's supported by "
+                + "the various OS's. This is just the tip of the iceberg. Layouts can be nested deeply and there are very "
+                + "complex layouts such as MiG, Group, GridBag etc. that aren't fully represented here...";
     }
-    
-    
 }

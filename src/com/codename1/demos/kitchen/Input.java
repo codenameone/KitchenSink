@@ -47,6 +47,9 @@ import com.codename1.ui.table.TableLayout;
 import java.io.IOException;
 
 /**
+ * Demonstrates basic usage of input facilities, device orientation behavior as well as adapting the UI to tablets.
+ * This demo shows off a typical form with user information, different keyboard types, ability to capture an 
+ * avatar image and style it etc.
  *
  * @author Shai Almog
  */
@@ -66,8 +69,11 @@ public class Input  extends Demo {
                 "This demo shows off a typical form with user information, different keyboard types, ability to capture an " +
                 "avatar image and style it etc.";
     }
-    
-    
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Input.java";
+    }
 
     private void addComps(Form parent, Container cnt, Component... cmps) {
         if(Display.getInstance().isTablet() || !Display.getInstance().isPortrait()) {
@@ -147,7 +153,7 @@ public class Input  extends Demo {
         
         Button avatar = new Button("");
         avatar.setUIID("InputAvatar");
-        Image defaultAvatar = FontImage.createMaterial(FontImage.MATERIAL_FACE, "InputAvatarImage", 8);
+        Image defaultAvatar = FontImage.createMaterial(FontImage.MATERIAL_CAMERA, "InputAvatarImage", 8);
         Image circleMaskImage = getResources().getImage("circle.png");
         defaultAvatar = defaultAvatar.scaled(circleMaskImage.getWidth(), circleMaskImage.getHeight());
         defaultAvatar = ((FontImage)defaultAvatar).toEncodedImage();

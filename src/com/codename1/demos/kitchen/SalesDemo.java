@@ -43,8 +43,6 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
-import com.codename1.ui.Transform;
-import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -56,6 +54,7 @@ import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.table.TableModel;
 
 /**
+ * Demonstrates a typical chart/graph UI that is editable using Tables. Common for business applications
  *
  * @author Shai Almog
  */
@@ -85,15 +84,21 @@ public class SalesDemo extends Demo {
         return "Sales";
     }
 
+    @Override
+    public String getDescription() {
+        return "Demonstrates a typical chart/graph UI that is editable using Tables. Common for business applications";
+    }
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/SalesDemo.java";
+    }
+    
     public Image getDemoIcon() {
         return getResources().getImage("charts.png");
     }
 
     boolean inUpdate;
-    private void updateSeriesFromTable(TableModel tm, CategorySeries xcs, CategorySeries ycs) {
-        updateAxis(tm, 0, xcs);
-        updateAxis(tm, 1, ycs);
-    }
 
     private void updateAxis(TableModel tm, int col, CategorySeries cs) {
         cs.clear();

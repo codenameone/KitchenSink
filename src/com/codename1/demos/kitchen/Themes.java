@@ -26,35 +26,29 @@ import com.codename1.components.ScaleImageButton;
 import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.Log;
-import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
-import com.codename1.ui.Button;
-import com.codename1.ui.Command;
-import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
-import com.codename1.util.FailureCallback;
 import com.codename1.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
 /**
- *
+ *Themes can be updated dynamically, layered and downloaded off of the internet. Pretty much everything
+ * in Codename One can be updated via the themes!
+ * In this section we show all of the above with dynamic theme downloads, updates and layers.
  * @author Shai Almog
  */
 public class Themes  extends Demo {
@@ -89,6 +83,19 @@ public class Themes  extends Demo {
     public Image getDemoIcon() {
         return getResources().getImage("themes.png");
     }
+
+    @Override
+    public String getDescription() {
+        return "Themes can be updated dynamically, layered and downloaded off of the internet. Pretty much everything "
+                + "in Codename One can be updated via the themes!\n"
+                + "In this section we show all of the above with dynamic theme downloads, updates and layers.";
+    }
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Themes.java";
+    }
+    
 
     public void setTheme(Form oldForm, String fileName) {
         try(InputStream is = Storage.getInstance().createInputStream(fileName)) {

@@ -34,6 +34,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -191,7 +192,9 @@ public class KitchenSink  {
                 for(int iter = 0 ; iter < colorBottoms.length ; iter++) {
                     colors[iter] = splash.getUIManager().getComponentStyle("Blank" + (iter + 1)).getBgColor();
                     colorBottoms[iter] = Image.createImage(bottom.getWidth(), bottom.getHeight(), 0xff000000 | colors[iter]);
-                    colorBottoms[iter] = colorBottoms[iter].applyMask(bottomMask);
+                    
+                    // This is commented out because of a bug in the JavaScript port https://github.com/codenameone/CodenameOne/issues/1862
+                    //colorBottoms[iter] = colorBottoms[iter].applyMask(bottomMask);
                 }
                 
                 showMainUI();

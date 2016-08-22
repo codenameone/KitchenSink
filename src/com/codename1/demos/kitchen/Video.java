@@ -34,7 +34,6 @@ import com.codename1.io.NetworkManager;
 import com.codename1.io.Util;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
-import com.codename1.ui.Button;
 import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -42,15 +41,13 @@ import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
-import com.codename1.ui.Label;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
+ * You can play videos either from remote or local sources very easily in Codename One, here we also
+ * show the ability to record a video that we can playback later.
  *
  * @author Shai Almog
  */
@@ -64,6 +61,19 @@ public class Video  extends Demo {
         return getResources().getImage("video.png");
     }
 
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Video.java";
+    }
+
+    @Override
+    public String getDescription() {
+        return "You can play videos either from remote or local sources very easily in Codename One, here we also "
+                + "show the ability to record a video that we can playback later.";
+    }
+
+    
+    
     public Container createDemo(Form parent) {
         MultiButton helloOnline = new MultiButton("Hello (Online)");
         MultiButton helloOffline = new MultiButton("Hello (Offline)");

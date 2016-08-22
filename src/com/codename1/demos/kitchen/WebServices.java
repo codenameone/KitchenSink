@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Webservice tutorial showing off a faux dog picture set and the ability to browse thru images from the 
+ * network using ImageViewer.
  *
  * @author Shai Almog
  */
@@ -73,6 +75,18 @@ public class WebServices extends Demo {
         return getResources().getImage("dog.jpg");
     }
 
+    @Override
+    public String getDescription() {
+        return "Webservice tutorial showing off a faux dog picture set and the ability to browse thru images from the "
+                + "network using ImageViewer.";
+    }
+
+    @Override
+    public String getSourceCodeURL() {
+        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/WebServices.java";
+    }
+
+    
     /**
      * List model for the image viewer that fetches full sized versions of the images. For the sake of simplicity
      * this model doesn't invoke the webservice and uses the existing webservice data!
@@ -178,7 +192,7 @@ public class WebServices extends Demo {
         InfiniteContainer ic = new InfiniteContainer(10) {
             List items;
             List allItems = new ArrayList();
-            String nextURL = WEBSERVICE_URL;
+            String nextURL = WEBSERVICE_URL;            
             
             @Override
             public Component[] fetchComponents(int index, int amount) {
