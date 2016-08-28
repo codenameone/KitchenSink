@@ -192,9 +192,7 @@ public class KitchenSink  {
                 for(int iter = 0 ; iter < colorBottoms.length ; iter++) {
                     colors[iter] = splash.getUIManager().getComponentStyle("Blank" + (iter + 1)).getBgColor();
                     colorBottoms[iter] = Image.createImage(bottom.getWidth(), bottom.getHeight(), 0xff000000 | colors[iter]);
-                    
-                    // This is commented out because of a bug in the JavaScript port https://github.com/codenameone/CodenameOne/issues/1862
-                    //colorBottoms[iter] = colorBottoms[iter].applyMask(bottomMask);
+                    colorBottoms[iter] = colorBottoms[iter].applyMask(bottomMask);
                 }
                 
                 showMainUI();
@@ -359,6 +357,8 @@ public class KitchenSink  {
             f.removeCommand(listCommand);
         }
 
+        // add some space on the top
+        f.getToolbar().addComponentToSideMenu(new Label(" "));
         f.getToolbar().addMaterialCommandToSideMenu("CodenameOne.com", 
                 FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
         f.getToolbar().addMaterialCommandToSideMenu("About", 
@@ -366,6 +366,12 @@ public class KitchenSink  {
                     Dialog.show("About", "KitchenSink provides an overview of the core Codename One capaiblities. "
                             + "Codename One allows Java developers to create native mobile applications that work everywhere!", "OK", null);
                 });
+        Label separator = new Label(" ");
+        Style separatorStyle = separator.getAllStyles();
+        separatorStyle.setBgImage(Image.createImage(40, 2, 0x7f000000));
+        separatorStyle.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_HORIZONTAL_ALIGN_CENTER);
+        separatorStyle.setMargin(0, 0, 0, 0);
+        f.getToolbar().addComponentToSideMenu(separator);
         f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
         f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/files/developer-guide.pdf"));
         f.getToolbar().addMaterialCommandToSideMenu("JavaDoc (Reference)", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/javadoc/"));
