@@ -75,6 +75,7 @@ public class KitchenSink  {
         res = UIManager.initFirstTheme("/theme");
         Toolbar.setGlobalToolbar(true);
         Dialog.setDefaultBlurBackgroundRadius(10);
+        Log.bindCrashProtection(false);
     }
         
     private void showDemoInformation(Form back, Demo d) {
@@ -201,7 +202,9 @@ public class KitchenSink  {
     }
     
     public void start(){
-        Log.p("Start");
+        if(getAppstoreURL() != null) {
+            RatingWidget.bindRatingListener(180000, getAppstoreURL(), "apps@codenameone.com");
+        }
         if(currentForm != null && !(currentForm instanceof Dialog)) {
             currentForm.show();
             return;
@@ -371,6 +374,11 @@ public class KitchenSink  {
         separatorStyle.setBgImage(Image.createImage(40, 2, 0x7f000000));
         separatorStyle.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_HORIZONTAL_ALIGN_CENTER);
         separatorStyle.setMargin(0, 0, 0, 0);
+        if(Display.getInstance().isNativeShareSupported() && getAppstoreURL() != null) {
+            f.getToolbar().addMaterialCommandToSideMenu("Spread the Word!", FontImage.MATERIAL_SHARE, e -> {
+                Display.getInstance().share("Check out the kitchen sink app from Codename One: " + getAppstoreURL(), null, null);
+            });
+        }
         f.getToolbar().addComponentToSideMenu(separator);
         f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
         f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/files/developer-guide.pdf"));
@@ -398,8 +406,19 @@ public class KitchenSink  {
         f.show();
     }
     
+    public  String getAppstoreURL() {
+        if(Display.getInstance().getPlatformName().equals("ios")) {
+            return "https://itunes.apple.com/us/app/kitchen-sink-codename-one/id635048865";
+        }
+        if(Display.getInstance().getPlatformName().equals("and")) {
+            return "https://play.google.com/store/apps/details?id=com.codename1.demos.kitchen";
+        }
+        return null;
+    }
+    
     public void stop(){
         currentForm = Display.getInstance().getCurrent();
+        RatingWidget.suspendRating();
     }
     
     public void destroy(){
