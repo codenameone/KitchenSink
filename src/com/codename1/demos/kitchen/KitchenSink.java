@@ -102,13 +102,17 @@ public class KitchenSink  {
             if(Display.getInstance().isTablet()) {
                 tabletSurface.getAnimationManager().flushAnimation(() -> {
                     tabletSurface.replace(tabletSurface.getComponentAt(0), d.createDemo(Display.getInstance().getCurrent()), 
-                        CommonTransitions.createCover(CommonTransitions.SLIDE_HORIZONTAL, true, 200));
+                            CommonTransitions.createCover(CommonTransitions.SLIDE_HORIZONTAL, true, 200));
                 });
             } else {
                 Form previous = Display.getInstance().getCurrent();
                 Form f = new Form(d.getDisplayName(), new BorderLayout());
                 f.add(BorderLayout.CENTER, d.createDemo(f));
-                f.getToolbar().setBackCommand(" ", ee -> previous.showBack());
+                f.getToolbar().setBackCommand(" ", ee -> {
+                    if(d.onBack()){
+                        previous.showBack();
+                    }
+                });
                 f.getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_INFO, 4, ee -> {
                     showDemoInformation(f, d);
                 });
@@ -234,8 +238,11 @@ public class KitchenSink  {
         dukeImage = dukeImage.applyMask(circleMask);
         Label duke = new Label(dukeImage);
         Label circle = new Label(res.getImage("circle-line.png"));
-        Container dukeContainer = BorderLayout.centerAbsolute(LayeredLayout.encloseIn(duke, circle));
-        
+        Container dukeImageContainer = LayeredLayout.encloseIn(duke, circle);
+        Label name = new Label("Duke");
+        name.setUIID("DukeName");
+        Container dukeContainer = BorderLayout.west(BoxLayout.encloseY(dukeImageContainer, name));
+        dukeContainer.setUIID("ProfileContainer");
         
         if(Display.getInstance().isTablet()) {
             Toolbar.setPermanentSideMenu(true);
@@ -286,6 +293,9 @@ public class KitchenSink  {
         }, 3);
 
         gridCommand = f.getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_VIEW_COMFY, 4, e -> {
+            if(cnt.getAnimationManager().isAnimating()){
+                return;
+            }
             if(!(cnt.getLayout() instanceof GridLayout)) {
                 f.removeCommand(gridCommand);
                 f.getToolbar().addCommandToRightBar(listCommand);
@@ -319,6 +329,7 @@ public class KitchenSink  {
                 cnt.setLayout(gl);
                 
                 cnt.animateLayout(300);
+                                
             }
         });
         
@@ -360,30 +371,22 @@ public class KitchenSink  {
             f.removeCommand(listCommand);
         }
 
-        // add some space on the top
-        f.getToolbar().addComponentToSideMenu(new Label(" "));
         f.getToolbar().addMaterialCommandToSideMenu("CodenameOne.com", 
                 FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
-        f.getToolbar().addMaterialCommandToSideMenu("About", 
-                FontImage.MATERIAL_INFO, e -> {
-                    Dialog.show("About", "KitchenSink provides an overview of the core Codename One capaiblities. "
-                            + "Codename One allows Java developers to create native mobile applications that work everywhere!", "OK", null);
-                });
-        Label separator = new Label(" ");
-        Style separatorStyle = separator.getAllStyles();
-        separatorStyle.setBgImage(Image.createImage(40, 2, 0x7f000000));
-        separatorStyle.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_HORIZONTAL_ALIGN_CENTER);
-        separatorStyle.setMargin(0, 0, 0, 0);
+        f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
+        f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/files/developer-guide.pdf"));
+        f.getToolbar().addMaterialCommandToSideMenu("JavaDoc (Reference)", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/javadoc/"));
+        f.getToolbar().addMaterialCommandToSideMenu("Source Code", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://github.com/codenameone/KitchenSink"));
         if(Display.getInstance().isNativeShareSupported() && getAppstoreURL() != null) {
             f.getToolbar().addMaterialCommandToSideMenu("Spread the Word!", FontImage.MATERIAL_SHARE, e -> {
                 Display.getInstance().share("Check out the kitchen sink app from Codename One: " + getAppstoreURL(), null, null);
             });
         }
-        f.getToolbar().addComponentToSideMenu(separator);
-        f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
-        f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/files/developer-guide.pdf"));
-        f.getToolbar().addMaterialCommandToSideMenu("JavaDoc (Reference)", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/javadoc/"));
-        f.getToolbar().addMaterialCommandToSideMenu("Source Code", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://github.com/codenameone/KitchenSink"));
+        f.getToolbar().addMaterialCommandToSideMenu("About", 
+                FontImage.MATERIAL_INFO, e -> {
+                    Dialog.show("About", "KitchenSink provides an overview of the core Codename One capaiblities. "
+                            + "Codename One allows Java developers to create native mobile applications that work everywhere!", "OK", null);
+                });
         
         f.getToolbar().setVisible(false);
         cnt.setVisible(false);
@@ -403,6 +406,7 @@ public class KitchenSink  {
             cnt.animateLayoutFadeAndWait(400, 100);
             f.removeAllShowListeners();
         });
+        f.setTransitionInAnimator(CommonTransitions.createEmpty());
         f.show();
     }
     

@@ -22,6 +22,8 @@
  */
 package com.codename1.demos.kitchen;
 
+import com.codename1.components.FloatingActionButton;
+import com.codename1.components.FloatingHint;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.MultiButton;
 import com.codename1.components.ShareButton;
@@ -42,6 +44,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.SwipeableContainer;
+import com.codename1.ui.TextField;
 import com.codename1.ui.events.ScrollListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -70,6 +73,7 @@ public class Contacts extends Demo {
     private Font letterFont;
     private boolean finishedLoading;
     private long lastScroll;
+    private boolean messageShown;
     
     public String getDisplayName() {
         return "Contacts";
@@ -162,6 +166,12 @@ public class Contacts extends Demo {
         circleLineImage = getResources().getImage("circle-line.png");
 
         parentForm.addPointerDraggedListener(e -> lastScroll = System.currentTimeMillis());
+        parentForm.addShowListener(e -> {
+            if(!messageShown){
+                messageShown = true;               
+                ToastBar.showMessage("Swipe the contacts to both sides to expose additional options", FontImage.MATERIAL_COMPARE_ARROWS, 2000);        
+            }
+        });
         
         circleMask = circleImage.createMask();
         circleMaskWidth = circleImage.getWidth();
@@ -378,13 +388,17 @@ public class Contacts extends Demo {
                     }
                 }
                 contactsDemo.revalidate();
-
+                
                 finishedLoading = true;
-                ToastBar.showMessage("Swipe the contacts to both sides to expose additional options", FontImage.MATERIAL_COMPARE_ARROWS, 5000);
             });
         });
-                
-        return contactsDemo;
+        FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
+        fab.addActionListener(e -> {
+            ToastBar.showMessage("Floating action button pressed...", FontImage.MATERIAL_INFO);
+        });
+        Container c = fab.bindFabToContainer(contactsDemo);
+        return c;
     }
+    
     
 }
