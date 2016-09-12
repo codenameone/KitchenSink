@@ -53,6 +53,8 @@ import java.io.IOException;
  */
 public class Video  extends Demo {
 
+    private ConnectionRequest download;
+    
     public String getDisplayName() {
         return "Video";
     }
@@ -133,11 +135,25 @@ public class Video  extends Demo {
         return cnt;
     }
 
+    @Override
+    boolean onBack() {
+        if(download != null){
+            if(!Dialog.show("Downloading", "Stop the download?",
+                    "Yes", "No")) {
+                return false;
+            }
+            download.kill();
+            download = null;
+        }
+        return true;
+    }
+
     
     void downloadFile(final Form parent) {
-        ConnectionRequest cr = new ConnectionRequest("https://www.codenameone.com/files/hello-codenameone.mp4") {
+        download = new ConnectionRequest("https://www.codenameone.com/files/hello-codenameone.mp4") {
             @Override
             protected void postResponse() {
+                
                 if(parent != Display.getInstance().getCurrent()) {
                     if(!Dialog.show("Download Finished", "Downloading the video completed!\nDo you want to show it now?",
                             "Show", "Later")) {
@@ -148,10 +164,10 @@ public class Video  extends Demo {
                 playVideo(parent, FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
             }
         };
-        cr.setPost(false);
-        cr.setDestinationFile(FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
-        ToastBar.showConnectionProgress("Downloading video", cr, null, null);
-        NetworkManager.getInstance().addToQueue(cr);        
+        download.setPost(false);
+        download.setDestinationFile(FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
+        ToastBar.showConnectionProgress("Downloading video", download, null, null);
+        NetworkManager.getInstance().addToQueue(download);        
     }
 
     private void playVideo(Form parent, String videoUrl) {

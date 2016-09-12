@@ -121,13 +121,15 @@ public class WebServices extends Demo {
                     Log.e(err);
                 }
             }
-            cache.put(filename, placeholder);
-            ConnectionRequest cn = new ConnectionRequest(url);
-            cn.setPost(false);
-            cn.downloadImageToFileSystem(fs.getAppHomePath() + filename, i -> {
-                cache.put(filename, i);
-                listeners.fireDataChangeEvent(index, DataChangedListener.CHANGED);
-            });
+            if(cache.get(filename) == null){
+                ConnectionRequest cn = new ConnectionRequest(url);
+                cn.setPost(false);
+                cn.downloadImageToFileSystem(fs.getAppHomePath() + filename, i -> {
+                    cache.put(filename, i);
+                    listeners.fireDataChangeEvent(index, DataChangedListener.CHANGED);
+                });
+                cache.put(filename, placeholder);
+            }
             return placeholder;
         }
 
@@ -196,15 +198,15 @@ public class WebServices extends Demo {
             
             @Override
             public Component[] fetchComponents(int index, int amount) {
+                // pull to refresh resets the position
+                if(index == 0) {
+                    nextURL = WEBSERVICE_URL;
+                }
                 // downloaded all the content from the webservice
                 if(nextURL == null) {
                     return null;
                 }
                 
-                // pull to refresh resets the position
-                if(index == 0) {
-                    nextURL = WEBSERVICE_URL;
-                }
                 ConnectionRequest req = new ConnectionRequest(nextURL) {
                     @Override
                     protected void readResponse(InputStream input) throws IOException {

@@ -59,4 +59,8 @@ public abstract class Demo {
     public Container createDemo(Form parentForm) {
         return createDemo();
     }
+
+    boolean onBack() {
+        return true;
+    }
 }
