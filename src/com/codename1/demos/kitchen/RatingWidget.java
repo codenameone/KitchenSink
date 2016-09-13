@@ -90,7 +90,6 @@ public class RatingWidget {
         // block this from happening twice
         Preferences.set("alreadyRated", true);
         InteractionDialog id = new InteractionDialog("Please Rate "  + Display.getInstance().getProperty("AppName", "The App"));
-        int height = id.getPreferredH();
         Form f = Display.getInstance().getCurrent();
         id.setLayout(new BorderLayout());
         Slider rate = createStarRankSlider();
@@ -98,6 +97,7 @@ public class RatingWidget {
         Button no = new Button("No Thanks");
         id.add(BorderLayout.CENTER, FlowLayout.encloseCenterMiddle(rate)).
                 add(BorderLayout.SOUTH, GridLayout.encloseIn(2, no, ok));
+        int height = id.getPreferredH();
         id.show(f.getHeight()  - height - f.getTitleArea().getHeight(), 0, 0, 0);
         no.addActionListener(e -> id.dispose());
         ok.addActionListener(e -> {
@@ -114,7 +114,7 @@ public class RatingWidget {
             }
         });
     }
-    
+
     private void initStarRankStyle(Style s, Image star) {
         s.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_BOTH);
         s.setBorder(Border.createEmpty());
@@ -123,10 +123,6 @@ public class RatingWidget {
     }
 
     private Slider createStarRankSlider() {
-        Slider starRank = new Slider();
-        starRank.setEditable(true);
-        starRank.setMinValue(0);
-        starRank.setMaxValue(10);
         Font fnt = Font.createTrueTypeFont("native:MainLight", "native:MainLight").
                 derive(Display.getInstance().convertToPixels(5, true), Font.STYLE_PLAIN);
         Style s = new Style(0xffff33, 0, fnt, (byte)0);
@@ -134,6 +130,18 @@ public class RatingWidget {
         s.setOpacity(100);
         s.setFgColor(0);
         Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+        Slider starRank = new Slider() {
+            public void refreshTheme(boolean merge) {
+                // special case when changing the theme while the dialog is showing
+                initStarRankStyle(getSliderEmptySelectedStyle(), emptyStar);
+                initStarRankStyle(getSliderEmptyUnselectedStyle(), emptyStar);
+                initStarRankStyle(getSliderFullSelectedStyle(), fullStar);
+                initStarRankStyle(getSliderFullUnselectedStyle(), fullStar);
+            }
+        };
+        starRank.setEditable(true);
+        starRank.setMinValue(0);
+        starRank.setMaxValue(10);
         initStarRankStyle(starRank.getSliderEmptySelectedStyle(), emptyStar);
         initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), emptyStar);
         initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
