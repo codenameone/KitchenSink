@@ -55,6 +55,8 @@ public class Video  extends Demo {
 
     private ConnectionRequest download;
     
+    private MediaPlayer mp;
+    
     public String getDisplayName() {
         return "Video";
     }
@@ -172,14 +174,22 @@ public class Video  extends Demo {
 
     private void playVideo(Form parent, String videoUrl) {
         Form player = new Form(new BorderLayout());
-        player.getToolbar().setBackCommand("", e -> parent.showBack());
+        player.getToolbar().setBackCommand("", e -> {
+            if (mp != null) {
+                mp.getMedia().cleanup();
+            }
+            parent.showBack();
+        });
         player.add(BorderLayout.CENTER, new InfiniteProgress());
         Display.getInstance().scheduleBackgroundTask(() -> {
             try {
-                Media video = MediaManager.createMedia(videoUrl, true, () -> parent.showBack());        
+                Media video = MediaManager.createMedia(videoUrl, true, () -> parent.showBack());
                 video.prepare();
-                Display.getInstance().callSerially(() ->{
-                    final MediaPlayer mp = new MediaPlayer(video);
+                Display.getInstance().callSerially(() -> {
+                    if (mp != null){
+                        mp.getMedia().cleanup();
+                    }
+                    mp = new MediaPlayer(video);
                     mp.setAutoplay(true);
                     video.setNativePlayerMode(true);
                     player.removeAll();
