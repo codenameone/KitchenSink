@@ -133,12 +133,16 @@ public class ClockDemo extends Demo {
 
             @Override
             protected void drawImage(Graphics g, Object nativeGraphics, int x, int y) {
-                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY());
+                Image img = getResources().getImage("card-full.png");
+                g.drawImage(img, x, y, w, h * 4 / 3);
+                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY(), 0);
             }
 
             @Override
             protected void drawImage(Graphics g, Object nativeGraphics, int x, int y, int w, int h) {
-                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY());
+                Image img = getResources().getImage("card-full.png");
+                g.drawImage(img, x, y, w, h * 4 / 3);
+                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY(), 0);
             }
             
             @Override
@@ -176,11 +180,15 @@ public class ClockDemo extends Demo {
         @Override
         public void paintBackground(Graphics g) {
             super.paintBackground(g);
-            paintClock(g, getX(), getY(), getWidth(), getHeight(), getAbsoluteX(), getAbsoluteY());
+            int handColor = 0;
+            if(getStyle().getBgColor() == 0) {
+                handColor = 0xffffff;
+            }
+            paintClock(g, getX(), getY(), getWidth(), getHeight(), getAbsoluteX(), getAbsoluteY(), handColor);
         }
     }
 
-    void paintClock(Graphics g, int x, int y, int w, int h, int absx, int absy) {
+    void paintClock(Graphics g, int x, int y, int w, int h, int absx, int absy, int handColor) {
         boolean oldAntialiased = g.isAntiAliased();
         g.setAntiAliased(true);
         double padding = 10;
@@ -241,7 +249,7 @@ public class ClockDemo extends Demo {
         g.setColor(tickColor);
         g.drawShape(ticksPath, tickStroke);
 
-        g.setColor(0x000000);
+        g.setColor(handColor);
         
         g.setFont(fnt);
         int charHeight = fnt.getHeight();
@@ -307,7 +315,7 @@ public class ClockDemo extends Demo {
 
         double minuteAngle = minute / 60.0 * 2.0 * Math.PI;
         g.rotate((float) minuteAngle, (int) absCX, (int) absCY);
-        g.setColor(0x000000);
+        g.setColor(handColor);
         g.fillShape(translatedMinuteHand);
         g.resetAffine();
 
@@ -326,7 +334,7 @@ public class ClockDemo extends Demo {
 
         double angle = hour / 12.0 * 2.0 * Math.PI;
         g.rotate((float) angle, (int) absCX, (int) absCY);
-        g.setColor(0x000000);
+        g.setColor(handColor);
         g.fillShape(translatedHourHand);
         g.resetAffine();
 
