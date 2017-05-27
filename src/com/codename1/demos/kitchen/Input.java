@@ -31,7 +31,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -44,6 +44,9 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.table.TableLayout;
+import com.codename1.ui.validation.LengthConstraint;
+import com.codename1.ui.validation.RegexConstraint;
+import com.codename1.ui.validation.Validator;
 import java.io.IOException;
 
 /**
@@ -76,7 +79,7 @@ public class Input  extends Demo {
     }
 
     private void addComps(Form parent, Container cnt, Component... cmps) {
-        if(Display.getInstance().isTablet() || !Display.getInstance().isPortrait()) {
+        if(isTablet() || !isPortrait()) {
             TableLayout tl = new TableLayout(cmps.length / 2, 2);
             cnt.setLayout(tl);
             tl.setGrowHorizontally(true);
@@ -95,9 +98,9 @@ public class Input  extends Demo {
         }
         if(cnt.getClientProperty("bound") == null) {
             cnt.putClientProperty("bound", "true");
-            if(!Display.getInstance().isTablet()) {
+            if(!isTablet()) {
                 parent.addOrientationListener((e) -> {
-                    Display.getInstance().callSerially(() -> {
+                    callSerially(() -> {
                         cnt.removeAll();
                         addComps(parent, cnt, cmps);
                         cnt.animateLayout(800);
@@ -118,9 +121,15 @@ public class Input  extends Demo {
         TextField bio = new TextField("", "Bio", 2, 20);
         FontImage.setMaterialIcon(bio.getHintLabel(), FontImage.MATERIAL_LIBRARY_BOOKS);
         Picker birthday = new Picker();
-        birthday.setType(Display.PICKER_TYPE_DATE);
+        birthday.setType(PICKER_TYPE_DATE);
         OnOffSwitch joinMailingList = new OnOffSwitch();
         bio.setSingleLineTextArea(false);
+        
+        Validator val = new Validator();
+        val.setValidationFailureHighlightMode(Validator.HighlightMode.UIID);
+        val.addConstraint(name, new LengthConstraint(2, "Name must have at least 2 characters")).
+                addConstraint(email, RegexConstraint.validEmail("E-Mail must be a valid email address")).
+                addConstraint(password, new LengthConstraint(6, "Password must have at least 6 characters"));
         
         Container comps = new Container();
         addComps(parent, comps, 
@@ -131,11 +140,11 @@ public class Input  extends Demo {
                 new Label("Password", "InputContainerLabel"),
                 password,
                 BorderLayout.center(new Label("Birthday", "InputContainerLabel")).
-                        add(BorderLayout.EAST, birthday),
+                        add(EAST, birthday),
                 new Label("Bio", "InputContainerLabel"),
                 bio,
                 BorderLayout.center(new Label("Join Mailing List", "InputContainerLabel")).
-                        add(BorderLayout.EAST, joinMailingList));
+                        add(EAST, joinMailingList));
         
         comps.setScrollableY(true);
         comps.setUIID("PaddedContainer");
@@ -144,7 +153,7 @@ public class Input  extends Demo {
         
         Button save = new Button("Save");
         save.setUIID("InputAvatarImage");
-        content.add(BorderLayout.SOUTH, save);
+        content.add(SOUTH, save);
         save.addActionListener(e -> {
             ToastBar.showMessage("Save pressed...", FontImage.MATERIAL_INFO);
         });
@@ -174,7 +183,7 @@ public class Input  extends Demo {
                     }
                 }
             } else {
-                Display.getInstance().openGallery(ee -> {
+                openGallery(ee -> {
                     if(ee.getSource() != null) {
                         try {
                             Image img = Image.createImage((String)ee.getSource()).fill(circleMaskImage.getWidth(), circleMaskImage.getHeight());
@@ -184,7 +193,7 @@ public class Input  extends Demo {
                             Log.e(err);
                         }
                     }
-                }, Display.GALLERY_IMAGE);
+                }, GALLERY_IMAGE);
             }
         });
         
@@ -192,7 +201,7 @@ public class Input  extends Demo {
                         FlowLayout.encloseCenter(avatar));
         
         Container input;
-        if(!Display.getInstance().isTablet()) {
+        if(!isTablet()) {
             Label placeholder = new Label(" ");
 
             Component.setSameHeight(actualContent, placeholder);

@@ -26,14 +26,13 @@ package com.codename1.demos.kitchen;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.io.Log;
-import com.codename1.io.NetworkManager;
 import com.codename1.io.Preferences;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -71,9 +70,12 @@ public class KitchenSink  {
     
     public void init(Object context){
         // use 2 network threads for slightly faster networking but not too much to overburden the UI
-        NetworkManager.getInstance().updateThreadCount(2);
+        updateNetworkThreadCount(2);
         res = UIManager.initFirstTheme("/theme");
         Toolbar.setGlobalToolbar(true);
+        if(!isTablet()) {
+            Toolbar.setOnTopSideMenu(true);
+        }
         Dialog.setDefaultBlurBackgroundRadius(10);
         Log.bindCrashProtection(false);
     }
@@ -82,9 +84,9 @@ public class KitchenSink  {
         Form f = new Form("Information", new BorderLayout());
         Button sourceCode = new Button("View Source");
         FontImage.setMaterialIcon(sourceCode, FontImage.MATERIAL_WEB);
-        sourceCode.addActionListener(e -> Display.getInstance().execute(d.getSourceCodeURL()));
-        f.add(BorderLayout.CENTER, new SpanLabel(d.getDescription())).
-                add(BorderLayout.SOUTH, sourceCode);
+        sourceCode.addActionListener(e -> execute(d.getSourceCodeURL()));
+        f.add(CENTER, new SpanLabel(d.getDescription())).
+                add(SOUTH, sourceCode);
         f.getToolbar().setBackCommand("", e -> back.showBack());
         f.show();
     }
@@ -99,15 +101,15 @@ public class KitchenSink  {
             currentColor = 0;
         }
         dc.addActionListener(e -> {
-            if(Display.getInstance().isTablet()) {
+            if(isTablet()) {
                 tabletSurface.getAnimationManager().flushAnimation(() -> {
-                    tabletSurface.replace(tabletSurface.getComponentAt(0), d.createDemo(Display.getInstance().getCurrent()), 
+                    tabletSurface.replace(tabletSurface.getComponentAt(0), d.createDemo(getCurrentForm()), 
                             CommonTransitions.createCover(CommonTransitions.SLIDE_HORIZONTAL, true, 200));
                 });
             } else {
-                Form previous = Display.getInstance().getCurrent();
+                Form previous = getCurrentForm();
                 Form f = new Form(d.getDisplayName(), new BorderLayout());
-                f.add(BorderLayout.CENTER, d.createDemo(f));
+                f.add(CENTER, d.createDemo(f));
                 f.getToolbar().setBackCommand(" ", ee -> {
                     if(d.onBack()){
                         previous.showBack();
@@ -136,8 +138,8 @@ public class KitchenSink  {
         splash.add(centerIcon);
         
         splash.show();
-        Display.getInstance().callSerially(() -> {
-            ((BorderLayout)centerBackground.getLayout()).setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE);
+        callSerially(() -> {
+            ((BorderLayout)centerBackground.getLayout()).setCenterBehavior(CENTER_BEHAVIOR_CENTER_ABSOLUTE);
             centerBackground.setShouldCalcPreferredSize(true);
             centerBackground.animateLayoutAndWait(350);
             
@@ -153,9 +155,9 @@ public class KitchenSink  {
             Label kitchenSink = new Label("KitchenSink", "SplashTitle");
             Component.setSameHeight(placeholder, kitchenSink);
             Component.setSameWidth(placeholder, kitchenSink, boxy);
-            centerBackground.add(BorderLayout.CENTER, boxy);
+            centerBackground.add(CENTER, boxy);
             splash.revalidate();
-            Display.getInstance().callSerially(() -> {
+            callSerially(() -> {
                 placeholder.setText(" ");
                 boxy.add(placeholder);
                 boxy.setShouldCalcPreferredSize(true);
@@ -205,7 +207,7 @@ public class KitchenSink  {
         });
     }
     
-    public void start(){
+    public void start() {
         if(getAppstoreURL() != null) {
             RatingWidget.bindRatingListener(180000, getAppstoreURL(), "apps@codenameone.com");
         }
@@ -244,14 +246,14 @@ public class KitchenSink  {
         Container dukeContainer = BorderLayout.west(BoxLayout.encloseY(dukeImageContainer, name));
         dukeContainer.setUIID("ProfileContainer");
         
-        if(Display.getInstance().isTablet()) {
+        if(isTablet()) {
             Toolbar.setPermanentSideMenu(true);
             f.getToolbar().addComponentToSideMenu(dukeContainer);
             for(Demo d : demos) {
                 f.getToolbar().addComponentToSideMenu(createDemoButton(d));
             }
             tabletSurface = f.getContentPane();
-            f.add(BorderLayout.CENTER, demos[0].createDemo(f));
+            f.add(CENTER, demos[0].createDemo(f));
             f.show();
             return;
         }
@@ -274,7 +276,7 @@ public class KitchenSink  {
             }
         }
         cnt.setScrollableY(true);
-        f.add(BorderLayout.CENTER, cnt);
+        f.add(CENTER, cnt);
         
         f.getToolbar().addSearchCommand(e -> {
             String t = (String)e.getSource();
@@ -372,14 +374,14 @@ public class KitchenSink  {
         }
 
         f.getToolbar().addMaterialCommandToSideMenu("CodenameOne.com", 
-                FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
-        f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/"));
-        f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/files/developer-guide.pdf"));
-        f.getToolbar().addMaterialCommandToSideMenu("JavaDoc (Reference)", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://www.codenameone.com/javadoc/"));
-        f.getToolbar().addMaterialCommandToSideMenu("Source Code", FontImage.MATERIAL_WEB, e -> Display.getInstance().execute("https://github.com/codenameone/KitchenSink"));
-        if(Display.getInstance().isNativeShareSupported() && getAppstoreURL() != null) {
+                FontImage.MATERIAL_WEB, e -> execute("https://www.codenameone.com/"));
+        f.getToolbar().addMaterialCommandToSideMenu("Getting Started", FontImage.MATERIAL_WEB, e -> execute("https://www.codenameone.com/"));
+        f.getToolbar().addMaterialCommandToSideMenu("Developer Guide", FontImage.MATERIAL_WEB, e -> execute("https://www.codenameone.com/files/developer-guide.pdf"));
+        f.getToolbar().addMaterialCommandToSideMenu("JavaDoc (Reference)", FontImage.MATERIAL_WEB, e -> execute("https://www.codenameone.com/javadoc/"));
+        f.getToolbar().addMaterialCommandToSideMenu("Source Code", FontImage.MATERIAL_WEB, e -> execute("https://github.com/codenameone/KitchenSink"));
+        if(isNativeShareSupported() && getAppstoreURL() != null) {
             f.getToolbar().addMaterialCommandToSideMenu("Spread the Word!", FontImage.MATERIAL_SHARE, e -> {
-                Display.getInstance().share("Check out the kitchen sink app from Codename One: " + getAppstoreURL(), null, null);
+                share("Check out the kitchen sink app from Codename One: " + getAppstoreURL(), null, null);
             });
         }
         f.getToolbar().addMaterialCommandToSideMenu("About", 
@@ -411,17 +413,17 @@ public class KitchenSink  {
     }
     
     public  String getAppstoreURL() {
-        if(Display.getInstance().getPlatformName().equals("ios")) {
+        if(getPlatformName().equals("ios")) {
             return "https://itunes.apple.com/us/app/kitchen-sink-codename-one/id635048865";
         }
-        if(Display.getInstance().getPlatformName().equals("and")) {
+        if(getPlatformName().equals("and")) {
             return "https://play.google.com/store/apps/details?id=com.codename1.demos.kitchen";
         }
         return null;
     }
     
     public void stop(){
-        currentForm = Display.getInstance().getCurrent();
+        currentForm = getCurrentForm();
         RatingWidget.suspendRating();
     }
     

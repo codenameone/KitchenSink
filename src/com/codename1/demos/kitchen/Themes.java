@@ -26,9 +26,9 @@ import com.codename1.components.ScaleImageButton;
 import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.Log;
-import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
 import com.codename1.ui.Container;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
@@ -105,7 +105,7 @@ public class Themes  extends Demo {
             Hashtable h = new Hashtable(builtin);
             h.remove("@includeNativeBool");
             UIManager.getInstance().addThemeProps(h);
-            Form c = Display.getInstance().getCurrent();
+            Form c = getCurrentForm();
             c.refreshTheme();
             oldForm.refreshTheme();
             oldForm.revalidate();
@@ -116,7 +116,7 @@ public class Themes  extends Demo {
     }
     
     public Container createDemo() {
-        final Form parentForm = Display.getInstance().getCurrent();
+        final Form parentForm = getCurrentForm();
         
         Container themes = new Container(BoxLayout.y());
         
@@ -142,7 +142,7 @@ public class Themes  extends Demo {
             theme.addActionListener(e -> {
                 if(currentThemeFile == null) {
                     UIManager.initFirstTheme("/theme");
-                    Form c = Display.getInstance().getCurrent();
+                    Form c = getCurrentForm();
                     c.refreshTheme();
                     parentForm.refreshTheme();
                     parentForm.revalidate();
@@ -166,7 +166,7 @@ public class Themes  extends Demo {
                         Log.e(err);
                     });
                     cr.setFailSilently(true);
-                    NetworkManager.getInstance().addToQueue(cr);
+                    addToQueue(cr);
                 }
             });
             

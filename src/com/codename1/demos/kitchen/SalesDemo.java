@@ -37,7 +37,7 @@ import com.codename1.l10n.L10NManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
@@ -242,7 +242,7 @@ public class SalesDemo extends Demo {
         renderer.setBackgroundColor(0xffffffff);
         renderer.setApplyBackgroundColor(true);
         renderer.setLabelsTextFont(Font.createTrueTypeFont("native:MainThin", "native:MainThin"));
-        renderer.setLabelsTextSize(Display.getInstance().convertToPixels(5));
+        renderer.setLabelsTextSize(convertToPixels(5));
         return renderer;
     }
 
@@ -293,7 +293,7 @@ public class SalesDemo extends Demo {
         renderer.setApplyBackgroundColor(true);
         renderer.setAxesColor(COLORS[0]);
         renderer.setLabelsTextFont(Font.createTrueTypeFont("native:MainThin", "native:MainThin"));
-        renderer.setLabelsTextSize(Display.getInstance().convertToPixels(2));
+        renderer.setLabelsTextSize(convertToPixels(2));
 
         renderer.setXTitle(DEFAULT_COLUMNS_LINE[0]);
         renderer.setYTitle(DEFAULT_COLUMNS_LINE[1]);

@@ -30,14 +30,13 @@ import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
-import com.codename1.io.NetworkManager;
 import com.codename1.io.Util;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
 import com.codename1.ui.ComponentGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -107,7 +106,7 @@ public class Video  extends Demo {
         });
         
         // special case: the simulator doesn't support https URLs for media due to JavaFX limitations
-        if(Display.getInstance().isSimulator()) {
+        if(isSimulator()) {
             helloOnline.addActionListener(e -> playVideo(parent, "http://www.codenameone.com/files/hello-codenameone.mp4"));
         } else {
             helloOnline.addActionListener(e -> playVideo(parent, "https://www.codenameone.com/files/hello-codenameone.mp4"));
@@ -156,7 +155,7 @@ public class Video  extends Demo {
             @Override
             protected void postResponse() {
                 
-                if(parent != Display.getInstance().getCurrent()) {
+                if(parent != getCurrentForm()) {
                     if(!Dialog.show("Download Finished", "Downloading the video completed!\nDo you want to show it now?",
                             "Show", "Later")) {
                         return;
@@ -169,7 +168,7 @@ public class Video  extends Demo {
         download.setPost(false);
         download.setDestinationFile(FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
         ToastBar.showConnectionProgress("Downloading video", download, null, null);
-        NetworkManager.getInstance().addToQueue(download);        
+        addToQueue(download);        
     }
 
     private void playVideo(Form parent, String videoUrl) {
@@ -180,12 +179,12 @@ public class Video  extends Demo {
             }
             parent.showBack();
         });
-        player.add(BorderLayout.CENTER, new InfiniteProgress());
-        Display.getInstance().scheduleBackgroundTask(() -> {
+        player.add(CENTER, new InfiniteProgress());
+        scheduleBackgroundTask(() -> {
             try {
                 Media video = MediaManager.createMedia(videoUrl, true, () -> parent.showBack());
                 video.prepare();
-                Display.getInstance().callSerially(() -> {
+                callSerially(() -> {
                     if (mp != null){
                         mp.getMedia().cleanup();
                     }
@@ -193,7 +192,7 @@ public class Video  extends Demo {
                     mp.setAutoplay(true);
                     video.setNativePlayerMode(true);
                     player.removeAll();
-                    player.addComponent(BorderLayout.CENTER, mp);
+                    player.addComponent(CENTER, mp);
                     player.revalidate();
                 });
             } catch(IOException err) {

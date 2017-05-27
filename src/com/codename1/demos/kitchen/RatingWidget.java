@@ -29,7 +29,7 @@ import com.codename1.io.Util;
 import com.codename1.messaging.Message;
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -65,7 +65,7 @@ public class RatingWidget {
         this.appstoreUrl = appstoreUrl;
         this.supportEmail = supportEmail;
         running = true;
-        Thread t = Display.getInstance().startThread(() -> checkTimerThread(), "Review thread");
+        Thread t = startThread(() -> checkTimerThread(), "Review thread");
         t.start();
     }
     
@@ -78,7 +78,7 @@ public class RatingWidget {
             if(total + timeEllapsedInApp < timeForPrompt) {
                 Preferences.set("timeElapsedInApp", (int)(total + timeEllapsedInApp));
             } else {
-                Display.getInstance().callSerially(() -> showReviewWidget());
+                callSerially(() -> showReviewWidget());
                 running = false;
                 instance  = null;
                 return;
@@ -89,13 +89,13 @@ public class RatingWidget {
     void showReviewWidget() {
         // block this from happening twice
         Preferences.set("alreadyRated", true);
-        InteractionDialog id = new InteractionDialog("Please Rate "  + Display.getInstance().getProperty("AppName", "The App"));
-        Form f = Display.getInstance().getCurrent();
+        InteractionDialog id = new InteractionDialog("Please Rate "  + getProperty("AppName", "The App"));
+        Form f = getCurrentForm();
         id.setLayout(new BorderLayout());
         Slider rate = createStarRankSlider();
         Button ok = new Button("OK");
         Button no = new Button("No Thanks");
-        id.add(BorderLayout.CENTER, FlowLayout.encloseCenterMiddle(rate)).
+        id.add(CENTER, FlowLayout.encloseCenterMiddle(rate)).
                 add(BorderLayout.SOUTH, GridLayout.encloseIn(2, no, ok));
         int height = id.getPreferredH();
         id.show(f.getHeight()  - height - f.getTitleArea().getHeight(), 0, 0, 0);
@@ -104,12 +104,12 @@ public class RatingWidget {
             id.dispose();
             if(rate.getProgress() >= 9) {
                 if(Dialog.show("Rate On Store", "Would you mind rating us in the appstore?", "Go To Store", "Dismiss")) {
-                    Display.getInstance().execute(appstoreUrl);
+                    execute(appstoreUrl);
                 }
             } else {
                 if(Dialog.show("Tell Us Why?", "Would you mind writing us a short message explaining how we can improve?", "Write", "Dismiss")) {
-                    Message m = new Message("Heres how you can improve  " + Display.getInstance().getProperty("AppName", "the app"));
-                    Display.getInstance().sendMessage(new String[] {supportEmail}, "Improvement suggestions for " + Display.getInstance().getProperty("AppName", "your app"), m);
+                    Message m = new Message("Heres how you can improve  " + getProperty("AppName", "the app"));
+                    sendMessage("Improvement suggestions for " + getProperty("AppName", "your app"), m, supportEmail);
                 }
             }
         });
@@ -124,7 +124,7 @@ public class RatingWidget {
 
     private Slider createStarRankSlider() {
         Font fnt = Font.createTrueTypeFont("native:MainLight", "native:MainLight").
-                derive(Display.getInstance().convertToPixels(5, true), Font.STYLE_PLAIN);
+                derive(convertToPixels(5, true), Font.STYLE_PLAIN);
         Style s = new Style(0xffff33, 0, fnt, (byte)0);
         Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
         s.setOpacity(100);

@@ -37,6 +37,7 @@ import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Display;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
@@ -183,7 +184,7 @@ public class Contacts extends Demo {
         contactsDemo.setScrollableY(true);
         contactsDemo.add(FlowLayout.encloseCenterMiddle(new InfiniteProgress()));
                       
-        Display.getInstance().scheduleBackgroundTask(() -> {
+        scheduleBackgroundTask(() -> {
             Contact[] tcontacts = getContacts();
             if(tcontacts == null) {
                 tcontacts = got();
@@ -207,7 +208,7 @@ public class Contacts extends Demo {
                 }
                 return co.compare(sname1, sname2);
             });
-            Display.getInstance().callSerially(() -> {
+            callSerially(() -> {
                 contactsDemo.removeAll();
                 for(Contact c : contacts) {
                     String dname = c.getDisplayName();
@@ -243,7 +244,7 @@ public class Contacts extends Demo {
                                 emailArr[off].addActionListener(ev -> {
                                     dlg.dispose();
                                     Message m = new Message("");
-                                    Display.getInstance().sendMessage(new String[] {(String)ee}, "Sent from Codename One!", m);
+                                    sendMessage("Sent from Codename One!", m, (String)ee);
                                 });
                                 off ++;
                             }
@@ -262,7 +263,7 @@ public class Contacts extends Demo {
                                 FontImage.setMaterialIcon(phoneArr[off], FontImage.MATERIAL_PHONE);
                                 phoneArr[off].addActionListener(ev -> {
                                     dlg.dispose();
-                                    Display.getInstance().dial((String)ee);
+                                    dial((String)ee);
                                 });
                                 off ++;
                             }
@@ -282,7 +283,7 @@ public class Contacts extends Demo {
                         }
                         dlg.setDisposeWhenPointerOutOfBounds(true);
                         dlg.setBackCommand(new Command(""));
-                        dlg.showPacked(BorderLayout.SOUTH, true);
+                        dlg.showPacked(SOUTH, true);
                     });
 
                     ShareButton share = new ShareButton();
@@ -295,7 +296,7 @@ public class Contacts extends Demo {
                     Button call = new Button();
                     call.setUIID("SwipeableContainerInfoButton");
                     FontImage.setMaterialIcon(call, FontImage.MATERIAL_CALL, 8);
-                    call.addActionListener(e -> Display.getInstance().dial(c.getPrimaryPhoneNumber()));
+                    call.addActionListener(e -> dial(c.getPrimaryPhoneNumber()));
 
                     Container options;
                     if(c.getPrimaryEmail() != null && c.getPrimaryEmail().length() > 0) {
@@ -351,7 +352,7 @@ public class Contacts extends Demo {
 
                     // can happen in the case of got() contacts
                     if(c.getId() != null)  {
-                        Display.getInstance().scheduleBackgroundTask(() -> {
+                        scheduleBackgroundTask(() -> {
                             // let the UI finish loading first before we proceed with the images
                             while(!finishedLoading) {
                                 Util.sleep(100);
@@ -372,7 +373,7 @@ public class Contacts extends Demo {
                             Image img = picContact.getPhoto();
                             if(img != null) {
                                 // UI/Image manipulation must be done on the EDT
-                                Display.getInstance().callSerially(() -> {
+                                callSerially(() -> {
                                     Image rounded = img.fill(circleMaskWidth, circleMaskHeight).applyMask(circleMask);
                                     Image mutable = Image.createImage(circleMaskWidth, circleMaskHeight, 0);
                                     Graphics g = mutable.getGraphics();

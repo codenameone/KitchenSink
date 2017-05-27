@@ -28,7 +28,7 @@ import com.codename1.io.Preferences;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.animations.BubbleTransition;
@@ -78,21 +78,21 @@ public class DemoComponent extends Container {
         button = new Button(title);
         setLeadComponent(button);
         
-        if(Preferences.get("gridLayout", true) && !Display.getInstance().isTablet()) {
+        if(Preferences.get("gridLayout", true) && !isTablet()) {
             iconLabel = new Label(icon.fill(maskWidth, maskHeight).applyMask(cardMask));
             button.setUIID("CardBottom");
             iconLabel.setUIID("CardTop");
             Label backgroundLabel = new Label(cardBackground, "CardBottom");
 
-            add(BorderLayout.CENTER, iconLabel);
-            add(BorderLayout.SOUTH, 
+            add(CENTER, iconLabel);
+            add(SOUTH, 
                     LayeredLayout.encloseIn(backgroundLabel, button));
         } else {
             iconLabel = new Label(icon.fill(circleWidth, circleHeight).applyMask(circleMask), "CenterIcon");
             setUIID(currentColor);
             button.setUIID("DemoTitleText");
-            add(BorderLayout.WEST, LayeredLayout.encloseIn(iconLabel, new Label(circle, "CenterIcon")));
-            add(BorderLayout.CENTER, button);
+            add(WEST, LayeredLayout.encloseIn(iconLabel, new Label(circle, "CenterIcon")));
+            add(CENTER, button);
         }
     }
 
@@ -102,7 +102,7 @@ public class DemoComponent extends Container {
         iconLabel.setUIID("CardTop");
         setUIID("Container");
         ComponentAnimation cn2 = createReplaceTransition(iconLabelParent, iconLabel, new FlipTransition(-1, 500));
-        cn2.addOnCompleteCall(() ->  ((BorderLayout)getLayout()).setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_SCALE));
+        cn2.addOnCompleteCall(() ->  ((BorderLayout)getLayout()).setCenterBehavior(CENTER_BEHAVIOR_SCALE));
         return cn2;
     }
     
@@ -121,9 +121,9 @@ public class DemoComponent extends Container {
         Component iconLabelParent = iconLabel.getParent();
         iconLabelParent.setPreferredSize(new Dimension(maskWidth, maskHeight));
         removeAll();
-        add(BorderLayout.CENTER, iconLabelParent);
-        add(BorderLayout.SOUTH,ll);
-        ((BorderLayout)getLayout()).setCenterBehavior(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE);
+        add(CENTER, iconLabelParent);
+        add(SOUTH,ll);
+        ((BorderLayout)getLayout()).setCenterBehavior(CENTER_BEHAVIOR_CENTER_ABSOLUTE);
         ComponentAnimation cn1 = createAnimateLayout(1000);
         ComponentAnimation cn4 = createStyleAnimation("Container", 200);
         button.setUIID("CardBottom");
@@ -144,8 +144,8 @@ public class DemoComponent extends Container {
     public ComponentAnimation gridToLineStage2() {
         button.remove();
         removeAll();
-        add(BorderLayout.WEST, iconLabel.getParent());
-        add(BorderLayout.CENTER, button);
+        add(WEST, iconLabel.getParent());
+        add(CENTER, button);
         ComponentAnimation cn2 = createStyleAnimation(currentColor, 1000);
         //setUIID(currentColor);
         button.setUIID("DemoTitleText");

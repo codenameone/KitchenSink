@@ -34,6 +34,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.table.TableLayout;
+import static com.codename1.ui.CN.*;
 
 /**
  * Demonstrates some of the basic layout types available in Codename One with explanation and a smooth animation
@@ -91,26 +92,26 @@ public class Layouts  extends Demo {
             
             // need to re-add the components since the layout requires a contraint
             layouts.removeAll();
-            layouts.add(BorderLayout.CENTER, cmps[0]).
-                    add(BorderLayout.EAST, cmps[1]).
-                    add(BorderLayout.WEST, cmps[2]).
-                    add(BorderLayout.NORTH, cmps[3]).
-                    add(BorderLayout.SOUTH, cmps[4]);
+            layouts.add(CENTER, cmps[0]).
+                    add(EAST, cmps[1]).
+                    add(WEST, cmps[2]).
+                    add(NORTH, cmps[3]).
+                    add(SOUTH, cmps[4]);
             
             layouts.setShouldCalcPreferredSize(true);
             layouts.animateLayout(800);
         });
         borderAbsoluteLayout.addActionListener(e -> {
             resetMargin(layouts);
-            layouts.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER));
+            layouts.setLayout(new BorderLayout(CENTER_BEHAVIOR_CENTER));
             
             // need to re-add the components since the layout requires a contraint
             layouts.removeAll();
-            layouts.add(BorderLayout.CENTER, cmps[0]).
-                    add(BorderLayout.EAST, cmps[1]).
-                    add(BorderLayout.WEST, cmps[2]).
-                    add(BorderLayout.NORTH, cmps[3]).
-                    add(BorderLayout.SOUTH, cmps[4]);
+            layouts.add(CENTER, cmps[0]).
+                    add(EAST, cmps[1]).
+                    add(WEST, cmps[2]).
+                    add(NORTH, cmps[3]).
+                    add(SOUTH, cmps[4]);
             
             layouts.setShouldCalcPreferredSize(true);
             layouts.animateLayout(800);

@@ -22,7 +22,7 @@
  */
 package com.codename1.demos.kitchen;
 
-import com.codename1.ui.Display;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Font;
@@ -49,7 +49,7 @@ public class ClockDemo extends Demo {
     public ClockDemo() {
         if(Font.isNativeFontSchemeSupported()) {
             numbersFont = Font.createTrueTypeFont("native:MainThin", "native:MainThin");
-            numbersFont = numbersFont.derive(Display.getInstance().convertToPixels(3.5f), Font.STYLE_PLAIN);
+            numbersFont = numbersFont.derive(convertToPixels(3.5f), Font.STYLE_PLAIN);
         } else {
             numbersFont = Font.getDefaultFont();
         }
@@ -204,18 +204,17 @@ public class ClockDemo extends Demo {
         Stroke tickStroke = new Stroke(2f, Stroke.CAP_BUTT, Stroke.JOIN_ROUND, 1f);
 
         Font fnt = numbersFont;
-        Display dd = Display.getInstance();
         boolean small = false;
         boolean tiny = false;
         int minuteHandWidthLarge = 6, minuteHandWidthSmall = 2;
         int hourHandWidth = 4;
-        if(w < dd.getDisplayWidth() / 2) {
-            fnt = numbersFont.derive(Display.getInstance().convertToPixels(1.5f), Font.STYLE_PLAIN);
+        if(w < getDisplayWidth() / 2) {
+            fnt = numbersFont.derive(convertToPixels(1.5f), Font.STYLE_PLAIN);
             small = true;
             tickLen = 4;
             medTickLen = 8;
             longTickLen = 16;
-            tiny = w < dd.getDisplayWidth() / 4;
+            tiny = w < getDisplayWidth() / 4;
             minuteHandWidthLarge = 3; 
             minuteHandWidthSmall = 1;
             hourHandWidth = 2;

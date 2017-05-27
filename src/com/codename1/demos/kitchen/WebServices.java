@@ -30,9 +30,9 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
-import com.codename1.io.NetworkManager;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import static com.codename1.ui.CN.*;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
@@ -220,21 +220,21 @@ public class WebServices extends Demo {
                     @Override
                     protected void handleException(Exception err) {
                         Log.e(err);
-                        Display.getInstance().callSerially(() -> {
+                        callSerially(() -> {
                             ToastBar.showErrorMessage("An error occured while connecting to the server: " + err);
                         });
                     }
 
                     @Override
                     protected void handleErrorResponseCode(int code, String message) {
-                        Display.getInstance().callSerially(() -> {
+                        callSerially(() -> {
                             ToastBar.showErrorMessage("Error code from the server: " + code + "\n" + message);
                         });
                     }
                     
                 };
                 req.setPost(false);
-                NetworkManager.getInstance().addToQueueAndWait(req);
+                addToQueueAndWait(req);
                 
                 if(items == null) {
                     return null;
@@ -276,7 +276,7 @@ public class WebServices extends Demo {
                             desc.setText((String)mm.get("details"));
                             viewer.setTitle((String)mm.get("title") + " - " + (n + 1) + " of " + imlm.getSize());
                         });
-                        viewer.add(BorderLayout.CENTER, 
+                        viewer.add(CENTER, 
                                 LayeredLayout.encloseIn(v, BorderLayout.south(desc)));
                         viewer.getToolbar().setBackCommand("", ee -> btn.getComponentForm().showBack());
                         viewer.show();
@@ -295,7 +295,7 @@ public class WebServices extends Demo {
             }
         };
         
-        if(Display.getInstance().isTablet()) {
+        if(isTablet()) {
             GridLayout gl = new GridLayout(3);
             ic.setLayout(gl);
         }
