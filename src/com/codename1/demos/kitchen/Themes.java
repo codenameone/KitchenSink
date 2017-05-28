@@ -98,7 +98,7 @@ public class Themes  extends Demo {
     
 
     public void setTheme(Form oldForm, String fileName) {
-        try(InputStream is = Storage.getInstance().createInputStream(fileName)) {
+        try(InputStream is = createStorageInputStream(fileName)) {
             Resources res = Resources.open(is);
             UIManager.getInstance().setThemeProps(res.getTheme(res.getThemeResourceNames()[0]));
             Hashtable builtin = getResources().getTheme("Theme");
@@ -152,7 +152,7 @@ public class Themes  extends Demo {
                 if(theme.getClientProperty("downloading") != null) {
                     return;
                 }
-                if(Storage.getInstance().exists(currentThemeFile)) {
+                if(existsInStorage(currentThemeFile)) {
                     setTheme(parentForm, currentThemeFile);
                 } else {
                     theme.putClientProperty("downloading", Boolean.TRUE);

@@ -27,7 +27,6 @@ import com.codename1.components.ScaleImageButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
 import com.codename1.ui.Component;
@@ -107,14 +106,13 @@ public class WebServices extends Demo {
             Map<String, Object> m = (Map<String, Object>)allItems.get(index);
             String url = (String)m.get("url");
             String filename = "fullsize-" + url.substring(url.lastIndexOf("/") + 1);
-            FileSystemStorage fs = FileSystemStorage.getInstance();
-            if(fs.exists(fs.getAppHomePath() + filename)) {
+            if(existsInFileSystem(getAppHomePath() + filename)) {
                 Image i = cache.get(filename);
                 if(i != null) {
                     return i;
                 }
                 try {
-                    i = Image.createImage(fs.getAppHomePath() + filename);
+                    i = Image.createImage(getAppHomePath() + filename);
                     cache.put(filename, i);
                     return i;
                 } catch(IOException err) {
@@ -124,7 +122,7 @@ public class WebServices extends Demo {
             if(cache.get(filename) == null){
                 ConnectionRequest cn = new ConnectionRequest(url);
                 cn.setPost(false);
-                cn.downloadImageToFileSystem(fs.getAppHomePath() + filename, i -> {
+                cn.downloadImageToFileSystem(getAppHomePath() + filename, i -> {
                     cache.put(filename, i);
                     listeners.fireDataChangeEvent(index, DataChangedListener.CHANGED);
                 });

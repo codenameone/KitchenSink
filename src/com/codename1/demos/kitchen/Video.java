@@ -28,7 +28,6 @@ import com.codename1.components.MediaPlayer;
 import com.codename1.components.MultiButton;
 import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.Util;
 import com.codename1.media.Media;
@@ -86,7 +85,7 @@ public class Video  extends Demo {
         capture.setTextLine2("Record video");
         MultiButton playCapturedFile = new MultiButton("Play Captured Video");
         playCapturedFile.setTextLine2("Last capture...");
-        String capturedFile = FileSystemStorage.getInstance().getAppHomePath() + "captured-file.mp4";
+        String capturedFile = getAppHomePath() + "captured-file.mp4";
         
         FontImage.setMaterialIcon(helloOnline, FontImage.MATERIAL_VIDEO_LIBRARY);
         FontImage.setMaterialIcon(helloOffline, FontImage.MATERIAL_VIDEO_LIBRARY);
@@ -97,11 +96,10 @@ public class Video  extends Demo {
         cnt.setScrollableY(true);
         
         helloOffline.addActionListener(e -> {
-            FileSystemStorage fs = FileSystemStorage.getInstance();
-            if(!fs.exists(fs.getAppHomePath() + "hello-codenameone.mp4")) {
+            if(!existsInFileSystem(getAppHomePath() + "hello-codenameone.mp4")) {
                 downloadFile(parent);
             } else {
-                playVideo(parent, fs.getAppHomePath() + "hello-codenameone.mp4");
+                playVideo(parent, getAppHomePath() + "hello-codenameone.mp4");
             }
         });
         
@@ -115,9 +113,8 @@ public class Video  extends Demo {
         capture.addActionListener(e -> {
             String result = Capture.captureVideo();
             if(result != null) {
-                FileSystemStorage fs = FileSystemStorage.getInstance();
                 try {
-                    Util.copy(fs.openInputStream(result), fs.openOutputStream(capturedFile));
+                    Util.copy(openFileInputStream(result), openFileOutputStream(capturedFile));
                 } catch(IOException err) {
                     Log.e(err);
                     ToastBar.showErrorMessage("Error in copying captured file: " + err);
@@ -126,7 +123,7 @@ public class Video  extends Demo {
         });
         
         playCapturedFile.addActionListener(e -> {
-            if(FileSystemStorage.getInstance().exists(capturedFile)) {
+            if(existsInFileSystem(capturedFile)) {
                 playVideo(parent, capturedFile);
             } else {
                 ToastBar.showErrorMessage("You need to capture a video first...");
@@ -162,11 +159,11 @@ public class Video  extends Demo {
                     }
                     parent.show();
                 }
-                playVideo(parent, FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
+                playVideo(parent, getAppHomePath() + "hello-codenameone.mp4");
             }
         };
         download.setPost(false);
-        download.setDestinationFile(FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4");
+        download.setDestinationFile(getAppHomePath() + "hello-codenameone.mp4");
         ToastBar.showConnectionProgress("Downloading video", download, null, null);
         addToQueue(download);        
     }
