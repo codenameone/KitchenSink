@@ -176,7 +176,7 @@ public class Video  extends Demo {
             }
             parent.showBack();
         });
-        player.add(CENTER, new InfiniteProgress());
+        player.add(BorderLayout.CENTER, new InfiniteProgress());
         scheduleBackgroundTask(() -> {
             try {
                 Media video = MediaManager.createMedia(videoUrl, true, () -> parent.showBack());
@@ -189,7 +189,7 @@ public class Video  extends Demo {
                     mp.setAutoplay(true);
                     video.setNativePlayerMode(true);
                     player.removeAll();
-                    player.addComponent(CENTER, mp);
+                    player.addComponent(BorderLayout.CENTER, mp);
                     player.revalidate();
                 });
             } catch(IOException err) {
