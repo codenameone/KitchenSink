@@ -189,7 +189,7 @@ public class Video  extends Demo {
                     mp.setAutoplay(true);
                     video.setNativePlayerMode(true);
                     player.removeAll();
-                    player.addComponent(CENTER, mp);
+                    player.add(CENTER, mp);
                     player.revalidate();
                 });
             } catch(IOException err) {

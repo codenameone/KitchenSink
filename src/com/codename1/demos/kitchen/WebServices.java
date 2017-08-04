@@ -29,6 +29,8 @@ import com.codename1.components.ToastBar;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
+import com.codename1.io.rest.Response;
+import com.codename1.io.rest.Rest;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import static com.codename1.ui.CN.*;
@@ -204,35 +206,17 @@ public class WebServices extends Demo {
                 if(nextURL == null) {
                     return null;
                 }
-                
-                ConnectionRequest req = new ConnectionRequest(nextURL) {
-                    @Override
-                    protected void readResponse(InputStream input) throws IOException {
-                        items = null;
-                        JSONParser parser = new JSONParser();
-                        Map response = parser.parseJSON(new InputStreamReader(input, "UTF-8"));
-                        items = (List)response.get("items");
-                        nextURL = (String)response.get("nextPage");
-                    }
 
-                    @Override
-                    protected void handleException(Exception err) {
-                        Log.e(err);
-                        callSerially(() -> {
-                            ToastBar.showErrorMessage("An error occured while connecting to the server: " + err);
-                        });
-                    }
-
-                    @Override
-                    protected void handleErrorResponseCode(int code, String message) {
-                        callSerially(() -> {
-                            ToastBar.showErrorMessage("Error code from the server: " + code + "\n" + message);
-                        });
-                    }
-                    
-                };
-                req.setPost(false);
-                addToQueueAndWait(req);
+                items = null;
+                Response<Map> resultData = Rest.get(nextURL).acceptJson().getAsJsonMap();
+                if(resultData.getResponseCode() != 200) {
+                    callSerially(() -> {
+                        ToastBar.showErrorMessage("Error code from the server: " + resultData.getResponseCode() + "\n");
+                    });
+                    return null;
+                }
+                items = (List)resultData.getResponseData().get("items");
+                nextURL = (String)resultData.getResponseData().get("nextPage");
                 
                 if(items == null) {
                     return null;
