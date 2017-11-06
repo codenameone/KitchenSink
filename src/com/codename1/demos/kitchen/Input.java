@@ -36,12 +36,16 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.PickerComponent;
+import com.codename1.ui.TextArea;
+import com.codename1.ui.TextComponent;
 import com.codename1.ui.TextField;
 import com.codename1.ui.animations.CommonTransitions;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
+import com.codename1.ui.layouts.TextModeLayout;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.validation.LengthConstraint;
@@ -78,73 +82,36 @@ public class Input  extends Demo {
         return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/Input.java";
     }
 
-    private void addComps(Form parent, Container cnt, Component... cmps) {
-        if(isTablet() || !isPortrait()) {
-            TableLayout tl = new TableLayout(cmps.length / 2, 2);
-            cnt.setLayout(tl);
-            tl.setGrowHorizontally(true);
-            for(Component c : cmps) {
-                if(c instanceof Container) {
-                    cnt.add(tl.createConstraint().horizontalSpan(2), c);
-                } else {
-                    cnt.add(c);
-                }
-            }
-        } else {
-            cnt.setLayout(BoxLayout.y());
-            for(Component c : cmps) {
-                cnt.add(c);
-            }
-        }
-        if(cnt.getClientProperty("bound") == null) {
-            cnt.putClientProperty("bound", "true");
-            if(!isTablet()) {
-                parent.addOrientationListener((e) -> {
-                    callSerially(() -> {
-                        cnt.removeAll();
-                        addComps(parent, cnt, cmps);
-                        cnt.animateLayout(800);
-                    });
-                });
-            }
-        }
-    }
     
     @Override
     public Container createDemo(Form parent) {
-        TextField name = new TextField("", "Name", 20, TextField.ANY);
-        FontImage.setMaterialIcon(name.getHintLabel(), FontImage.MATERIAL_PERSON);
-        TextField email = new TextField("", "E-mail", 20, TextField.EMAILADDR);
-        FontImage.setMaterialIcon(email.getHintLabel(), FontImage.MATERIAL_EMAIL);
-        TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
-        FontImage.setMaterialIcon(password.getHintLabel(), FontImage.MATERIAL_LOCK);
-        TextField bio = new TextField("", "Bio", 2, 20);
-        FontImage.setMaterialIcon(bio.getHintLabel(), FontImage.MATERIAL_LIBRARY_BOOKS);
-        Picker birthday = new Picker();
-        birthday.setType(PICKER_TYPE_DATE);
-        OnOffSwitch joinMailingList = new OnOffSwitch();
-        bio.setSingleLineTextArea(false);
+        TextComponent name = new TextComponent().labelAndHint("Name");
+        FontImage.setMaterialIcon(name.getField().getHintLabel(), FontImage.MATERIAL_PERSON);
+        
+        TextComponent email = new TextComponent().labelAndHint("E-mail").constraint(TextArea.EMAILADDR);
+        FontImage.setMaterialIcon(email.getField().getHintLabel(), FontImage.MATERIAL_EMAIL);
+        
+        TextComponent password = new TextComponent().labelAndHint("Password").constraint(TextArea.PASSWORD);
+        FontImage.setMaterialIcon(password.getField().getHintLabel(), FontImage.MATERIAL_LOCK);
+        
+        TextComponent bio = new TextComponent().labelAndHint("Bio").multiline(true);
+        FontImage.setMaterialIcon(bio.getField().getHintLabel(), FontImage.MATERIAL_LIBRARY_BOOKS);
+        
+        PickerComponent birthday = PickerComponent.createDate(null).label("Birthday");
         
         Validator val = new Validator();
         val.setValidationFailureHighlightMode(Validator.HighlightMode.UIID);
         val.addConstraint(name, new LengthConstraint(2, "Name must have at least 2 characters")).
                 addConstraint(email, RegexConstraint.validEmail("E-Mail must be a valid email address")).
                 addConstraint(password, new LengthConstraint(6, "Password must have at least 6 characters"));
-        
-        Container comps = new Container();
-        addComps(parent, comps, 
-                new Label("Name", "InputContainerLabel"), 
-                name,
-                new Label("E-Mail", "InputContainerLabel"),
-                email,
-                new Label("Password", "InputContainerLabel"),
-                password,
-                BorderLayout.center(new Label("Birthday", "InputContainerLabel")).
-                        add(EAST, birthday),
-                new Label("Bio", "InputContainerLabel"),
-                bio,
-                BorderLayout.center(new Label("Join Mailing List", "InputContainerLabel")).
-                        add(EAST, joinMailingList));
+
+        TextModeLayout tl = new TextModeLayout(4, 2);
+        Container comps = new Container(tl);
+        comps.add(tl.createConstraint().widthPercentage(70), name);
+        comps.add(tl.createConstraint().widthPercentage(30), birthday);
+        comps.add(tl.createConstraint().horizontalSpan(2), email);
+        comps.add(tl.createConstraint().horizontalSpan(2), password);
+        comps.add(tl.createConstraint().horizontalSpan(2), bio);
         
         comps.setScrollableY(true);
         comps.setUIID("PaddedContainer");
