@@ -88,10 +88,10 @@ public class Layouts  extends Demo {
         
         borderLayout.addActionListener(e -> {
             resetMargin(layouts);
-            layouts.setLayout(new BorderLayout());
             
             // need to re-add the components since the layout requires a contraint
             layouts.removeAll();
+            layouts.setLayout(new BorderLayout());
             layouts.add(CENTER, cmps[0]).
                     add(EAST, cmps[1]).
                     add(WEST, cmps[2]).
