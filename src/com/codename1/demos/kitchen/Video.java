@@ -187,7 +187,6 @@ public class Video  extends Demo {
                     }
                     mp = new MediaPlayer(video);
                     mp.setAutoplay(true);
-                    video.setNativePlayerMode(true);
                     player.removeAll();
                     player.add(CENTER, mp);
                     player.revalidate();
