@@ -58,7 +58,7 @@ public class ProgressDemo extends Demo {
     
     public ProgressDemo(Form parentForm) {
         init("Progress", getGlobalResources().getImage("progress-demo.png"), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ProgressDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ProgressDemo.java");
     }
      
     @Override

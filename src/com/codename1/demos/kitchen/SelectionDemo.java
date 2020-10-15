@@ -45,7 +45,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
 public class SelectionDemo extends Demo{
     
     public SelectionDemo(Form parentForm) {
-        init("Selection", getGlobalResources().getImage("selection-demo.png"), parentForm, "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/SelectionDemo.java");
+        init("Selection", getGlobalResources().getImage("selection-demo.png"), parentForm, "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/SelectionDemo.java");
     }
      
     @Override

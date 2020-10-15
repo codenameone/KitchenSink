@@ -42,7 +42,7 @@ public class LabelsDemo extends Demo {
     
     public LabelsDemo(Form parentForm) {
         init("Labels", getGlobalResources().getImage("demo-labels.png"), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/LabelsDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/LabelsDemo.java");
     }
      
     @Override

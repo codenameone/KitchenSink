@@ -47,7 +47,7 @@ public class ButtonsDemo extends Demo{
 
     public ButtonsDemo(Form parentForm) {
         init("Buttons", getGlobalResources().getImage("demo-buttons.png"), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ButtonsDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ButtonsDemo.java");
     }
      
     @Override

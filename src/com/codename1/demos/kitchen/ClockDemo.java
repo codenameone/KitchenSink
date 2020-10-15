@@ -31,7 +31,7 @@ public class ClockDemo extends Demo{
 
     public ClockDemo(Form parentForm) {
         init("Clock", new ClockImage(), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ClockDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ClockDemo.java");
     }
 
     @Override

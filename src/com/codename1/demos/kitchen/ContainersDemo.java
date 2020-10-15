@@ -54,7 +54,7 @@ public class ContainersDemo extends Demo{
     private Container colorsContainer;
 
     public ContainersDemo(Form parentForm) {
-        init("Containers", getGlobalResources().getImage("containers-demo.png"), parentForm, "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ContainersDemo.java");
+        init("Containers", getGlobalResources().getImage("containers-demo.png"), parentForm, "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ContainersDemo.java");
     }
 
     @Override

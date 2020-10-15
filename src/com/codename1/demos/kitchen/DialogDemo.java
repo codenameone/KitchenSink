@@ -55,7 +55,7 @@ public class DialogDemo extends Demo {
     
     public DialogDemo(Form parentForm) {
         init("Dialog", getGlobalResources().getImage("dialog-demo.png"), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/DialogDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/DialogDemo.java");
     }
      
     @Override

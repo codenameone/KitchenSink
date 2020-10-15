@@ -46,7 +46,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
 public class ToolbarDemo extends Demo{
     public ToolbarDemo(Form parentForm) {
         init("Toolbar", getGlobalResources().getImage("toolbar-demo.png"), parentForm,
-                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ToolbarDemo.java");
+                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ToolbarDemo.java");
     }
 
     @Override
