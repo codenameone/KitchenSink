@@ -1,0 +1,540 @@
+/*
+ * Copyright (c) 2012, Codename One and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Codename One designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Codename One through http://www.codenameone.com/ if you
+ * need additional information or have any questions.
+ */
+
+Dialog{
+    background-color: #222222;
+}
+
+TextField{
+    color: white;
+}
+
+DialogButtonCommand{
+    color: white;
+}
+
+MainWindowContainer{
+    background-color: #000000;
+}
+
+MainWindowDemoComponent{
+    background-color: #222222;
+}
+
+MainWindowToolbar{
+    background-color: #222222;
+}
+
+MainWindowTitle{
+   color: white;
+   background-color: #222222;
+}
+
+MainWindowDemoName{
+    color: white;
+    background-color: #222222;
+}
+
+DemoComponentIcon{
+    background-color: #222222;
+    margin: 2mm;
+}
+
+DemoToolbar{
+        background-color: #222222;
+}
+
+DemoContainer{
+    background-color: #000000;
+}
+
+DemoContentAccordion{
+    background-color: #222222;
+}
+
+DemoContentRegular{
+    background-color: #222222;
+}
+
+DemoContentImage{
+    background-color: #222222;
+}
+
+DemoContentHeader{
+    background-color: #222222;
+    color: white;
+}
+
+DemoContentBody{
+    background-color: #222222;
+    color: white;
+}
+
+DemoTitle{
+    background-color: #222222;
+    color: white;
+}
+
+AccordionButton{
+    color: white;
+    background-color: #222222;
+}
+
+TitleCommand{
+    color: white;
+    background-color: #222222;
+}
+
+VideoContainer{
+    background-color: #000000;
+}
+
+VideoComponent{
+    background-color: #222222;
+}
+
+MediaComponentLine1{
+    color: white;
+}
+
+MediaComponentLine2{
+    color: #acc0f9;
+}
+
+ComponentDemoToolbar{
+    background-color: #222222;
+}
+
+ComponentDemoTitle{
+    background-color: #222222;
+    color: white;
+}
+
+ComponentDemoContainer{
+    background-color: #000000;
+    margin: 0;
+}
+
+@media device-tablet {
+    ComponentDemoToolbar{
+        font-size: 5mm;
+    }
+
+    DemoToolbar{
+        font-size: 5mm;
+    }
+}
+
+CalendarTitle{
+    color: white;
+}
+
+TreeNode{
+    color: white;
+}
+
+ComponentDemoLabel{
+    color: white;
+    background-color: #000000;
+}
+
+DemoCheckBox{
+    margin: 2mm;
+}
+
+CheckBoxContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+RadioButtonsContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+SwitchContainer{
+    background-color: #efeff4;
+}
+
+DemoSwitch{
+    margin: 2mm;
+}
+
+BrightContainer{
+    background-color: #efeff4;
+}
+
+DarkContainer{
+    background-color: #000000;
+}
+
+RedContainer{
+    background-color: #ff0000;
+}
+
+GreenContainer{
+    background-color: #00ff00;
+}
+
+BlueContainer{
+    background-color: #0000ff;
+}
+
+PopupContentPane{
+    background-color: #222222;
+}
+
+DemoPicker{
+    background-color: #efeff4;
+}
+
+DemoLabel{
+    color: white;
+}
+
+DemoToolbarLabel{
+    color: white;
+}
+
+DemoHeader{
+    color: white;
+}
+
+DemoInfiniteProgress{
+    color: white;
+}
+
+CenterAlignmentLabel{
+    text-align: center;
+    color: white;
+}
+
+DemoComboBox{
+    border: none;
+    background-color: #000000;
+    border-radius: 1mm;
+    margin: 1mm;
+}
+
+DemoComboBox.selected{
+    border: none;
+    background-color: #000000;
+    border-radius: 1mm;
+    margin: 1mm;
+}
+
+DemoComboBoxPopup{
+    background-color: #000000;
+}
+
+FileTree{
+    background-color: #000000;
+}
+
+ScaleComponentDemoLabel{
+    background-color: #000000;
+    color: white;
+}
+
+DemoRadioButton{
+    color: white;
+}
+
+RadioButton{
+    background-color: #000000;
+}
+
+DemoPicker{
+    background-color: #222222;
+}
+
+TextComponentField{
+    color: white;
+}
+
+Label{
+    color: grey;
+}
+
+ComboBoxPopup{
+    background-color: #222222;
+    color: white;
+}
+
+DemoMultiButton{
+    background-color: #222222;
+}
+
+DemoMultiLine1{
+    color: white;
+}
+
+DemoMultiLine2{
+    color: white;
+}
+
+FloatingHint{
+    color: white;
+}
+
+DemoTextArea{
+    color: white;
+    background-color: #000000;
+}
+
+AutoCompletePopup{
+    background-color: #222222;
+}
+
+AutoCompleteList{
+    background-color: #222222;
+}
+
+DemoAccordionHeader{
+    background-color: #222222;
+    color: white;
+}
+
+DemoAccordionLabel{
+    background-color: #222222;
+    color: white;
+}
+
+AccordionItem{
+    background-color: #222222;
+}
+
+DemoAccordionIcon{
+    color: white;
+}
+
+Tab{
+    background-color: #222222;
+    color: white;
+}
+
+DialogDemoSpanLabel{
+    color: white;
+}
+
+PopupDialog{
+    background-color: #222222;
+}
+
+Sheet{
+    background-color: #222222;
+}
+
+SheetTitle{
+    color: white;
+}
+
+SheetBackButton{
+    color: white;
+}
+
+DialogCommandArea{
+    background-color: #222222;
+    margin: 0;
+}
+
+PopupDialogTitle{
+   color: white;
+}
+
+DemoTitleCommand{
+    color: white;
+}
+
+ToolbarSearch{
+    background-color: #222222;
+}
+
+TextFieldSearch{
+    color: white;
+}
+
+SideNavigationPanel{
+    background-color: #222222;
+}
+
+TitleCommand{
+    color: white;
+}
+
+ConfirmContainer{
+    background-color: #222222;
+}
+
+SignatureButton{
+    background-color: #222222;
+    color: white;
+}
+CostSummary{
+    background-image: url(images/advanced/summary-background-dark.png);
+    cn1-background-type: cn1-image-scaled;
+}
+
+CostSummaryLabel{
+    color: white;
+}
+
+SignatureCost{
+    color: white;
+}
+
+SignatureTotalCost{
+    color: white;
+}
+
+TreeNode{
+    color: white;
+    background-color: #222222;
+}
+
+LabelContainer{
+    background-color: #222222;
+}
+
+ButtonContainer{
+    background-color: #222222;
+}
+
+Wrapper{
+    background-color: #222222;
+}
+
+BurgerIngredients{
+    color: white;
+}
+
+DemoCheckBox{
+    color: #9e9e9e;
+}
+
+DemoCheckBox.pressed{
+    color: white;
+    background-color: #3b3b3b;
+}
+
+SelectBuild{
+    color: white;
+}
+
+SelectGroceriesLabel{
+    color: white;
+}
+
+ComboBoxItem{
+    background-color: #222222;
+    color: white;
+}
+
+Note{
+    color: white;
+    border-image: url(images/advanced/calendar-note-dark.png);
+}
+
+MonthView{
+    background-color: #222222;
+}
+
+CalendarDay{
+    color: white;
+}
+
+ComboBox{
+    background-color: black;
+}
+
+TextComponents{
+    background-color: #222222;
+}
+
+TabsContainer{
+    background-color: black;
+}
+
+ToolbarDemoButton{
+    color: white;
+}
+
+DemoChart{
+    color: white;
+    background-color: black;
+}
+
+SalesTableHeader{
+    background-color: #3b3b3b;
+    color: white;
+}
+
+SalesTableEvenRow{
+    background-color: #222222;
+    color: white;
+}
+
+SalesTableOddRow{
+    background-color: #292929;
+    color: white;
+}
+
+SignaturePanelBox{
+    color: white;
+}
+
+SignaturePanelSignature{
+    color: white;
+}
+
+SignatureButtonBox{
+    color: white;
+}
+
+DemoHeaderLabel{
+    color: white;
+}
+
+ContactComponent{
+    background-color: #222222;
+}
+
+ContactDetails{
+    color: white;
+}
+
+MultiLine1{
+    color: white;
+}
+
+ClockComponent{
+    color: white;
+}
+
+SideMenuHeader{
+    color: white;
+}
+
+ToastBar{
+    background-color: #222222;
+}

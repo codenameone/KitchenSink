@@ -1,166 +1,98 @@
-/*
- * Copyright (c) 2012, Codename One and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Codename One designates this
- * particular file as subject to the "Classpath" exception as provided
- * in the LICENSE file that accompanied this code.
- *  
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- * 
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
- * Please contact Codename One through http://www.codenameone.com/ if you 
- * need additional information or have any questions.
- */
 package com.codename1.demos.kitchen;
 
-import static com.codename1.ui.CN.*;
-import com.codename1.ui.Component;
-import com.codename1.ui.Container;
-import com.codename1.ui.Font;
-import com.codename1.ui.Graphics;
-import com.codename1.ui.Image;
-import com.codename1.ui.Stroke;
-import com.codename1.ui.Transform;
+import com.codename1.ui.*;
 import com.codename1.ui.geom.GeneralPath;
 import com.codename1.ui.geom.Shape;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static com.codename1.ui.CN.*;
+
 /**
- * This demo shows off low level graphics in Codename One and drawing of shapes, it also demonstrates the 
+ * This demo shows off low level graphics in Codename One and drawing of shapes, it also demonstrates the
  * flexibility of the image class
+ *
+ * @author Sergey Gerashenko.
  */
-public class ClockDemo extends Demo {
-    private Font numbersFont;
-    long lastRenderedTime = 0;
-    Date currentTime = new Date();
+public class ClockDemo extends Demo{
+    private int shortTickLen;  // at 1-minute intervals
+    private int medTickLen;  // at 5-minute intervals
+    private int longTickLen; // at 15-minute intervals
 
-    public ClockDemo() {
-        if(Font.isNativeFontSchemeSupported()) {
-            numbersFont = Font.createTrueTypeFont("native:MainThin", "native:MainThin");
-            numbersFont = numbersFont.derive(convertToPixels(3.5f), Font.STYLE_PLAIN);
-        } else {
-            numbersFont = Font.getDefaultFont();
+    private float minuteHandWidth;
+    private float hourHandWidth;
+
+    private static int clockColor;
+
+    public ClockDemo(Form parentForm) {
+        init("Clock", new ClockImage(), parentForm,
+                "https://github.com/sergeyCodenameOne/KitchenSinkDemo/blob/master/src/com/codename1/demos/kitchen/ClockDemo.java");
+    }
+
+    @Override
+    public Container createContentPane() {
+        Form demoForm = new Form(getDemoId(), new BorderLayout());
+        demoForm.getContentPane().setUIID("ComponentDemoContainer");
+        Toolbar toolbar = demoForm.getToolbar();
+        toolbar.setUIID("DemoToolbar");
+        toolbar.getTitleComponent().setUIID("DemoTitle");
+
+        // Toolbar add source and back buttons.
+        Style commandStyle = UIManager.getInstance().getComponentStyle("DemoTitleCommand");
+        Command backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, commandStyle),
+                e-> getParentForm().showBack());
+
+        Command sourceCommand = Command.create("", FontImage.create("{ }", commandStyle),
+                e-> execute(getSourceCode()));
+
+        toolbar.addCommandToRightBar(sourceCommand);
+        toolbar.setBackCommand(backCommand);
+
+        AnalogClock clock = new AnalogClock("ClockComponent");
+        if(isDesktop()){
+            minuteHandWidth = 3f;
+            hourHandWidth = 1f;
+        }else{
+            minuteHandWidth = 6f;
+            hourHandWidth = 3f;
         }
+        refreshClockColor();
+        demoForm.add(BorderLayout.CENTER, clock);
+        demoForm.show();
+
+        return null;
     }
 
-    
-    @Override
-    public Container createDemo() {
-        AnalogClock clock = new AnalogClock();
-        return BorderLayout.center(clock);
+    public static void  refreshClockColor(){
+        clockColor = UIManager.getInstance().getComponentStyle("ClockComponent").getFgColor();
     }
 
-    @Override
-    public String getDisplayName() {
-        return "Time";
-    }
+    private class AnalogClock extends Component {
+        private long lastRenderedTime = 0;
+        private Date currentTime = new Date();
+        private final int PADDING = convertToPixels(2);
 
-    @Override
-    public String getDescription() {
-        return "This section shows off low level graphics in Codename One and drawing of shapes, it also demonstrates the "
-                + "flexibility of the image class. You can learn more about this code within the developer guide in the graphics chapter";
-    }
 
-    @Override
-    public String getSourceCodeURL() {
-        return "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ClockDemo.java";
-    }
+        private AnalogClock(String uiid){
+            this.setUIID(uiid);
+        }
 
-    
-    @Override
-    public Image getDemoIcon() {
-        class ClockImage extends Image {
-            int w = 250, h = 250;
-            
-            ClockImage() {
-                super(null);
-            }
+        public void start(){
+            getComponentForm().registerAnimated(this);
+        }
 
-            ClockImage(int w, int h) {
-                super(null);
-                this.w = w;
-                this.h = h;
-            }
-            
-            @Override
-            public int getWidth() {
-                return w;
-            }
+        public void stop(){
+            getComponentForm().deregisterAnimated(this);
+        }
 
-            @Override
-            public int getHeight() {
-                return h;
-            }
-
-            @Override
-            public void scale(int width, int height) {
-                w = width;
-                h = height;
-            }
-
-            @Override
-            public Image fill(int width, int height) {
-                return new ClockImage(width, height);
-            }
-
-            @Override
-            public Image applyMask(Object mask) {
-                return new ClockImage(w, h);
-            }
-
-            
-            @Override
-            public boolean isAnimation() {
-                return true;
-            }
-
-            @Override
-            public boolean requiresDrawImage() {
-                return true;
-            }
-
-            @Override
-            protected void drawImage(Graphics g, Object nativeGraphics, int x, int y) {
-                Image img = getResources().getImage("card-full.png");
-                g.drawImage(img, x, y, w, h * 4 / 3);
-                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY(), 0);
-            }
-
-            @Override
-            protected void drawImage(Graphics g, Object nativeGraphics, int x, int y, int w, int h) {
-                Image img = getResources().getImage("card-full.png");
-                g.drawImage(img, x, y, w, h * 4 / 3);
-                paintClock(g, x, y, w, h, x + g.getTranslateX(), y + g.getTranslateY(), 0);
-            }
-            
-            @Override
-            public boolean animate() {
-                if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000) {
-                    currentTime.setTime(System.currentTimeMillis());
-                    return true;
-                }
-                return false;
-            }
-        };
-        return new ClockImage();
-    }
-
-    public class AnalogClock extends Component {
         @Override
         public boolean animate() {
-            if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000) {
+            if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000){
                 currentTime.setTime(System.currentTimeMillis());
                 return true;
             }
@@ -168,176 +100,281 @@ public class ClockDemo extends Demo {
         }
 
         @Override
-        protected void initComponent() {
-            this.getComponentForm().registerAnimated(this);
-        }
-
-        @Override
-        protected void deinitialize() {
-            this.getComponentForm().deregisterAnimated(this);
-        }
-
-        @Override
         public void paintBackground(Graphics g) {
             super.paintBackground(g);
-            int handColor = 0;
-            if(getStyle().getBgColor() == 0) {
-                handColor = 0xffffff;
-            }
-            paintClock(g, getX(), getY(), getWidth(), getHeight(), getAbsoluteX(), getAbsoluteY(), handColor);
+            // Center point.
+            int centerX = getX() + getWidth() / 2;
+            int centerY = getY() + getHeight() / 2;
+
+            int radius = Math.min(getWidth(), getHeight()) / 2 - PADDING;
+            int clockColor = this.getAllStyles().getFgColor();
+            drawClock(g, centerX, centerY, getWidth(), getHeight(), radius, 50, 30, 10, false);
+            start();
         }
     }
 
-    void paintClock(Graphics g, int x, int y, int w, int h, int absx, int absy, int handColor) {
-        boolean oldAntialiased = g.isAntiAliased();
-        g.setAntiAliased(true);
-        double padding = 10;
-        double r = Math.min(w, h) / 2 - padding;
-        double cX = x + w / 2;
-        double cY = y + h / 2;
-        
-        // draw the ticks
-        int tickLen = 10;
-        int medTickLen = 30;
-        int longTickLen = 50;
-        int tickColor = 0xCCCCCC;
+    private void drawTicks(Graphics g, int centerX, int centerY, int radius){
         Stroke tickStroke = new Stroke(2f, Stroke.CAP_BUTT, Stroke.JOIN_ROUND, 1f);
-
-        Font fnt = numbersFont;
-        boolean small = false;
-        boolean tiny = false;
-        int minuteHandWidthLarge = 6, minuteHandWidthSmall = 2;
-        int hourHandWidth = 4;
-        if(w < getDisplayWidth() / 2) {
-            fnt = numbersFont.derive(convertToPixels(1.5f), Font.STYLE_PLAIN);
-            small = true;
-            tickLen = 4;
-            medTickLen = 8;
-            longTickLen = 16;
-            tiny = w < getDisplayWidth() / 4;
-            minuteHandWidthLarge = 3; 
-            minuteHandWidthSmall = 1;
-            hourHandWidth = 2;
-        }        
-        
         GeneralPath ticksPath = new GeneralPath();
 
-        for (int i = 1; i <= 60; i++) {
-            if(tiny && i % 5 != 0) {
-                continue;
-            }
-            int len = tickLen;
-            if (i % 15 == 0) {
+        // Draw a tick for each "second" (1 through 60)
+        for (int i = 1; i<= 60; i++){
+
+            // default tick length is short
+            int len = shortTickLen;
+
+            if (i % 15 == 0){
+                // Longest tick at 15-minute intervals.
                 len = longTickLen;
-            } else if (i % 5 == 0) {
+            } else if (i % 5 == 0){
+                // Medium ticks at 5-minute intervals.
                 len = medTickLen;
+            }else{
+                // Short ticks every minute.
+                len = shortTickLen;
             }
-            double di = (double) i;
+
+            double di = (double)i; // tick num as double for easier math.
+
+            // Get the angle from 12 O'Clock to this tick (radians)
             double angleFrom12 = di / 60.0 * 2.0 * Math.PI;
+
+            // Get the angle from 3 O'Clock to this tick
+            // Note: 3 O'Clock corresponds with zero angle in unit circle
+            // Makes it easier to do the math.
             double angleFrom3 = Math.PI / 2.0 - angleFrom12;
+
+            // Move to the outer edge of the circle at correct position
+            // for this tick.
             ticksPath.moveTo(
-                    (float) (cX + Math.cos(angleFrom3) * r),
-                    (float) (cY - Math.sin(angleFrom3) * r)
+                    (float)(centerX + Math.cos(angleFrom3) * radius),
+                    (float)(centerY - Math.sin(angleFrom3) * radius)
             );
 
+            // Draw line inward along radius for length of tick mark.
             ticksPath.lineTo(
-                    (float) (cX + Math.cos(angleFrom3) * (r - len)),
-                    (float) (cY - Math.sin(angleFrom3) * (r - len))
+                    (float)(centerX + Math.cos(angleFrom3) * (radius - len)),
+                    (float)(centerY - Math.sin(angleFrom3) * (radius - len))
             );
         }
-        g.setColor(tickColor);
+
+        // Draw the ticks.
+        g.setColor(clockColor);
         g.drawShape(ticksPath, tickStroke);
+    }
 
-        g.setColor(handColor);
-        
-        g.setFont(fnt);
-        int charHeight = fnt.getHeight();
+    private void drawNumbers(Graphics g, int centerX, int centerY, int radius){
+        Coordinate[] coordinates = new Coordinate[12];
 
-        if(!tiny) {
-            // Draw the numbers
-            for (int i = 1; i <= 12; i++) {
-                if(small && i % 3 != 0) {
-                    continue;
-                }
-                String numStr = "" + i;
-                int charWidth = fnt.stringWidth(numStr);
-                double di = (double) i;
-                double angleFrom12 = di / 12.0 * 2.0 * Math.PI;
-                double angleFrom3 = Math.PI / 2.0 - angleFrom12;
+        // Calculate all the numbers coordinates.
+        for (int i = 1; i <= 12; i++){
+            // Calculate the string width and height so we can center it properly
+            String hourString = ((Integer)i).toString();
+            int charWidth = g.getFont().stringWidth(hourString);
+            int charHeight = g.getFont().getHeight();
 
-                int tx = (int) (Math.cos(angleFrom3) * (r - longTickLen));
-                int ty = (int) (-Math.sin(angleFrom3) * (r - longTickLen));
+            double di = (double)i;  // number as double for easier math
 
-                g.translate(
-                        tx,
-                        ty
-                );
+            // Calculate the position along the edge of the clock where the number should
+            // be drawn.
+            // Get the angle from 12 O'Clock to this tick (radians).
+            double angleFrom12 = di / 12.0 * 2.0 * Math.PI;
 
-                g.drawString(numStr, (int) cX - charWidth / 2, (int) cY - charHeight / 2);
-                g.translate(-tx, -ty);
-            }
+            // Get the angle from 3 O'Clock to this tick
+            // Note: 3 O'Clock corresponds with zero angle in unit circle
+            // Makes it easier to do the math.
+            double angleFrom3 = Math.PI / 2.0 - angleFrom12;
+
+            int extraRange = convertToPixels(2);
+
+            // Get diff between number position and clock center
+            int tx = (int)(Math.cos(angleFrom3) * (radius - longTickLen - extraRange));
+            int ty = (int)(-Math.sin(angleFrom3) * (radius - longTickLen - extraRange));
+
+            coordinates[i - 1] = new Coordinate(tx + (int)centerX - charWidth / 2, ty + (int)centerY - charHeight / 2);
         }
 
-        // Draw the hands of the clock
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        // Draw all the numbrs.
+        for (int i = 1; i <= 12; i++) {
+            String hourString = ((Integer)i).toString();
+            g.drawString(hourString, coordinates[i - 1].x, coordinates[i - 1].y);
+        }
+    }
 
+    private void drawSecondHand(Graphics g, int centerX, int centerY, int radius){
         GeneralPath secondHand = new GeneralPath();
-        secondHand.moveTo((float) cX, (float) cY);
-        secondHand.lineTo((float) cX, (float) (cY - (r - medTickLen)));
+        secondHand.moveTo((float)centerX, (float)centerY);
+        secondHand.lineTo((float)centerX, (float)(centerY - (radius - medTickLen)));
+        Shape translatedSecondHand = secondHand.createTransformedShape(
+                Transform.makeTranslation(0f, 5)
+        );
+        Calendar calendar =  Calendar.getInstance(TimeZone.getDefault());
 
-        Shape translatedSecondHand = secondHand.createTransformedShape(Transform.makeTranslation(0f, 5, 0));
-
-        double second = (double) (calendar.get(Calendar.SECOND));
-
+        // Calculate the angle of the second hand
+        double second = (double)(calendar.get(Calendar.SECOND));
         double secondAngle = second / 60.0 * 2.0 * Math.PI;
 
-        double absCX = absx + cX - x;
-        double absCY = absy + cY - y;
-
-        g.rotate((float) secondAngle, (int) absCX, (int) absCY);
+        g.rotateRadians((float)secondAngle, (int)centerX, (int)centerY);
         g.setColor(0xff0000);
-        g.drawShape(translatedSecondHand, new Stroke(2f, Stroke.CAP_BUTT, Stroke.JOIN_BEVEL, 1f));
+        g.drawShape(
+                translatedSecondHand,
+                new Stroke(2f, Stroke.CAP_BUTT, Stroke.JOIN_BEVEL, 1f)
+        );
         g.resetAffine();
+    }
 
+    private void drawMinuteHand(Graphics g, int centerX, int centerY, int radius){
+        // Draw the minute hand
         GeneralPath minuteHand = new GeneralPath();
-        minuteHand.moveTo((float) cX, (float) cY);
-        minuteHand.lineTo((float) cX + minuteHandWidthLarge, (float) cY);
-        minuteHand.lineTo((float) cX + minuteHandWidthSmall, (float) (cY - (r - tickLen)));
-        minuteHand.lineTo((float) cX - minuteHandWidthSmall, (float) (cY - (r - tickLen)));
-        minuteHand.lineTo((float) cX - minuteHandWidthLarge, (float) cY);
+        minuteHand.moveTo((float)centerX, (float)centerY);
+        minuteHand.lineTo((float)centerX + minuteHandWidth, (float)centerY);
+        minuteHand.lineTo((float)centerX + 1, (float)(centerY - (radius - shortTickLen)));
+        minuteHand.lineTo((float)centerX - 1, (float)(centerY - (radius - shortTickLen)));
+        minuteHand.lineTo((float)centerX - minuteHandWidth, (float)centerY);
         minuteHand.closePath();
 
-        Shape translatedMinuteHand = minuteHand.createTransformedShape(Transform.makeTranslation(0f, 5, 0));
+        // Translate the minute hand slightly down so it overlaps the center
+        Shape translatedMinuteHand = minuteHand.createTransformedShape(
+                Transform.makeTranslation(0f, 5)
+        );
 
-        double minute = (double) (calendar.get(Calendar.MINUTE))
-                + (double) (calendar.get(Calendar.SECOND)) / 60.0;
+        Calendar calendar =  Calendar.getInstance(TimeZone.getDefault());
+
+        double minute = (double)(calendar.get(Calendar.MINUTE)) +
+                (double)(calendar.get(Calendar.SECOND)) / 60.0;
 
         double minuteAngle = minute / 60.0 * 2.0 * Math.PI;
-        g.rotate((float) minuteAngle, (int) absCX, (int) absCY);
-        g.setColor(handColor);
+
+        // Rotate and draw the minute hand
+        g.rotateRadians((float)minuteAngle, (int)centerX, (int)centerY);
+        g.setColor(clockColor);
         g.fillShape(translatedMinuteHand);
         g.resetAffine();
+    }
 
+    private void drawHourHand(Graphics g, int centerX, int centerY, int radius){
+        // Draw the hour hand
         GeneralPath hourHand = new GeneralPath();
-        hourHand.moveTo((float) cX, (float) cY);
-        hourHand.lineTo((float) cX + hourHandWidth, (float) cY);
-        hourHand.lineTo((float) cX + 1, (float) (cY - (r - longTickLen) * 0.75));
-        hourHand.lineTo((float) cX - 1, (float) (cY - (r - longTickLen) * 0.75));
-        hourHand.lineTo((float) cX - hourHandWidth, (float) cY);
+        hourHand.moveTo((float)centerX, (float)centerY);
+        hourHand.lineTo((float)centerX + hourHandWidth, (float)centerY);
+        hourHand.lineTo((float)centerX + 1, (float)(centerY - (radius - longTickLen) * 0.75));
+        hourHand.lineTo((float)centerX - 1, (float)(centerY - (radius - longTickLen) * 0.75));
+        hourHand.lineTo((float)centerX - hourHandWidth, (float)centerY);
         hourHand.closePath();
 
-        Shape translatedHourHand = hourHand.createTransformedShape(Transform.makeTranslation(0f, 5, 0));
+        Shape translatedHourHand = hourHand.createTransformedShape(
+                Transform.makeTranslation(0f, 5)
+        );
 
-        double hour = (double) (calendar.get(Calendar.HOUR_OF_DAY) % 12)
-                + (double) (calendar.get(Calendar.MINUTE)) / 60.0;
+        Calendar calendar =  Calendar.getInstance(TimeZone.getDefault());
+
+        double hour = (double)(calendar.get(Calendar.HOUR_OF_DAY) % 12) +
+                (double)(calendar.get(Calendar.MINUTE)) / 60.0;
 
         double angle = hour / 12.0 * 2.0 * Math.PI;
-        g.rotate((float) angle, (int) absCX, (int) absCY);
-        g.setColor(handColor);
+        g.rotateRadians((float)angle, (int)centerX, (int)centerY);
+        g.setColor(clockColor);
         g.fillShape(translatedHourHand);
         g.resetAffine();
+    }
 
-        g.setAntiAliased(oldAntialiased);
-        lastRenderedTime = System.currentTimeMillis();    
+    private void drawClock(Graphics g, int centerX, int centerY, int width, int height, int radius,
+                           int longTickLen, int medTickLen, int shortTickLen, boolean smallVersion){
+
+        this.longTickLen = longTickLen;
+        this.medTickLen = medTickLen;
+        this.shortTickLen = shortTickLen;
+        drawTicks(g, centerX, centerY, radius);
+        if (!smallVersion){
+            drawNumbers(g, centerX, centerY, radius);
+        }
+        drawSecondHand(g, centerX, centerY, radius);
+        drawMinuteHand(g, centerX, centerY, radius);
+        drawHourHand(g, centerX, centerY, radius);
+    }
+
+    private class ClockImage extends Image{
+        private long lastRenderedTime = 0;
+        private Date currentTime = new Date();
+
+        private int width;
+        private int height;
+        private static final int DEFAULT_WIDTH = 250;
+        private static final int DEFAULT_HEIGHT = 250;
+
+        ClockImage() {
+            super(null);
+            this.width = DEFAULT_WIDTH;
+            this.height = DEFAULT_HEIGHT;
+        }
+
+        ClockImage(int width, int height) {
+            super(null);
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public boolean isAnimation() {
+            return true;
+        }
+
+        @Override
+        public void scale(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public boolean requiresDrawImage() {
+            return true;
+        }
+
+        @Override
+        public int getWidth() {
+            return width;
+        }
+
+        @Override
+        public int getHeight() {
+            return height;
+        }
+
+        @Override
+        public Image fill(int width, int height) {
+            return new ClockImage(width, height);
+        }
+
+        @Override
+        protected void drawImage(Graphics g, Object nativeGraphics, int x, int y) {
+            drawImage(g, nativeGraphics, x, y, width, height);
+        }
+
+        @Override
+        protected void drawImage(Graphics g, Object nativeGraphics, int x, int y, int w, int h) {
+            int radius = Math.min(getWidth(), getHeight()) / 2;
+            int centerX = x + w / 2;
+            int centerY = y + h / 2;
+            drawClock(g, centerX, centerY, w, h, radius, 10, 6 , 2, true);
+        }
+
+        @Override
+        public boolean animate() {
+            if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000) {
+                lastRenderedTime = System.currentTimeMillis();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private class Coordinate {
+        private int x;
+        private int y;
+
+        private Coordinate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

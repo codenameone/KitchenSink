@@ -1,0 +1,1684 @@
+/*
+ * Copyright (c) 2012, Codename One and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Codename One designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *  
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ * 
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * Please contact Codename One through http://www.codenameone.com/ if you 
+ * need additional information or have any questions.
+ */
+
+#Constants {
+    includeNativeBool: true; 
+}
+
+ImagesHighRes{
+background-image:   url(images/charts/chart-bar.png),
+                    url(images/charts/chart-bubble.png),
+                    url(images/charts/chart-radar.png),
+                    url(images/charts/chart-combined-xy.png),
+                    url(images/charts/chart-cubic-line.png),
+                    url(images/charts/chart-dial.png),
+                    url(images/charts/chart-donut.png),
+                    url(images/charts/chart-line.png),
+                    url(images/charts/chart-pie.png),
+                    url(images/charts/chart-scatter.png),
+                    url(images/charts/chart-time.png),
+                    url(images/advanced/blured-puppy.jpg),
+                    url(images/advanced/advanced-calendar.png),
+                    url(images/advanced/advanced-browser.png),
+                    url(images/advanced/advanced-image-viewer.png),
+                    url(images/advanced/advanced-singnature.png),
+                    url(images/advanced/advanced-tree-file.png),
+                    url(images/advanced/credit-card.png),
+                    url(images/advanced/open-folder.png),
+                    url(images/advanced/close-folder.png),
+                    url(images/advanced/file.png),
+                    url(images/demos/demo-maps.png),
+                    url(images/demos/advanced-icon.png),
+                    url(images/demos/media-demo-icon.png),
+                    url(images/demos/charts-demo-icon.png),
+                    url(images/demos/containers-demo.png),
+                    url(images/demos/demo-labels.png),
+                    url(images/demos/dialog-demo.png),
+                    url(images/demos/progress-demo.png),
+                    url(images/demos/selection-demo.png),
+                    url(images/demos/text-field-demo.png),
+                    url(images/demos/toggle-list-demo.png),
+                    url(images/demos/toggles-demo.png),
+                    url(images/demos/toolbar-demo.png),
+                    url(images/demos/demo-buttons.png),
+                    url(images/labels/floating-hint.png),
+                    url(images/labels/label.png),
+                    url(images/labels/span-label.png),
+                    url(images/labels/scale-image-label.png),
+                    url(images/buttons/buttons.png),
+                    url(images/buttons/floating-action-button.png),
+                    url(images/buttons/multi-buttons.png),
+                    url(images/buttons/share-button.png),
+                    url(images/buttons/span-button.png),
+                    url(images/toggles/check-box.png),
+                    url(images/toggles/switch.png),
+                    url(images/toggles/on-off-switch.png),
+                    url(images/toggles/radio-button.png),
+                    url(images/toggle-list/check-box-list.png),
+                    url(images/toggle-list/radio-button-list.png),
+                    url(images/toggle-list/switch-list.png),
+                    url(images/selection/combo-box.png),
+                    url(images/selection/date-picker.png),
+                    url(images/selection/date-time-picker.png),
+                    url(images/selection/hour-picker.png),
+                    url(images/selection/minute-picker.png),
+                    url(images/selection/time-picker.png),
+                    url(images/text-field/auto-complete-text-field.png),
+                    url(images/text-field/clearable-text-field.png),
+                    url(images/text-field/text-area.png),
+                    url(images/text-field/text-field.png),
+                    url(images/containers/accordion.png),
+                    url(images/containers/infinite-container.png),
+                    url(images/containers/split-pane.png),
+                    url(images/containers/tabs.png),
+                    url(images/dialog/dialog.png),
+                    url(images/dialog/interaction-dialog.png),
+                    url(images/dialog/sheet.png),
+                    url(images/dialog/toast-bar.png),
+                    url(images/progress/circle-animation.png),
+                    url(images/progress/infinite-progress.png),
+                    url(images/progress/slider.png),
+                    url(images/progress/text-loading-animation.png),
+                    url(images/maps/maps-pin.png),
+                    url(images/maps/map-google-component.png),
+                    url(images/default-contact-pic.jpg),
+                    url(images/code-name-one-icon.png);
+    cn1-source-dpi: 0;
+}
+
+@media device-tablet {
+    ComponentDemoToolbar{
+        font-size: 5mm;
+    }
+    
+    MediaComponentLine2{
+        font-size: 2mm;
+    }
+    
+    DialogTitle{
+        font-size: 5mm;
+    }
+    
+    PopupDialogTitle{
+        font-size: 5mm;
+    }
+    
+    ComboBoxItem{
+        font-size: 5mm;
+    }
+    
+    DemoToolbar{
+        font-size: 5mm;
+    }
+    
+    MainWindowTitle{
+        font-size: 5mm;
+    }
+    
+    DemoTitle{
+        font-size: 5mm;
+    }
+    
+    ComponentDemoTitle{
+        font-size: 5mm;
+    }
+    
+    DemoTitleCommand{
+        font-size: 5mm;
+    }
+
+    DemoTitleCommandDark{
+        font-size: 5mm;
+    }
+    
+    DemoContentAccordion{
+        margin: 1.9mm;
+    }
+    
+    DemoContentBody{
+        font-size: 2mm;
+    }
+    
+    Note{
+        padding: 3mm;
+    }
+    
+    ComponentDemoLabel{
+        font-size: 3.5mm;
+    }
+
+    DemoToolbarLabel{
+        font-size: 4mm;
+    }
+    
+    DemoTextArea{
+        font-size: 4mm;
+    }
+    
+    Tab{
+       font-size: 4mm;    
+    }
+}
+
+@media device-desktop{
+    ComponentDemoLabel{
+        font-size: 4mm;
+    }
+    
+    ToastBarMessage{
+       font-size: 5mm; 
+    }
+    
+    InputSaveButton{
+        font-size: 5mm;
+    }
+    
+    TreeNode{
+        font-size: 5mm;
+    }
+    
+    TextFieldsDemoButton{
+        font-size: 5mm;
+    }
+    
+    SelectGroceriesLabel{
+        font-size: 5mm;
+    }
+    
+    TitleCommand{
+        font-size: 5mm;
+    }
+    
+    DemoMultiIcon{
+        font-size: 5mm;
+    }
+    
+    DemoMultiButtonText{
+        font-size: 5mm;
+        background-color: rgba(0, 0, 0, 0);
+        color: black;
+    }
+    
+    NoteHeaderLabel{
+        font-size: 5mm;
+    }
+    
+    NoteBodyLabel{
+        font-size: 4mm;
+    }
+    
+    WhiteText{
+        font-size: 5mm;
+    }
+    
+    DemoCheckBox{
+        font-size: 5mm;
+    }
+    
+    DemoRadioButton{
+       font-size: 5mm; 
+    }
+    
+    DemoAnswerButton{
+        font-size: 6mm; 
+    }
+    
+    RadioButton{
+        font-size: 5mm; 
+    }
+
+    AddNewButton{
+        font-size: 5mm;
+    }
+    
+    CheckBox{
+        font-size: 5mm; 
+    }
+    
+    ShareGroceriesDemo{
+        font-size: 5mm;
+    }
+    
+    BurgerIngredients{
+        font-size: 5mm;
+    }
+    
+    DemoLabel{
+        font-size: 5mm;
+    }
+    DemoToolbarLabel{
+        font-size: 3.5mm;
+    }
+
+    DemoHeader{
+        font-size: 5mm;
+    }
+    
+    DemoTextArea{
+        font-size: 6mm;
+    }
+    
+    DemoAccordionHeader{
+        font-size: 5mm;
+    }
+    
+    DemoAccordionLabel{
+        font-size: 5mm;
+    }
+    
+    PopupDialogTitle{
+        margin-top: 2mm;
+        padding: 2mm;
+    }
+    
+    ToolbarDemoButton{
+        font-size: 5mm;
+    }
+    
+    CostSummary{
+        padding: 8mm;
+    }
+    
+    ScaleComponentDemoLabel{
+        font-size: 5mm;
+    }
+    
+    SignatureClear{
+        font-size: 5mm;
+    }
+    
+    SignatureConfirm{
+        font-size: 5mm;
+    }
+    
+    DemoButton{
+        font-size: 5mm;
+    }
+    
+    DemoHeaderLabel{
+        font-size: 5mm;
+    }
+
+    SideMenuHeader{
+            font-size: 5mm;
+        }
+}
+
+DialogCommandArea{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Slider{
+    background-color: rgba(0, 0, 0, 0);
+    color: blue;
+}
+
+InfiniteProgress{
+    color:white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Container{
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Label{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    color: black;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+Dialog{
+    background-color: white;
+    border-radius: 2mm;
+}
+
+DialogTitle{
+    background-color: rgba(0, 0, 0, 0);
+    color: #1b82fb;
+    border-bottom: 2px solid #1b82fb;
+}
+
+DialogCommandArea{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Button{
+    border: none;
+    color: #1b82fb;
+    padding: 2mm;
+    margin: 0;
+}
+
+TextField{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+ComboBoxPopup{
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 1mm;
+    color: black;
+}
+
+ComboBoxPopupTitle{
+    color: black;
+}
+
+ComboBox{
+    border-radius: 1mm;
+    background-color: #efeff4;
+    padding: 2mm;
+    color: black;
+    margin: 2mm;
+}
+
+ComboBoxList{
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+ComboBoxItem{
+    padding: 1mm;
+    border-bottom: 0.2mm solid grey;
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+PopupContentPane{
+    margin: 2mm;
+    border-radius: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    
+}
+
+ChartComponent{
+    margin: 0;
+}
+
+AccordionButton{
+    margin: 0;
+    background-color: white;
+    color: black;
+}
+
+TitleCommand{
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+
+VideoContainer{
+    border: none;
+    background-color: #efeff4;
+    margin: 0;
+}
+
+VideoComponent{
+    background-color: white;
+    border-radius: 2mm;
+    margin-top: 2mm;
+    margin-left: 2mm;
+    margin-right: 2mm;
+    padding:2mm;
+}
+
+MainWindowContainer{
+    margin: 0;
+    background-color: #efeff4;
+    padding: 3mm;
+}
+
+MainWindowDemoComponent{
+    background-color: white;
+    border-radius: 2mm;
+    margin-top: 2mm;
+    margin-left: 2mm;
+    margin-right: 2mm;
+    padding:2mm;
+}
+
+DemoComponentIcon{
+    background-color: white;
+    margin: 2mm;
+    text-align: center;
+}
+
+MainWindowDemoName{
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-family: "native:MainBold";
+    font-size: 3mm;
+}
+DemoToolbar{
+    margin: 0;
+    background-color: white;
+    padding: 3mm;
+    font-size: 3mm;
+}
+
+MainWindowToolbar{
+    margin: 0;
+    background-color: white;
+}
+
+MainWindowTitle{
+   background-color: white;
+   color: black;
+   text-align: center;
+   font-family: "native:MainBold";
+   margin: 3mm;
+}
+
+DemoContainer{
+    margin: 0;
+    background-color: #efeff4;
+    padding: 0;
+}
+
+DemoContentAccordion{
+    background-color: white;
+    border-radius: 2mm;
+    padding-bottom: 2mm;
+    margin: 3mm;
+}
+
+DemoContentRegular{
+    background-color: white;
+    border-radius: 2mm;
+    padding-bottom: 2mm;
+    margin: 3mm;
+}
+
+DemoContentImage{
+    margin: 3mm;
+    padding: 0;
+}
+
+DemoContentHeader{
+    color: black;
+    background-color: white;
+    margin-left: 2mm;
+    font-size: 3mm;
+    font-family: "native:MainBold";
+}
+
+DemoContentBody{
+    border: none;
+    color: black;
+    background-color: white;
+    font-family: "native:MainRegular";
+    font-size: 2.3mm;
+    margin-left: 2mm;
+    color: #707070;
+}
+
+AccordionItem{
+    background-color: #efeff4;
+    color: black;
+}
+
+DemoTitle{
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-family: "native:MainBold";
+}
+
+WhiteContainer{
+    background-color: white;
+    border-radius: 2mm;
+    margin: 3mm;
+}
+
+WebServicesDetails{
+    padding: 3mm;
+    text-align: center;
+    background-color: rgba(0,0,0,80);
+    margin: 0;
+    color: white;
+}
+
+WhiteBGLabel{
+    color: black;
+    background-color: white;
+    margin: 3mm;
+    padding: 2mm;
+    border-radius: 2mm;
+}
+
+InputContainer{
+    border: none;
+    background-image: url(images/labels/input-demo-background.jpg);
+    cn1-source-dpi: 0;
+    cn1-background-type: cn1-image-scaled-fill;
+    margin: 0;
+}
+TextComponent{
+    background-color: rgba(0, 0, 0, 0);
+    padding: 3mm;
+}
+
+TextComponents{
+    background-color: white;
+    margin: 3mm;
+    padding: 0;
+    border-radius: 1mm
+}
+
+InputSaveButton{
+    background-color: #d32f2f;
+    margin: 0;
+    text-align: center;
+    padding: 2mm;
+    color: white;
+    border-radius: 1mm;
+}
+
+InputSaveButton.pressed{
+    background-color: #e44c4c;
+}
+
+WhiteText{
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    text-align: center;
+}
+
+
+MultiButtonsContainer{
+    padding: 2mm;
+}
+
+ComponentDemoToolbar{
+    background-color: white;
+    margin:0;
+    padding: 3mm;
+    font-size: 3mm;
+}
+
+ComponentDemoTitle{
+    color: black;
+    background-color: white;
+    text-align: center;
+    font-family: "native:MainBold";
+}
+
+MediaComponentLine1{
+    background-color: rgba(0,0,0,0);
+    color: black;
+}
+
+MediaComponentLine2{
+    background-color: rgba(0,0,0,0);
+    color: grey;
+}
+
+MediaIcon{
+    background-color: rgba(0,0,0,0);
+    color: green;
+    font-size: 5mm;
+}
+
+Calendar{
+    margin: 4mm; 
+    background-color: rgba(0,0,0,0);
+    color: white;
+}
+
+ComponentDemoContainer{
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: #efeff4;
+}
+
+CheckBoxContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+RadioButtonsContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+SwitchContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+DemoSwitch{
+    margin: 2mm;
+}
+
+BrightContainer{
+    background-color: #efeff4;
+    margin: 0;
+}
+
+DarkContainer{
+    background-color: #091545;
+    margin: 0;
+}
+
+ComboBoxContainer{
+    margin: 0;
+    background-color: #efeff4;
+}
+
+PopupContentPane{
+    margin: 0;
+    background-color: white;
+}
+
+DemoMultiButton{
+    background-color: white;
+    color: black;
+    border-bottom: 0.2mm solid grey;
+}
+
+DemoMultiIcon{
+    color: black;
+    background-color: rgba(0,0,0,0);
+}
+
+DemoPicker{
+    padding: 2mm;
+    background-color: white;
+    border-radius: 2mm;
+    margin: 2mm;
+}
+
+DemoLabel{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+DemoToolbarLabel{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    padding: 2mm;
+}
+
+DemoHeader{
+    font-family: "native:MainBold";
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+DemoTextArea{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    color: black;
+    background-color: #efeff4;
+    border-radius: 1mm;
+    padding: 1mm;
+    margin: 2mm;
+}
+
+InfiniteComponentTitle{
+    border: none;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 140);
+    color: white;
+    padding: 1mm
+}
+
+DemoTabsContainer{
+    background-color: #efeff4;
+    margin: 0mm;
+    color: black;
+}
+
+WhiteContainer{
+    background-color: white;
+    margin: 0;
+}
+
+DemoInfiniteProgress{
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 10mm;
+}
+
+CenterAlignmentLabel{
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+BlueColor{
+    color: #4498fc;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+SummaryContainer{
+    background-color: white;
+    margin: 1mm;
+    border-radius: 2mm;
+    padding: 2mm;
+}
+
+GreenText{
+    background-color: white;
+    color: greenyellow;
+}
+
+SignatureCost{
+    padding: 1mm;
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: right;
+}
+
+SignatureTotalCost{
+    padding: 1mm;
+    font-size: 3mm;
+    font-family: "native:MainBold";
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: right;
+}
+
+CostSummaryLabel{
+    font-size: 4mm;
+    font-family: "native:MainRegular";
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    color: black;
+}
+
+SignatureLabel{
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+CreditCard{
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0 3mm 0 3mm;
+    padding: 0;
+}
+
+SignatureDemo{
+    background-color: white;
+    margin: 2mm;
+    border-radius: 2mm;
+}
+
+GreyTextLabel{
+    background-color: white;
+    color: grey;
+}
+
+DeleteButton{
+    font-size: 6mm;
+    color: #9acd32;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+Note{
+    color: black;
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    background-image: url(images/advanced/calendar-note.png);
+    cn1-background-type: cn1-image-scaled-fill;
+    cn1-source-dpi: 480;
+    margin-bottom: 1mm;
+    margin-top: 1mm;
+    margin-right: 2mm;
+    margin-left: 2mm;
+    text-align: center;
+    padding: 1mm;
+}
+
+CalendarDay{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    color: black;
+    padding: 1mm;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+}
+
+CalendarDay.pressed{
+    text-align: center;
+}
+
+CalendarTitle{
+    font-family: "native:MainBold";
+    font-size: 3mm;
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    border-bottom: 0.3mm solid #efeff4;
+}
+
+CalendarSelectedDay{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    border: none;
+    background-color: yellowgreen;
+    border-radius: 1mm;
+}
+
+CalendarSelectedDay.pressed{
+    text-align: center;
+}
+
+DemoComboBox{
+    background-color: white;
+    border-radius: 1mm;
+    margin: 1mm;
+}
+
+DemoComboBoxPopup{
+    background-color: white;
+    border-radius: 1mm;
+}
+
+DemoRadioButton{
+    border: none;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    padding: 1.5mm;
+    margin: 2mm;
+}
+
+DemoRadioButton.pressed{
+    background-color: #9bce2e;
+    border-radius: 2mm;
+}
+
+DemoCheckBoxLabel{
+    border-bottom-left-radius: 2mm;
+    border-bottom-right-radius: 2mm;
+    text-align: center;
+    margin-bottom: 2mm;
+    background-color: #da1e26;
+    color: #f3be39;
+    padding: 2mm;
+}
+
+DemoCheckBox{
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    padding: 1mm;
+    background-color: rgba(0, 0, 0, 0);
+    margin-left: 2mm;
+    margin-right: 2mm;
+    margin-bottom: 0.1mm;
+    margin-top: 0.1mm;
+    border-radius: 2mm;
+    text-align: center;
+    color: black;
+}
+
+DemoCheckBox.pressed{
+    background-color: #f6d2d2;
+    color: #da1e26;
+}
+
+NoteGreenContainer{
+    background-color: #c2ef65;
+    border-radius: 2mm;
+    padding: 0;
+    margin: 2mm; 
+}
+
+NotePurpleContainer{
+    background-color: #948df8;
+    border-radius: 2mm;
+    padding: 0;
+    margin: 2mm;
+}
+
+GreenFabDemo{
+    background-color: #9acd32;
+    color: white;
+}
+
+GreenFabDemo.pressed{
+    background-color: #a6d841;
+}
+
+PurpleFabDemo{
+    background-color: #766fde;
+    color: white;
+}
+PurpleFabDemo.pressed{
+    background-color: #6058d0;
+}
+
+RedFabDemo{
+    background-color: #c30209;
+    color: white;
+}
+RedFabDemo.pressed{
+    background-color: #de3f44;
+}
+
+CalendarAddNew{
+    background-color: #9acd32;
+    color: white;
+}
+
+CalendarAddNew.pressed{
+    background-color: #a6d841;
+}
+
+EmptyGreenLabel{
+    margin: 0;
+    background-color: #9acd32;
+    padding: 0mm;
+    font-size: 1mm;
+    border-radius: 2mm;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+EmptyPurpleLabel{
+    margin: 0;
+    background-color: #766fde;
+    padding: 0mm;
+    font-size: 1mm;
+    border-radius: 2mm;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+
+NoteHeaderLabel{
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 1mm;
+    font-size: 3.5mm;
+    font-family: "native:MainRegular";
+}
+
+SideMenuHeader{
+    margin-bottom: 3mm;
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 3.5mm;
+    font-family: "native:MainRegular";
+}
+
+NoteBodyLabel{
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 1mm;
+    font-size: 3mm;
+    font-family: "native:MainThin";
+}
+
+SignatureButton{
+    color: black;
+    background-color: white;
+}
+
+CalendarDate{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+MonthView{
+    background-color: white;
+    border-radius: 1mm;
+}
+
+FileTree{
+    background-color: #efeff4;
+}
+
+ComponentDemoLabel{
+    font-family: "native:MainRegular";
+    font-size: 2.3mm;
+    background-color: #efeff4;
+    color: black;
+}
+
+ScaleComponentDemoLabel{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    background-image: url(images/buttons/scale-image-button-background.png);
+    color: white;
+    text-align: center;
+    margin: 0 0 2mm 0;
+}
+
+DemoMultiButtonText{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+Emblem{
+   background-color: rgba(0, 0, 0, 0); 
+}
+
+DemoScaleImageButton{
+    background-color: #825145; 
+    color: white;
+    padding: 0;
+    margin: 0 0 2mm 0;
+}
+
+RadioButton{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    text-align: center;
+    padding: 2mm;
+    margin: 2mm;
+    border-radius: 2mm;
+    background-color: white;
+    color: #33c5f6;
+    border: 0.2mm solid #33c5f6;
+}
+
+DemoAnswerButton{
+    padding : 2mm;
+    text-align: center;
+    background-color: #33c5f6;
+    border-radius: 2mm;
+    margin: 2mm;
+    color: white;
+}
+
+DemoAnswerButton.pressed{
+    background-color: #2ba7d1;
+}
+
+ShareGroceriesDemo{
+    text-align: center;
+    padding: 2mm;
+    margin: 2mm;
+    background-color: #5add17;
+    color: black;
+    border-radius: 2mm;
+}
+
+CheckBox{
+    font-size: 3mm;
+    color: #f06393;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 2mm;
+    padding: 2mm;   
+    margin: 0.5mm;
+}
+
+GroceriesDemoLabel{
+    margin-bottom: 3mm;
+}
+
+BurgerIngredients{
+    border-bottom: 0.2mm solid #efeff4;
+    padding-bottom: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: #da1e26;
+    text-align: center;
+    margin: 3mm;
+}
+
+DemoSaveButton{
+    background-color: #00c9a7;
+    padding: 2mm;
+    margin: 2mm;
+    border-radius: 2mm;
+    color: white;
+    text-align: center;
+}
+
+TextComponentField{
+    margin-left: 2mm;
+    color: black;
+}
+
+FloatingHint{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+DemoMultiLine1{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+DemoMultiLine2{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+TextFieldsDemoButton{
+    padding: 2mm;
+    margin: 2mm;
+    color: white;
+    background-color: #399cff;
+    border-radius: 2mm;
+    text-align: center;
+}
+
+TextFieldsDemoButton.pressed{
+    background-color: #71b8ff;
+}
+
+AutoCompletePopup{
+    background-color: white;
+    border-radius: 2mm;
+}
+
+AutoCompleteList{
+    background-color: white;
+}
+
+PurpleLabel{
+    margin: 0.5mm;
+    border: none;
+    background-color: #9e27b2;  
+}
+
+GreenLabel{
+    margin: 0.5mm;
+    border: none;
+    background-color: #019786;  
+}
+
+RedLabel{
+    margin: 0.5mm;
+    border: none;
+    background-color: #ea1e63;  
+}
+
+BlueLabel{
+    margin: 0.5mm;
+    border: none;
+    background-color: #3e51b8;  
+}
+
+OrangeLabel{
+    margin: 0.5mm;
+    border: none;
+    background-color: #f44236;  
+}
+
+AccordionItem{
+    border-radius: 2mm;
+    background-color: white;
+    margin: 2mm;
+}
+
+DemoAccordionHeader{
+    font-size: 2.5mm;
+    border-radius: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 2mm;
+    color: black;
+}
+
+DemoAccordionLabel{
+    font-size: 2.5mm;
+    border-radius: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 3mm;
+    color: black;
+}
+
+DemoAccordionIcon{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+Tab{
+    border: none;
+    padding: 4mm;
+    background-color: white;
+    color: black;
+}
+
+Tab.pressed{
+    border-bottom: 0.5mm solid #318dfa;
+}
+
+TabsContainer{
+    background-color: #efeff4;
+}
+
+SalesTableHeader{
+    background-color: #dee3e9;
+    text-align: center;
+    font-family: "native:MainBold";
+    font-size: 5mm;
+    color: black;
+}
+
+SalesTableEvenRow{
+    background-color: #efeff4;
+    font-family: "native:MainRegular";
+    font-size: 4mm;
+    color: black;
+}
+
+SalesTableOddRow{
+    background-color: #eeeeee;
+    font-family: "native:MainRegular";
+    font-size: 4mm;
+    color: black;
+}
+
+Table{
+    font-family: "native:MainRegular";
+    font-size: 4mm;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+DialogDemoButton{
+    padding: 2mm;
+    margin: 3mm;
+    border-radius: 2mm;
+    text-align: center;
+    color: white;
+    background-color: #4498fc;
+}
+
+DialogDemoButton.pressed{
+    background-color: #74b3ff;
+}
+
+ToastBarMessage{
+    text-align: center;
+    padding: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+DialogDemoSpanLabel{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    text-align: center;
+    padding: 3mm;
+}
+
+PopupDialog{
+    background-color: white; 
+}
+
+
+Sheet{
+    background-color: white;
+}
+
+SheetTitle{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    font-family: "native:MainBold";
+    font-size: 4mm;
+}
+
+SheetBackButton{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+DialogCommandArea{
+    background-color: white;
+}
+
+PopupDialogTitle{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+ToolbarDemoButton{
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 3mm;
+    padding: 2mm;
+    color: #157efb;
+    text-align: left;
+}
+
+ToolbarDemoButton.pressed{
+    color: #69adff;
+}
+
+DemoSideMenu{
+    margin: 0;
+    padding: 2mm;
+    background-color: white;
+}
+
+SideNavigationPanel{
+    background-color: white;
+}
+
+TextFieldSearch{
+    color: black;
+    border: 1px solid gray;
+    margin: 2mm 5mm 2mm 5mm;
+    font-size: 3mm;
+    border-radius: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+}
+
+ToolbarSearch{
+    background-color: white;
+    border: none;
+}
+
+DemoTitleCommand{
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: #157efb;
+    text-align: center;
+    font-family: "native:MainRegular";
+}
+
+DemoTitleCommandDark{
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    text-align: center;
+    font-family: "native:MainRegular";
+}
+
+TitleCommand{
+    background-color: rgba(0, 0, 0, 0);
+    color: #157efb;
+    padding: 2mm;
+}
+
+CostSummary{
+    border: none;
+    background-image: url(images/advanced/summary-background.png);
+    cn1-background-type: cn1-image-scaled;
+    padding: 3mm;
+    margin: 0 2mm 0 2mm;
+}
+
+Separator{
+    font-size: 0.1mm;
+    margin-top: 0.1mm;
+    background-color: rgba(0, 0, 0, 0);
+    border-top: 0.3mm solid #efeff4;
+}
+
+SignatureConfirm{
+    font-family: "native:MainRegular";
+    margin: 1mm;
+    padding: 1mm;
+    font-size: 3mm;
+    border-radius: 2mm;
+    background-color: #9acd32;
+    text-align: center;
+    color: white;
+}
+
+SignatureConfirm.pressed{
+    background-color: #a6d841;
+}
+
+ConfirmContainer{
+    border-radius: 2mm;
+    margin: 0 4mm 0 4mm;
+    background-color: white;
+}
+
+SignatureClear{
+    font-family: "native:MainRegular";
+    margin: 1mm;
+    padding: 1mm;
+    font-size: 3mm;
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    border: 0.1mm solid grey;
+    border-radius: 1mm;
+}
+
+SignatureClear.pressed{
+    background-color: #a6d841;
+}
+
+AddNewButton{
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    text-align: center;
+    padding: 2mm;
+    margin: 2mm;
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+    border: 0.1mm solid grey;
+    border-radius: 1mm;
+}
+
+AddNewButton.pressed{
+    background-color: #a6d841;
+}
+
+TreeNode{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+    color: black;
+    background-color: white;
+    border-radius: 1mm;
+    padding: 2mm;
+}
+
+LabelContainer{
+    padding: 2mm;
+    background-color: white;
+    margin: 2mm;
+    border-radius: 2mm;
+}
+
+ButtonContainer{
+    background-color: white;
+    margin: 3mm;
+    padding: 2mm;
+    border-radius: 2mm;
+}
+
+GreyLabel{
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    color: grey;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+DemoScaleImageLabel{
+    background-color: rgba(0, 0, 0, 0);
+    margin: 1mm;
+}
+
+DemoButton{
+    font-size: 3mm;
+    font-family: "native:MainRegular";
+    color: white;
+    text-align: center;
+    background-color: #9acd32;
+    padding: 2mm;
+    border-radius: 2mm;
+    margin: 2mm;
+}
+
+DemoButton.pressed{
+    background-color: #a6d841;
+}
+
+Wrapper{
+    background-color: white;
+    margin: 3mm;
+    padding: 2mm;
+    border-radius: 2mm;
+}
+
+CompleteOrderContainer{
+    cn1-derive: Container;
+    margin-top: 1mm;
+    border-top: 0.2mm solid #efeff4;
+}
+
+SelectBuild{
+    text-align: center;
+    color: black;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: 0.2mm solid #efeff4;
+}
+
+SelectGroceriesLabel{
+    text-align: center;
+    color: #e91e63;
+    padding-bottom: 2mm;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: 0.2mm solid #efeff4;
+}
+
+
+DemoChart{
+    color: black;
+    background-color: white;
+}
+
+ChartComponent{
+    color:black;
+    background-color: black;
+}
+
+Slider{
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+SliderFull{
+    border-bottom: 0.5mm solid blue;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+
+SignaturePanel{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+SignaturePanelBox{
+    color: black;
+}
+
+SignaturePanelSignature{
+    color: black;
+}
+
+SignatureButtonBox{
+    color: black;
+}
+
+DemoHeaderLabel{
+    font-family: "native:MainBold";
+    font-size: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    text-align: center;
+}
+
+DemoButtonIcon{
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+DefaultContactImage{
+    background-color: blue;
+    color: black;
+    font-size: 5mm;
+}
+
+ContactComponent{
+    background-color: white;
+    border-radius: 1mm;
+    margin: 1mm;
+    padding: 1mm;
+}
+
+SheetTitleBar{
+    padding: 3mm;
+    border-bottom: 0.2mm solid grey;
+}
+
+ContactDetails{
+    background-color: rgba(0, 0, 0, 0);
+    margin: 2mm;
+    color: black;
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+}
+
+contactActions{
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+ContactsGreenButton{
+    background-color: rgba(0, 0, 0, 0);
+    color: green;
+}
+
+ContactsRedButton{
+    background-color: rgba(0, 0, 0, 0);
+    color: red;
+}
+
+MultiLine1{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+}
+
+ClockComponent{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+SideMenuIconDemo{
+    margin-top: 4mm;
+    margin-bottom: 1mm;
+}
