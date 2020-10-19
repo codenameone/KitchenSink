@@ -136,10 +136,11 @@ public class MediaDemo extends Demo {
                         video.setNativePlayerMode(true);
                     }
                     MediaPlayer player = new MediaPlayer(video);
-                    player.setAutoplay(false);
+                    player.setAutoplay(true);
 
                     callSerially(()->{
                         videoForm.removeAll();
+                        videoForm.setLayout(new BorderLayout());
                         videoForm.add(BorderLayout.CENTER, player);
                         videoForm.revalidate();
                     });
