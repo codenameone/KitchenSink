@@ -34,6 +34,7 @@ import com.codename1.ui.*;
 import com.codename1.ui.CommonProgressAnimations.CircleProgress;
 import com.codename1.ui.CommonProgressAnimations.LoadingTextAnimation;
 import com.codename1.ui.animations.CommonTransitions;
+import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.UIManager;
@@ -44,8 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.codename1.io.Util.sleep;
-import static com.codename1.ui.CN.callSerially;
-import static com.codename1.ui.CN.invokeAndBlock;
+import static com.codename1.ui.CN.*;
 import static com.codename1.ui.util.Resources.getGlobalResources;
 
 /**
@@ -74,7 +74,7 @@ public class ProgressDemo extends Demo {
                                                     "is rotated automatically so don't use an animated image or anything like that as it would "+
                                                     "fail with the rotation logic.",
                                                     e->{
-                                                        showDemo("Infinite Progess", createInfiniteProgessDemo());
+                                                        showDemo("Infinite Progress", createInfiniteProgressDemo());
                                                     }));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("slider.png"),
@@ -88,7 +88,7 @@ public class ProgressDemo extends Demo {
         
         demoContainer.add(createComponent(getGlobalResources().getImage("circle-animation.png"),
                                                     "Circle Animation",
-                                                    "A CommonProgrssAnimations which shows",
+                                                    "A CommonProgressAnimations which shows",
                                                     "radial coloring to show circular progress, like a Pac-Man",
                                                     e->{
                                                         showDemo("Circle Animation", createCircleAnimationDemo());
@@ -104,15 +104,15 @@ public class ProgressDemo extends Demo {
         return demoContainer;
     }
     
-    private Container createInfiniteProgessDemo(){
+    private Container createInfiniteProgressDemo(){
         Dialog ip = new InfiniteProgress().showInfiniteBlocking();
         invokeAndBlock(()->{
             sleep(3000); // do some long operation here.
             callSerially(()-> ip.dispose());
         });
-        InfiniteProgress prog = new InfiniteProgress();
-        prog.setAnimation(FontImage.createMaterial(FontImage.MATERIAL_AUTORENEW, UIManager.getInstance().getComponentStyle("DemoInfiniteProgress")));
-        return BorderLayout.centerAbsolute(prog);   
+        InfiniteProgress progress = new InfiniteProgress();
+        progress.setAnimation(FontImage.createMaterial(FontImage.MATERIAL_AUTORENEW, UIManager.getInstance().getComponentStyle("DemoInfiniteProgress")));
+        return BorderLayout.centerAbsolute(progress);
     }
     
     private Container createSliderDemo(){
@@ -135,15 +135,23 @@ public class ProgressDemo extends Demo {
     }
     
     private Container createCircleAnimationDemo(){
-        Label nameLabel = new Label("placeholder", "CenterAlignmentLabel");
-        Container demoContainer = BorderLayout.centerCenter(nameLabel);
+        SpanLabel nameLabel = new SpanLabel("placeholder", "CenterAlignmentLabel");
+
+        final int circleSize = convertToPixels(10);
+        Container nameContainer = new Container(new BorderLayout()){
+            @Override
+            protected Dimension calcPreferredSize() {
+                return new Dimension(circleSize, circleSize);
+            }
+        };
+
+        nameContainer.add(BorderLayout.CENTER, nameLabel);
+        Container demoContainer = BorderLayout.centerCenter(nameContainer);
         // Replace the label by a CircleProgress to indicate that it is loading.
         CircleProgress.markComponentLoading(nameLabel).setUIID("BlueColor");
- 
-        /**
-        * This code block should work without the EasyThread and callSerially()
-        * its here only for the demonstration purpose. 
-        **/
+
+        // This code block should work without the EasyThread and callSerially()
+        // its here only for the demonstration purpose.
         EasyThread.start("").run(()->{
             sleep(3000);
             Response<Map> jsonData = Rest.
@@ -155,23 +163,23 @@ public class ProgressDemo extends Demo {
                 nameLabel.setText(((Map<String, String>)jsonData.getResponseData()).get("name"));
                     // Replace the progress with the nameLabel now that
                     // it is ready, using a fade transition
-                    CircleProgress.markComponentReady(nameLabel, CommonTransitions.createFade(300));
+                CircleProgress.markComponentReady(nameLabel, CommonTransitions.createFade(300));
             });
         });
         return demoContainer;
     }
     
     private Container createTextLoadAnimationDemo(){
-        SpanLabel profileText = new SpanLabel("placeholder", "CenterAlignmentLabel");
+        SpanLabel profileText = new SpanLabel("placeholder", "DemoLabel");
 
         Container demoContainer = BorderLayout.center(profileText);
         // Replace the label by a CircleProgress to indicate that it is loading.
         LoadingTextAnimation.markComponentLoading(profileText);
         
-        /**
-        * This code block should work without the EasyThread and callSerially()
-        * its here only for the demonstration purpose. 
-        */
+
+        // This code block should work without the EasyThread and callSerially()
+        // its here only for the demonstration purpose.
+
         EasyThread.start("").run(()->{
             sleep(3000);
             Response<Map> response = Rest.
@@ -192,10 +200,12 @@ public class ProgressDemo extends Demo {
                 sb.append(alias + "\n");
             }
             callSerially(()->{
+                demoContainer.removeAll();
+                demoContainer.add(BorderLayout.NORTH, profileText);
                 profileText.setText(sb.toString());
                 // Replace the progress with the nameLabel now that
                 // it is ready, using a fade transition
-                LoadingTextAnimation.markComponentReady(profileText, CommonTransitions.createFade(2000));
+                LoadingTextAnimation.markComponentReady(profileText);
             });
         });
         return demoContainer;

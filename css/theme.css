@@ -6,23 +6,24 @@
  * published by the Free Software Foundation.  Codename One designates this
  * particular file as subject to the "Classpath" exception as provided
  * by Oracle in the LICENSE file that accompanied this code.
- *  
+ *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
  * version 2 for more details (a copy is included in the LICENSE file that
  * accompanied this code).
- * 
+ *
  * You should have received a copy of the GNU General Public License version
  * 2 along with this work; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
- * Please contact Codename One through http://www.codenameone.com/ if you 
+ *
+ * Please contact Codename One through http://www.codenameone.com/ if you
  * need additional information or have any questions.
  */
 
 #Constants {
-    includeNativeBool: true; 
+    includeNativeBool: true;
+    scrollVisibleBool: false;
 }
 
 ImagesHighRes{
@@ -37,11 +38,11 @@ background-image:   url(images/charts/chart-bar.png),
                     url(images/charts/chart-pie.png),
                     url(images/charts/chart-scatter.png),
                     url(images/charts/chart-time.png),
-                    url(images/advanced/blured-puppy.jpg),
+                    url(images/advanced/blurred-puppy.jpg),
                     url(images/advanced/advanced-calendar.png),
                     url(images/advanced/advanced-browser.png),
                     url(images/advanced/advanced-image-viewer.png),
-                    url(images/advanced/advanced-singnature.png),
+                    url(images/advanced/advanced-signature.png),
                     url(images/advanced/advanced-tree-file.png),
                     url(images/advanced/credit-card.png),
                     url(images/advanced/open-folder.png),
@@ -110,39 +111,43 @@ background-image:   url(images/charts/chart-bar.png),
     ComponentDemoToolbar{
         font-size: 5mm;
     }
-    
+
     MediaComponentLine2{
         font-size: 2mm;
     }
-    
+
     DialogTitle{
         font-size: 5mm;
     }
-    
+
     PopupDialogTitle{
         font-size: 5mm;
     }
-    
+
+    TextHint{
+        font-size: 5mm;
+    }
+
     ComboBoxItem{
         font-size: 5mm;
     }
-    
+
     DemoToolbar{
         font-size: 5mm;
     }
-    
+
     MainWindowTitle{
         font-size: 5mm;
     }
-    
+
     DemoTitle{
         font-size: 5mm;
     }
-    
+
     ComponentDemoTitle{
         font-size: 5mm;
     }
-    
+
     DemoTitleCommand{
         font-size: 5mm;
     }
@@ -150,19 +155,19 @@ background-image:   url(images/charts/chart-bar.png),
     DemoTitleCommandDark{
         font-size: 5mm;
     }
-    
+
     DemoContentAccordion{
         margin: 1.9mm;
     }
-    
+
     DemoContentBody{
         font-size: 2mm;
     }
-    
+
     Note{
         padding: 3mm;
     }
-    
+
     ComponentDemoLabel{
         font-size: 3.5mm;
     }
@@ -170,13 +175,13 @@ background-image:   url(images/charts/chart-bar.png),
     DemoToolbarLabel{
         font-size: 4mm;
     }
-    
+
     DemoTextArea{
         font-size: 4mm;
     }
-    
+
     Tab{
-       font-size: 4mm;    
+       font-size: 4mm;
     }
 }
 
@@ -184,85 +189,91 @@ background-image:   url(images/charts/chart-bar.png),
     ComponentDemoLabel{
         font-size: 4mm;
     }
-    
-    ToastBarMessage{
-       font-size: 5mm; 
+
+    TextHint{
+        font-size: 5mm;
     }
-    
+
+    ToastBarMessage{
+       font-size: 5mm;
+    }
+
     InputSaveButton{
         font-size: 5mm;
     }
-    
+
     TreeNode{
         font-size: 5mm;
     }
-    
+
     TextFieldsDemoButton{
         font-size: 5mm;
     }
-    
+
     SelectGroceriesLabel{
         font-size: 5mm;
     }
-    
+
     TitleCommand{
         font-size: 5mm;
     }
-    
+
     DemoMultiIcon{
         font-size: 5mm;
     }
-    
+
     DemoMultiButtonText{
-        font-size: 5mm;
-        background-color: rgba(0, 0, 0, 0);
-        color: black;
+        font-size: 4mm;
     }
-    
+
+    DemoMultiButtonHeader{
+        font-size: 5;
+    }
+
     NoteHeaderLabel{
         font-size: 5mm;
     }
-    
+
     NoteBodyLabel{
         font-size: 4mm;
     }
-    
+
     WhiteText{
         font-size: 5mm;
     }
-    
+
     DemoCheckBox{
         font-size: 5mm;
     }
-    
+
     DemoRadioButton{
-       font-size: 5mm; 
+       font-size: 5mm;
     }
-    
+
     DemoAnswerButton{
-        font-size: 6mm; 
+        font-size: 6mm;
     }
-    
+
     RadioButton{
-        font-size: 5mm; 
+        font-size: 5mm;
     }
 
     AddNewButton{
         font-size: 5mm;
     }
-    
+
     CheckBox{
-        font-size: 5mm; 
+        font-size: 5mm;
     }
-    
+
     ShareGroceriesDemo{
         font-size: 5mm;
     }
-    
+
     BurgerIngredients{
         font-size: 5mm;
     }
-    
+
     DemoLabel{
         font-size: 5mm;
     }
@@ -273,48 +284,48 @@ background-image:   url(images/charts/chart-bar.png),
     DemoHeader{
         font-size: 5mm;
     }
-    
+
     DemoTextArea{
         font-size: 6mm;
     }
-    
+
     DemoAccordionHeader{
         font-size: 5mm;
     }
-    
+
     DemoAccordionLabel{
         font-size: 5mm;
     }
-    
+
     PopupDialogTitle{
         margin-top: 2mm;
         padding: 2mm;
     }
-    
+
     ToolbarDemoButton{
         font-size: 5mm;
     }
-    
+
     CostSummary{
         padding: 8mm;
     }
-    
+
     ScaleComponentDemoLabel{
         font-size: 5mm;
     }
-    
+
     SignatureClear{
         font-size: 5mm;
     }
-    
+
     SignatureConfirm{
         font-size: 5mm;
     }
-    
+
     DemoButton{
         font-size: 5mm;
     }
-    
+
     DemoHeaderLabel{
         font-size: 5mm;
     }
@@ -418,7 +429,7 @@ PopupContentPane{
     margin: 2mm;
     border-radius: 2mm;
     background-color: rgba(0, 0, 0, 0);
-    
+
 }
 
 ChartComponent{
@@ -426,15 +437,10 @@ ChartComponent{
 }
 
 AccordionButton{
-    margin: 0;
+    margin: 2mm;
+    padding : 0mm;
     background-color: white;
     color: black;
-}
-
-TitleCommand{
-    padding: 0;
-    margin: 0;
-    background-color: white;
 }
 
 VideoContainer{
@@ -480,11 +486,19 @@ MainWindowDemoName{
     font-family: "native:MainBold";
     font-size: 3mm;
 }
+
 DemoToolbar{
     margin: 0;
     background-color: white;
-    padding: 3mm;
     font-size: 3mm;
+    padding: 1mm;
+}
+
+ToolbarSearch{
+    margin: 0;
+    background-color: white;
+    font-size: 3mm;
+    padding: 1.5mm;
 }
 
 MainWindowToolbar{
@@ -509,7 +523,7 @@ DemoContainer{
 DemoContentAccordion{
     background-color: white;
     border-radius: 2mm;
-    padding-bottom: 2mm;
+    padding: 2mm;
     margin: 3mm;
 }
 
@@ -539,8 +553,15 @@ DemoContentBody{
     background-color: white;
     font-family: "native:MainRegular";
     font-size: 2.3mm;
-    margin-left: 2mm;
+    margin: 2mm;
     color: #707070;
+}
+
+DemoContentBodyButton{
+    border: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0,0,0,0);
 }
 
 AccordionItem{
@@ -553,6 +574,9 @@ DemoTitle{
     color: black;
     text-align: center;
     font-family: "native:MainBold";
+    margin: 0;
+    padding-bottom: 1mm;
+
 }
 
 WhiteContainer{
@@ -632,6 +656,7 @@ ComponentDemoTitle{
     background-color: white;
     text-align: center;
     font-family: "native:MainBold";
+    padding-bottom: 1mm;
 }
 
 MediaComponentLine1{
@@ -651,7 +676,7 @@ MediaIcon{
 }
 
 Calendar{
-    margin: 4mm; 
+    margin: 4mm;
     background-color: rgba(0,0,0,0);
     color: white;
 }
@@ -740,6 +765,7 @@ DemoHeader{
     font-size: 3mm;
     background-color: rgba(0, 0, 0, 0);
     color: black;
+    margin: 2mm;
 }
 
 DemoTextArea{
@@ -749,7 +775,7 @@ DemoTextArea{
     background-color: #efeff4;
     border-radius: 1mm;
     padding: 1mm;
-    margin: 2mm;
+    margin: 2mm 0 2mm 0;
 }
 
 InfiniteComponentTitle{
@@ -786,6 +812,7 @@ CenterAlignmentLabel{
 BlueColor{
     color: #4498fc;
     background-color: rgba(0, 0, 0, 0);
+    font-size: 40mm;
 }
 
 SummaryContainer{
@@ -804,7 +831,7 @@ SignatureCost{
     padding: 1mm;
     font-size: 3mm;
     font-family: "native:MainRegular";
-    color: black;
+    color: #2f2f2f;
     background-color: rgba(0, 0, 0, 0);
     text-align: right;
 }
@@ -1090,9 +1117,19 @@ ScaleComponentDemoLabel{
 }
 
 DemoMultiButtonText{
+    font-family: "native:MainRegular";
+    font-size: 3mm;
     background-color: rgba(0, 0, 0, 0);
     color: black;
 }
+
+DemoMultiButtonHeader{
+    font-family: "native:MainBold";
+    font-size: 3.5mm;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
 
 Emblem{
    background-color: rgba(0, 0, 0, 0); 
@@ -1394,6 +1431,9 @@ TextFieldSearch{
     color: black;
     border: 1px solid gray;
     margin: 2mm 5mm 2mm 5mm;
+    padding-left: 1.5mm;
+    padding-top: 1mm;
+    padding-bottom: 1mm;
     font-size: 3mm;
     border-radius: 2mm;
     background-color: rgba(0, 0, 0, 0);
@@ -1427,6 +1467,12 @@ TitleCommand{
     padding: 2mm;
 }
 
+SourceCommand{
+    background-color: rgba(0, 0, 0, 0);
+    color: #157efb;
+    padding: 2mm 2mm 3mm 2mm;
+}
+
 CostSummary{
     border: none;
     background-image: url(images/advanced/summary-background.png);
@@ -1445,7 +1491,7 @@ Separator{
 SignatureConfirm{
     font-family: "native:MainRegular";
     margin: 1mm;
-    padding: 1mm;
+    padding: 2mm;
     font-size: 3mm;
     border-radius: 2mm;
     background-color: #9acd32;
@@ -1466,7 +1512,7 @@ ConfirmContainer{
 SignatureClear{
     font-family: "native:MainRegular";
     margin: 1mm;
-    padding: 1mm;
+    padding: 2mm;
     font-size: 3mm;
     color: grey;
     background-color: rgba(0, 0, 0, 0);
@@ -1618,6 +1664,7 @@ DemoHeaderLabel{
     background-color: rgba(0, 0, 0, 0);
     color: black;
     text-align: center;
+
 }
 
 DemoButtonIcon{
@@ -1681,4 +1728,70 @@ ClockComponent{
 SideMenuIconDemo{
     margin-top: 4mm;
     margin-bottom: 1mm;
+}
+
+DemoMultiButtonIcon{
+        color: black;
+        margin: 0;
+        padding-right: 2mm;
+        background-color: rgba(0, 0, 0, 0);
+}
+
+DemoSpanLabelIcon{
+    color: black;
+    margin: 0;
+    padding-right: 3mm;
+    padding-bottom: 3mm;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+TextHint{
+    padding-left: 1mm;
+    font-family: "native:MainRegular";
+    font-size: 3mm;
+}
+
+Title{
+    text-align: center;
+}
+
+ParenthesesIcon{
+    background-color: rgba(0, 0, 0, 0);
+    color: #157efb;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+Badge{
+    background-color: #c2ef65;
+    color: black;
+    padding: 2mm;
+    font-size: 3mm;
+    margin: 1mm;
+}
+
+PurpleDeleteButton{
+    font-size: 6mm;
+    color: #948df8;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+MapsCurrLocation{
+    color: black;
+    background-color: #c30209;
+    margin: 4mm 4mm 8mm 4mm;
+}
+
+MapsButton{
+    background-color: rgba(0, 0, 0, 0);
+    color: #1b82fb;
+    font-family: "native:MainRegular";
+    font-size: 4mm;
+    margin: 4mm;
+}
+
+MapsPlace{
+    color: #f70000;
+    background-color: rgba(0, 0, 0, 0);
 }

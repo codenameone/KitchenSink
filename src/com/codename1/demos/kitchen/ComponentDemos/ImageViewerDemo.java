@@ -26,27 +26,25 @@ import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.io.Storage;
-import static com.codename1.ui.CN.*;
 import com.codename1.io.rest.Response;
 import com.codename1.io.rest.Rest;
-import com.codename1.properties.IntProperty;
-import com.codename1.properties.ListProperty;
-import com.codename1.properties.Property;
-import com.codename1.properties.PropertyBusinessObject;
-import com.codename1.properties.PropertyIndex;
+import com.codename1.properties.*;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
-import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.events.SelectionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.list.ListModel;
 import com.codename1.ui.util.EventDispatcher;
-import static com.codename1.ui.util.Resources.getGlobalResources;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.codename1.ui.CN.*;
+import static com.codename1.ui.util.Resources.getGlobalResources;
 
 
 
@@ -57,7 +55,7 @@ public class ImageViewerDemo {
     public Container createContentPane() {
         Container imageViewerContainer = new Container(new BorderLayout());
         if(placeholder == null) {
-            Image tempPlaceHolder = getGlobalResources().getImage("blured-puppy.jpg");
+            Image tempPlaceHolder = getGlobalResources().getImage("blurred-puppy.jpg");
             placeholder = EncodedImage.createFromImage(tempPlaceHolder, true);
         }
         

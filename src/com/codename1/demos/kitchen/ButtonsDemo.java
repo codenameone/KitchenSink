@@ -26,6 +26,7 @@ import com.codename1.components.*;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.ui.*;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
@@ -44,6 +45,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
  * @author Sergey Gerashenko.
  */
 public class ButtonsDemo extends Demo{
+    FloatingActionButton badge = null;
 
     public ButtonsDemo(Form parentForm) {
         init("Buttons", getGlobalResources().getImage("demo-buttons.png"), parentForm,
@@ -59,7 +61,7 @@ public class ButtonsDemo extends Demo{
                                                                 "Buttons",
                                                                 "Button is the base class for several UI",
                                                                 "widgets allowing clickability. It has 3 States: rollover, pressed and the default state. Button can also "+
-                                                                "have an ActionListernet that react when the button is clicked or handle actions via a Command.Button UIID by "+
+                                                                "have an Action Listener that react when the button is clicked or handle actions via a Command.Button UIID by "+
                                                                 "default.", e->{
                                                                     showDemo("Buttons", createButtonsDemo());
                                                                 }));
@@ -118,11 +120,11 @@ public class ButtonsDemo extends Demo{
         Button thirdButton = new Button("Button", FontImage.MATERIAL_INFO, "DemoButton");
         thirdButton.addActionListener(e-> ToastBar.showInfoMessage("Third Button was pressed") );
 
-        Container demoContainer =  BoxLayout.encloseY(new Label("button with text:", "DemoLabel"),
+        Container demoContainer =  BoxLayout.encloseY(new Label("Button with text:", "DemoLabel"),
                                                         firstButton,
-                                                        new Label("button with icon:", "DemoLabel"),
+                                                        new Label("Button with icon:", "DemoLabel"),
                                                         secondButton,
-                                                        new Label("button with text and icon:", "DemoLabel"),
+                                                        new Label("Button with text and icon:", "DemoLabel"),
                                                         thirdButton);
         demoContainer.setUIID("ButtonContainer");
         
@@ -143,49 +145,51 @@ public class ButtonsDemo extends Demo{
     
     private Container createMultiButtonsDemo(){ 
         MultiButton twoLinesNoIcon = new MultiButton("MultiButton");
+        twoLinesNoIcon.setUIID("DemoButton");
+        twoLinesNoIcon.setUIIDLine1("DemoMultiButtonHeader");
         twoLinesNoIcon.setTextLine2("Line 2");
         twoLinesNoIcon.setUIIDLine2("DemoMultiButtonText");
-        twoLinesNoIcon.setUIID("DemoButton");
-        twoLinesNoIcon.setUIIDLine1("DemoMultiButtonText");
-        
+
         Image emblem = FontImage.createMaterial(FontImage.MATERIAL_ARROW_RIGHT, UIManager.getInstance().getComponentStyle("DemoMultiIcon"));
         Image icon = FontImage.createMaterial(FontImage.MATERIAL_INFO, UIManager.getInstance().getComponentStyle("DemoMultiIcon"));
 
         MultiButton oneLineIconEmblem = new MultiButton("Icon + Emblem");
+        oneLineIconEmblem.setUIIDLine1("DemoMultiButtonHeader");
         oneLineIconEmblem.setIcon(icon);
         oneLineIconEmblem.setEmblem(emblem);
+        oneLineIconEmblem.setIconUIID("DemoMultiButtonIcon");
         oneLineIconEmblem.setUIID("DemoButton");
-        oneLineIconEmblem.setUIIDLine1("DemoMultiButtonText");
-        
+
         MultiButton twoLinesIconEmblem = new MultiButton("Icon + Emblem");
+        twoLinesIconEmblem.setUIIDLine1("DemoMultiButtonHeader");
         twoLinesIconEmblem.setUIID("DemoButton");
         twoLinesIconEmblem.setIcon(icon);
+        twoLinesIconEmblem.setIconUIID("DemoMultiButtonIcon");
         twoLinesIconEmblem.setEmblem(emblem);
         twoLinesIconEmblem.setTextLine2("Line 2");
         twoLinesIconEmblem.setUIIDLine2("DemoMultiButtonText");
-        twoLinesIconEmblem.setUIIDLine1("DemoMultiButtonText");
-        
 
         MultiButton twoLinesIconEmblemHorizontal = new MultiButton("Icon + Emblem");
+        twoLinesIconEmblemHorizontal.setUIIDLine1("DemoMultiButtonHeader");
         twoLinesIconEmblemHorizontal.setUIID("DemoButton");
         twoLinesIconEmblemHorizontal.setIcon(icon);
+        twoLinesIconEmblemHorizontal.setIconUIID("DemoMultiButtonIcon");
         twoLinesIconEmblemHorizontal.setEmblem(emblem);
-        twoLinesIconEmblemHorizontal.setTextLine2("Line 2 Horizontal");
+        twoLinesIconEmblemHorizontal.setTextLine2("Line 2");
         twoLinesIconEmblemHorizontal.setUIIDLine2("DemoMultiButtonText");
         twoLinesIconEmblemHorizontal.setHorizontalLayout(true);
-        twoLinesIconEmblemHorizontal.setUIIDLine1("DemoMultiButtonText");
-        
 
         MultiButton fourLinesIcon = new MultiButton("With Icon");
         fourLinesIcon.setUIID("DemoButton");
         fourLinesIcon.setIcon(icon);
+        fourLinesIcon.setIconUIID("DemoMultiButtonIcon");
+        fourLinesIcon.setUIIDLine1("DemoMultiButtonHeader");
         fourLinesIcon.setTextLine2("Line 2");
         fourLinesIcon.setUIIDLine2("DemoMultiButtonText");
         fourLinesIcon.setTextLine3("Line 3");
         fourLinesIcon.setUIIDLine3("DemoMultiButtonText");
         fourLinesIcon.setTextLine4("Line 4");
         fourLinesIcon.setUIIDLine4("DemoMultiButtonText");
-        fourLinesIcon.setUIIDLine1("DemoMultiButtonText");
 
         Container demoContainer = BoxLayout.encloseY(oneLineIconEmblem,
                                                     twoLinesNoIcon,
@@ -263,12 +267,14 @@ public class ButtonsDemo extends Demo{
         
         return BoxLayout.encloseY(demoContainer);
     }
-    
-    private Container createFloatingActionButtonDemo(){
-        Container demoContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "RedFabDemo");
 
-        FloatingActionButton greenButton = fab.createSubFAB(FontImage.MATERIAL_ADD_TASK, "");
+    private Container createFloatingActionButtonDemo(){
+        Container tasksContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        tasksContainer.setScrollableY(true);
+        FloatingActionButton addNew = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "RedFabDemo");
+        badge = FloatingActionButton.createBadge(String.valueOf("0"));
+
+        FloatingActionButton greenButton = addNew.createSubFAB(FontImage.MATERIAL_ADD_TASK, "");
         greenButton.setUIID("GreenFabDemo");
         greenButton.addActionListener(e->{
             TextComponent header = new TextComponent().labelAndHint("note header: ");
@@ -276,12 +282,14 @@ public class ButtonsDemo extends Demo{
             Command ok = new Command("Ok");
             Command cancel = new Command("Cancel");
             if (Dialog.show("Enter Note", BoxLayout.encloseY(header, body), ok, cancel) == ok && header.getText().length() != 0){
-                demoContainer.add(createNote(header.getText(), body.getText(), demoContainer, true));
-                demoContainer.revalidate();
+                tasksContainer.add(createNote(header.getText(), body.getText(), tasksContainer, true));
+                int taskCount = Integer.valueOf(badge.getText()) + 1;
+                badge.setText(String.valueOf(taskCount));
+                tasksContainer.revalidate();
             }
         });
 
-        FloatingActionButton purpleButton = fab.createSubFAB(FontImage.MATERIAL_ADD_TASK, "");
+        FloatingActionButton purpleButton = addNew.createSubFAB(FontImage.MATERIAL_ADD_TASK, "");
         purpleButton.setUIID("PurpleFabDemo");
         purpleButton.addActionListener(e->{
             TextComponent header = new TextComponent().labelAndHint("note header: ");
@@ -289,29 +297,40 @@ public class ButtonsDemo extends Demo{
             Command ok = new Command("Ok");
             Command cancel = new Command("Cancel");
             if (Dialog.show("Enter Note", BoxLayout.encloseY(header, body), ok, cancel) == ok && header.getText().length() != 0){
-                demoContainer.add(createNote(header.getText(), body.getText(), demoContainer, false));
-                demoContainer.revalidate();
+                tasksContainer.add(createNote(header.getText(), body.getText(), tasksContainer, false));
+                int taskCount = Integer.valueOf(badge.getText()) + 1;
+                badge.setText(String.valueOf(taskCount));
+                tasksContainer.revalidate();
             }
         });
-        return fab.bindFabToContainer(demoContainer);
+
+        Label header = new Label("My Tasks", "DemoHeaderLabel");
+        tasksContainer.add(header);
+        tasksContainer.setUIID("Wrapper");
+        Container demoContainer = badge.bindFabToContainer(tasksContainer, Component.RIGHT, Component.TOP);
+        return addNew.bindFabToContainer(BorderLayout.center(demoContainer));
     }
     
     private Component createNote(String header, String body, Container notes, boolean isGreen){
-        Button deleteButton = new Button("", FontImage.createMaterial(FontImage.MATERIAL_DELETE, UIManager.getInstance().getComponentStyle("DeleteButton")), "DeleteButton");
+        Button deleteButton;
         Label emptyLabel = new Label(" ", "EmptyGreenLabel");
         SpanLabel noteHeaderLabel = new SpanLabel(header, "NoteHeaderLabel");
         SpanLabel noteBodyLabel = new SpanLabel(body, "NoteBodyLabel");
         Container noteContainer = BoxLayout.encloseY(emptyLabel, noteHeaderLabel, noteBodyLabel);
-        SwipeableContainer note = new SwipeableContainer(deleteButton, noteContainer);
         if(isGreen) {
+            deleteButton = new Button("", FontImage.createMaterial(FontImage.MATERIAL_DELETE, UIManager.getInstance().getComponentStyle("DeleteButton")), "DeleteButton");
             noteContainer.setUIID("NoteGreenContainer");
         }else{
+            deleteButton = new Button("", FontImage.createMaterial(FontImage.MATERIAL_DELETE, UIManager.getInstance().getComponentStyle("PurpleDeleteButton")), "DeleteButton");
             noteContainer.setUIID("NotePurpleContainer");
             emptyLabel.setUIID("EmptyPurpleLabel");
         }
 
+        SwipeableContainer note = new SwipeableContainer(deleteButton, noteContainer);
         deleteButton.addActionListener(e->{
             notes.removeComponent(note);
+            int taskCount = Integer.valueOf(badge.getText()) - 1;
+            badge.setText(String.valueOf(taskCount));
             notes.revalidate();
         });
         

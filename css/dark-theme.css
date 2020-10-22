@@ -102,7 +102,10 @@ AccordionButton{
 
 TitleCommand{
     color: white;
-    background-color: #222222;
+}
+
+SourceCommand{
+    color: white;
 }
 
 VideoContainer{
@@ -156,10 +159,6 @@ TreeNode{
 ComponentDemoLabel{
     color: white;
     background-color: #000000;
-}
-
-DemoCheckBox{
-    margin: 2mm;
 }
 
 CheckBoxContainer{
@@ -537,4 +536,8 @@ SideMenuHeader{
 
 ToastBar{
     background-color: #222222;
+}
+
+DemoSpanLabelIcon{
+    color: white;
 }

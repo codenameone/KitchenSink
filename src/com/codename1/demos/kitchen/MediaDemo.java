@@ -54,7 +54,7 @@ public class MediaDemo extends Demo {
     private static final String DOWNLOADED_VIDEO = FileSystemStorage.getInstance().getAppHomePath() + "hello-codenameone.mp4";
     
     public MediaDemo(Form parentForm) {
-        init("media", getGlobalResources().getImage("media-demo-icon.png"), parentForm,
+        init("Media", getGlobalResources().getImage("media-demo-icon.png"), parentForm,
                 "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/MediaDemo.java");
     }
 

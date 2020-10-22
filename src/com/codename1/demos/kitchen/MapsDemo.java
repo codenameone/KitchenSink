@@ -22,19 +22,23 @@
  */
 package com.codename1.demos.kitchen;
 
-import com.codename1.components.InteractionDialog;
+import com.codename1.components.FloatingActionButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.googlemaps.MapContainer;
+import com.codename1.location.Location;
 import com.codename1.maps.Coord;
 import com.codename1.ui.*;
-import com.codename1.ui.geom.Rectangle;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
-import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.codename1.ui.CN.convertToPixels;
 import static com.codename1.ui.CN.execute;
 import static com.codename1.ui.util.Resources.getGlobalResources;
 
@@ -46,6 +50,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
 public class MapsDemo extends Demo {
     // Should be replaced with real api key in order to activate the demo. 
     private String googleMapsHTMLKey = null;
+    List<Coord> markerList = new ArrayList<>();
 
     public MapsDemo(Form parentForm) {
         init("Maps", getGlobalResources().getImage("demo-maps.png"), parentForm,
@@ -69,77 +74,58 @@ public class MapsDemo extends Demo {
     }
     
     private Component createGoogleMapComponent(){
-        final MapContainer cnt = new MapContainer(googleMapsHTMLKey);
+        final MapContainer map = new MapContainer(googleMapsHTMLKey);
 
-        Button btnMoveCamera = new Button("Move Camera");
-        btnMoveCamera.addActionListener(e->{
-            cnt.setCameraPosition(new Coord(-33.867, 151.206));
-        });
-        
-        Style s = new Style();
-        s.setFgColor(0xff0000);
-        s.setBgTransparency(0);
-        FontImage markerImg = FontImage.createMaterial(FontImage.MATERIAL_PLACE, s, Display.getInstance().convertToPixels(3));
-
-        Button btnAddMarker = new Button("Add Marker");
-        btnAddMarker.addActionListener(e->{
-            cnt.setCameraPosition(new Coord(41.889, -87.622));
-            cnt.addMarker(
-                EncodedImage.createFromImage(markerImg, false),
-                cnt.getCameraPosition(),
-                "Hi marker",
-                "Optional long description",
-                evt -> {
-                    ToastBar.showMessage("You clicked the marker", FontImage.MATERIAL_PLACE);
-                }
-            );
+        FloatingActionButton moveToCurrentLocation = FloatingActionButton.createFAB(FontImage.MATERIAL_GPS_FIXED, "MapsCurrLocation");
+        moveToCurrentLocation.addActionListener(e->{
+                Location currLocation = Display.getInstance().getLocationManager().getCurrentLocationSync();
+            if(currLocation != null){
+                map.zoom(new Coord(currLocation.getLatitude(), currLocation.getLongitude()), (map.getMaxZoom() + map.getMinZoom()) / 2);
+            }else{
+                ToastBar.showInfoMessage("Turn on Location");
+            }
         });
 
-        Button btnAddPath = new Button("Add Path");
-        btnAddPath.addActionListener(e->{
-            cnt.addPath(
-                cnt.getCameraPosition(),
-                new Coord(-33.866, 151.195), // Sydney
-                new Coord(-18.142, 178.431),  // Fiji
-                new Coord(21.291, -157.821),  // Hawaii
-                new Coord(37.423, -122.091)  // Mountain View
-            );
-        });
+        FontImage markerImg = FontImage.createMaterial(FontImage.MATERIAL_PLACE,
+                UIManager.getInstance().getComponentStyle("MapsPlace"));
+        final int markerImgSize = convertToPixels(10);
 
-        Button btnClearAll = new Button("Clear All");
-        btnClearAll.addActionListener(e-> {
-            cnt.clearMapLayers();
-        });
-
-        cnt.addTapListener(e-> {
-            TextField enterName = new TextField();
-            Container wrapper = BoxLayout.encloseY(new Label("Name:"), enterName);
-            InteractionDialog dlg = new InteractionDialog("Add Marker");
-            dlg.getContentPane().add(wrapper);
-            enterName.setDoneListener(e2->{
-                String txt = enterName.getText();
-                cnt.addMarker(
-                        EncodedImage.createFromImage(markerImg, false),
-                        cnt.getCoordAtPosition(e.getX(), e.getY()),
-                        enterName.getText(),
+        map.addTapListener(e-> {
+            Coord currLocation = map.getCoordAtPosition(e.getX(), e.getY());
+            TextComponent placeName = new TextComponent().labelAndHint("Mark name: ");
+            Command ok = new Command("Ok");
+            Command cancel = new Command("Cancel");
+            if (Dialog.show("Enter Note", placeName, ok, cancel) == ok && placeName.getText().length() != 0) {
+                map.addMarker(EncodedImage.createFromImage(markerImg, false).scaledEncoded(markerImgSize, markerImgSize),
+                        currLocation,
+                        placeName.getText(),
                         "",
-                        e3->{
-                            ToastBar.showMessage("You clicked " + txt, FontImage.MATERIAL_PLACE);
-                        }
-                );
-                dlg.dispose();
-            });
-            dlg.showPopupDialog(new Rectangle(e.getX(), e.getY(), 10, 10));
-            enterName.startEditingAsync();
+                        null);
+                markerList.add(currLocation);
+            }
         });
 
-        Container root = LayeredLayout.encloseIn(
-                BorderLayout.center(cnt),
-                BorderLayout.south(
-                        FlowLayout.encloseBottom(btnMoveCamera, btnAddMarker, btnAddPath, btnClearAll)
-                )
-        );
-        return root;
+        Button btnClearAll = new Button("Clear All", "MapsButton");
+        btnClearAll.addActionListener(e-> {
+            map.clearMapLayers();
+            markerList.clear();
+        });
+
+        Button btnAddPath = new Button("Add Path", "MapsButton");
+        btnAddPath.addActionListener(e->{
+            if (markerList.size() > 1){
+                Coord[] markers = new Coord[markerList.size()];
+                markerList.toArray(markers);
+                map.addPath(markers);
+            }else{
+                ToastBar.showInfoMessage("You need add more markers(try to press the map)");
+            }
+        });
+
+        Container root = LayeredLayout.encloseIn( BorderLayout.center(map),
+                BorderLayout.south( FlowLayout.encloseBottom(btnAddPath, btnClearAll) ));
+
+        return moveToCurrentLocation.bindFabToContainer(root);
     }
     
     private Container createKeysGuide(){

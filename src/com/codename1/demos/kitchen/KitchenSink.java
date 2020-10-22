@@ -84,6 +84,7 @@ public class KitchenSink {
             current.show();
             return;
         }
+
         Form mainForm =  new MainWindow().buildForm();
         darkModeCommand = mainForm.getToolbar().addCommandToRightBar("",
                 darkModeImageLight,

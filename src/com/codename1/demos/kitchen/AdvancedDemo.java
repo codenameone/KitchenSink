@@ -72,15 +72,16 @@ public class AdvancedDemo extends Demo{
                                                                 e->{
                                                                     BrowserComponent browser = new BrowserComponent();
                                                                     browser.setURL("https://www.codenameone.com/");
+                                                                    Display.getInstance().setProperty("WebLoadingHidden", "true");
                                                                     showDemo("Browser", browser);
                                                                 }));
         
-        demoContainer.add(createComponent(getGlobalResources().getImage("advanced-singnature.png"),
+        demoContainer.add(createComponent(getGlobalResources().getImage("advanced-signature.png"),
                                                                 "Signature Component",
                                                                 "A component to allow a user to enter",
                                                                 "their signature. This is just a button that, when pressed, will pop up a dialog where the user can draw "+
                                                                 "their signature with their finger.\n\nThe user is given the option to save/reset/cancel the signature. On save, "+
-                                                                "the signatureImamge property will be set with a full-size of the signature, and the icon on the button will "+
+                                                                "the signature Image property will be set with a full-size of the signature, and the icon on the button will "+
                                                                 "show a thumbnail of the image.",
                                                                 e->{
                                                                     showDemo("Signature", createSignatureDemo());
@@ -106,9 +107,9 @@ public class AdvancedDemo extends Demo{
                                                                     Container treeContainer = BorderLayout.center(xmlTree);
                                                                     int height = Display.getInstance().convertToPixels(4);
                                                                     int width = Display.getInstance().convertToPixels(4);
-                                                                    xmlTree.setFolderIcon(getGlobalResources().getImage("close-folder.png").scaled(width, height));
-                                                                    xmlTree.setFolderOpenIcon(getGlobalResources().getImage("open-folder.png").scaled(width, height));
-                                                                    xmlTree.setNodeIcon(getGlobalResources().getImage("file.png").scaled(width, height));
+                                                                    FileTree.setFolderIcon(getGlobalResources().getImage("close-folder.png").scaled(width, height));
+                                                                    FileTree.setFolderOpenIcon(getGlobalResources().getImage("open-folder.png").scaled(width, height));
+                                                                    FileTree.setNodeIcon(getGlobalResources().getImage("file.png").scaled(width, height));
                                                                     
                                                                     // Refresh the root image.
                                                                     xmlTree.refreshNode(((Container)xmlTree.getComponentAt(0)).getComponentAt(0));
@@ -126,6 +127,10 @@ public class AdvancedDemo extends Demo{
                                                                         CN.callSerially(()-> {
                                                                             ip.dispose();
                                                                             showDemo("Image Viewer", demo);
+                                                                            ToastBar.Status status = ToastBar.getInstance().createStatus();
+                                                                            status.setMessage("Swipe right/left to browse the images");
+                                                                            status.setExpires(3500);
+                                                                            status.showDelayed(500);
                                                                         });
                                                                     });
                                                                 }));
@@ -205,7 +210,7 @@ public class AdvancedDemo extends Demo{
                 }
             }
         });
-                
+
         FloatingActionButton addNote = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "CalendarAddNew");
         addNote.addActionListener(e->{
             List<String> currentNotes = allNotes.get(cld.getDate().toString());

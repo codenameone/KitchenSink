@@ -172,10 +172,10 @@ public class TogglesDemo extends Demo {
     private Container createSwitchDemo(){
         Switch s = new Switch();
         s.setOn();
-        if (isDarkMode()!= null && !isDarkMode()){
+        if (isDarkMode() != null && !isDarkMode()){
             s.setOff();
         }
-        Container switchContainer = FlowLayout.encloseCenter(s);
+        Container switchContainer = BorderLayout.centerAbsolute(s);
         s.addChangeListener(e->{
             if(s.isOn()){
                 switchContainer.setUIID("BrightContainer");

@@ -26,18 +26,12 @@ import com.codename1.components.*;
 import com.codename1.contacts.Contact;
 import com.codename1.demos.kitchen.util.Util;
 import com.codename1.ui.*;
-import com.codename1.ui.animations.CommonTransitions;
-import com.codename1.ui.animations.FlipTransition;
-import com.codename1.ui.animations.Transition;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.list.GenericListCellRenderer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.codename1.contacts.ContactsManager.deleteContact;
 import static com.codename1.ui.CN.*;
@@ -51,7 +45,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
  */
 public class DialogDemo extends Demo {
     boolean isInteractionDialogOpen = false;
-    private List<ToastBar.Status> statusList = new ArrayList<>();
+    private final List<ToastBar.Status> statusList = new ArrayList<>();
     
     public DialogDemo(Form parentForm) {
         init("Dialog", getGlobalResources().getImage("dialog-demo.png"), parentForm,
@@ -68,7 +62,7 @@ public class DialogDemo extends Demo {
                                                                 "Unlike a regular dialog the interaction",
                                                                 "dialog only looks like a dialog, it resides in the layered pane and can be used to implement features "+
                                                                 "where interaction with the background form is still required. Since this code is designed for interaction "+
-                                                                "all \"dialogs\" created thru there are modless and never block.",
+                                                                "all \"dialogs\" created through there are modeless and never block.",
                                                                 e->{
                                                                     showDemo("Interaction Dialog", createInteractionDialogDemo());
                                                                 }));
@@ -121,12 +115,11 @@ public class DialogDemo extends Demo {
         Button openClose = new Button("Open/Close", "DialogDemoButton");
         openClose.addActionListener((ee) ->{
             if(isInteractionDialogOpen){ 
-                isInteractionDialogOpen = !isInteractionDialogOpen;
                 dlg.dispose();
             }else {
-                isInteractionDialogOpen = !isInteractionDialogOpen;
                 dlg.show(0, Display.getInstance().getDisplayHeight() / 2, 0, 0);
-            }   
+            }
+            isInteractionDialogOpen = !isInteractionDialogOpen;
             
         });        
         return BorderLayout.south(openClose);
@@ -136,44 +129,22 @@ public class DialogDemo extends Demo {
         final Button showDialog = new Button("Show Dialog", "DialogDemoButton");
         final Button showPopup = new Button("Show Popup", "DialogDemoButton");
 
-        ComboBox<Map<String, Object>> combo = new ComboBox<> (
-                createListEntry("Fade"),
-                createListEntry("Slide Horizontal"),
-                createListEntry("Slide Vertical"),
-                createListEntry("Flip")
-        );
-
-        MultiButton mb1 = new MultiButton();
-        mb1.setUIID("DemoMultiButton");
-        mb1.setUIIDLine1("DemoMultiLine1");
-
-        MultiButton mb2 = new MultiButton();
-        mb2.setUIID("DemoMultiButton");
-        mb2.setUIIDLine1("DemoMultiLine1");
-
-        combo.setRenderer(new GenericListCellRenderer<>(mb1, mb2));
-        combo.setSelectedIndex(1);
-
         showDialog.addActionListener(e-> {
-            Dialog d = new Dialog("Dialog Title");
             Command ok = new Command("Ok");
             Command cancel = new Command("Cancel");
             SpanLabel body = new SpanLabel("This is the body of the popup", "DialogDemoSpanLabel");
             Command[] cmds = {ok, cancel};
-            Transition t = createTransition(combo.getSelectedIndex());
-            Dialog.show("Dialog Title", body, cmds, Dialog.TYPE_INFO, null, 0, t);
+            Dialog.show("Dialog Title", body, cmds, Dialog.TYPE_INFO, null, 0);
         });
 
         showPopup.addActionListener(e-> {
             Dialog d = new Dialog("Popup Title");
             SpanLabel body = new SpanLabel("This is the body of the popup", "DialogDemoSpanLabel");
             d.add(body);
-            d.setTransitionInAnimator(createTransition(combo.getSelectedIndex()));
-            d.setTransitionOutAnimator(createTransition(combo.getSelectedIndex()));
             d.showPopupDialog(showPopup);
         });
 
-        Container demoContainer = BoxLayout.encloseY(new Label("Choose Transition", "DemoHeaderLabel"), combo, showDialog, showPopup);
+        Container demoContainer = BoxLayout.encloseY(showDialog, showPopup);
         demoContainer.setUIID("Wrapper");
 
         return BoxLayout.encloseY(demoContainer);
@@ -187,17 +158,26 @@ public class DialogDemo extends Demo {
 
         // Create new background Thread that will get all the contacts.
         scheduleBackgroundTask(()->{
-            Contact contacts[] = Display.getInstance().getAllContacts(true, true, false, true, false, false);
-
+            Contact[] contacts = Display.getInstance().getAllContacts(true, true, false, true, false, false);
             // Return to the EDT for edit the UI (the UI should be edited only within the EDT).
+            if (contacts == null || contacts.length == 0) {
+                callSerially(()-> getParentForm().showBack());
+                return;
+            }
+            Container contactBox = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+            contactBox.setScrollableY(true);
+            for (Contact currentContact : contacts){
+                contactBox.add(createContactComponent(currentContact));
+            }
             callSerially(()->{
                 demoContainer.removeAll();
-                demoContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-                demoContainer.setScrollableY(true);
-                for (Contact currentContact : contacts){
-                    demoContainer.add(createContactComponent(currentContact));
-                    demoContainer.revalidate();
-                }
+                demoContainer.setLayout(new BorderLayout());
+                demoContainer.add(BorderLayout.CENTER, contactBox);
+                demoContainer.revalidate();
+                ToastBar.Status status = ToastBar.getInstance().createStatus();
+                status.setMessage("Click a contact to see the Sheet popup");
+                status.setExpires(3500);
+                status.showDelayed(500);
             });
         });
         return demoContainer;
@@ -302,27 +282,6 @@ public class DialogDemo extends Demo {
         });
 
         return contactComponent;
-    }
-
-    private Map<String, Object> createListEntry(String name) {
-        Map<String, Object> entry = new HashMap<>();
-        entry.put("Line1", name);
-        return entry;
-    }
-
-    private Transition createTransition(int selectedIndex){
-        switch (selectedIndex){
-            case 0:
-                return CommonTransitions.createFade(1000);
-            case 1:
-                return CommonTransitions.createSlide(CommonTransitions.SLIDE_HORIZONTAL, true, 1000);
-            case 2:
-                return CommonTransitions.createSlide(CommonTransitions.SLIDE_VERTICAL, true, 1000);
-            case 3:
-                return new FlipTransition(-1, 1000);
-            default:
-                return CommonTransitions.createFade(1000);
-        }
     }
 }
 

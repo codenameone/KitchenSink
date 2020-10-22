@@ -80,7 +80,7 @@ public abstract class Demo{
             Form demoForm = new Form(title, new BorderLayout());
             content.setUIID("ComponentDemoContainer");
             Toolbar toolbar = demoForm.getToolbar();
-            toolbar.setUIID("ComponentDemoToolbar");
+            toolbar.setUIID("DemoToolbar");
             toolbar.getTitleComponent().setUIID("ComponentDemoTitle");
 
             Form lastForm = getCurrentForm();
@@ -89,11 +89,12 @@ public abstract class Demo{
 
             toolbar.setBackCommand(backCommand);
             demoForm.add(BorderLayout.CENTER, content);
+            demoForm.setFormBottomPaddingEditingMode(true);
             demoForm.show();
     }
     
     public static void adjustToTablet(Container cnt){
-        // Create anonymous class and override the calcPreferredSize() function to fit execly half of the scree.
+        // Create anonymous class and override the calcPreferredSize() function to fit exactly half of the scree.
         Container leftSide = new Container(new BoxLayout(BoxLayout.Y_AXIS)){
             @Override
             protected Dimension calcPreferredSize() {
@@ -110,8 +111,8 @@ public abstract class Demo{
                 dim.setWidth(Display.getInstance().getDisplayWidth() / 2);
                 return dim;
             }
-            
         };
+
         int i = 0;
         for(Component currComponent : cnt.getChildrenAsList(true)){
             cnt.removeComponent(currComponent);
@@ -161,6 +162,7 @@ public abstract class Demo{
         private Image openedIcon;
         private Image closedIcon;
         private Button openClose;
+        private Container contentContainer;
 
         /**
          * Demo component that have more then one line of description.
@@ -173,12 +175,13 @@ public abstract class Demo{
          */
         private AccordionComponent(Image image, String header, String firstLine, String body, ActionListener listener) {
             super(new BorderLayout());
-            this.firstLine = new Button(firstLine, "DemoContentBody");
-            this.body = new SpanButton(body, "DemoContentBody");
-            this.body.setHidden(true);
+            this.firstLine = new Button(firstLine + " " + body, "DemoContentBody");
+            this.body = new SpanButton(firstLine + " " + body, "DemoContentBody");
+            this.body.setUIID("DemoContentBodyButton");
 
             this.firstLine.addActionListener(listener);
             this.body.addActionListener(listener);
+            contentContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
             setUIID("DemoContentAccordion");
             ScaleImageButton contentImage = new ScaleImageButton(image){
@@ -190,6 +193,7 @@ public abstract class Demo{
                     return preferredSize;
                 }
             };
+
             contentImage.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED);
             contentImage.addActionListener(listener);
             contentImage.setUIID("DemoContentImage");
@@ -202,44 +206,43 @@ public abstract class Demo{
             openClose = new Button("", closedIcon, "AccordionButton");
             openClose.addActionListener(e->{
                 if(isOpen){
-                    close();
+                    close(true);
                 }else{
                     open();
                 }
             });
 
-            Container cnt = new Container(new BorderLayout());
-            cnt.add(BorderLayout.NORTH, contentImage);
-            cnt.add(BorderLayout.WEST, BoxLayout.encloseY(contentHeader, this.firstLine));
-            cnt.add(BorderLayout.EAST, openClose);
-
-            add(BorderLayout.NORTH, cnt);
-            add(BorderLayout.CENTER, this.body);
+            contentContainer.addAll(contentHeader, this.firstLine);
+            add(BorderLayout.NORTH, contentImage);
+            add(BorderLayout.CENTER, contentContainer);
+            add(BorderLayout.EAST, openClose);
         }
 
         public void open(){
             // Select all AccordionComponent objects to close them when we open another one.
             List<Component> accordionList = select("DemoContentAccordion").asList();
             for(Component currComponent: accordionList){
-                ((AccordionComponent)currComponent).close();
+                ((AccordionComponent)currComponent).close(false);
             }
 
             if (!isOpen){
                 isOpen = true;
                 openClose.setIcon(openedIcon);
-                body.setHidden(false);
-                body.animateLayout(1);
-                animateLayout(250);
+                contentContainer.removeComponent(firstLine);
+                contentContainer.add(body);
+                this.getParent().animateLayout(250);
             }
         }
 
-        public void close(){
+        public void close(boolean shouldAnimate){
             if (isOpen){
                 isOpen = false;
                 openClose.setIcon(closedIcon);
-                body.setHidden(true);
-                body.animateLayout(1);
-                animateLayout(250);
+                contentContainer.removeComponent(body);
+                contentContainer.add(firstLine);
+                if (shouldAnimate){
+                    this.getParent().animateLayout(250);
+                }
             }
         }
     }

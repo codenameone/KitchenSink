@@ -136,7 +136,7 @@ public class ChartsDemo extends Demo {
     private void showChart(AbstractDemoChart demo) {
             Form chartForm = new Form(demo.getChartTitle(), new BorderLayout());
             Toolbar toolbar = chartForm.getToolbar();
-            toolbar.setUIID("ComponentDemoToolbar");
+            toolbar.setUIID("DemoToolbar");
             toolbar.getTitleComponent().setUIID("ComponentDemoTitle");
             
             Form lastForm = getCurrentForm();

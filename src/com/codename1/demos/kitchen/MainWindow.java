@@ -30,13 +30,12 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 
-import static com.codename1.ui.CN.execute;
-import static com.codename1.ui.CN.isTablet;
+import static com.codename1.ui.CN.*;
 
 public class MainWindow {
        
     public Form buildForm(){
-        Form mainWindow = new Form("Components", new GridLayout(7, 2));
+        Form mainWindow = new Form("Components", new GridLayout(7, 2, 7, 3));
         Container contentPane = mainWindow.getContentPane();
         contentPane.setUIID("MainWindowContainer");
         contentPane.setScrollableY(true);
@@ -94,18 +93,21 @@ public class MainWindow {
         toolbar.getTitleComponent().setUIID("DemoTitle");
         
         // Toolbar add source and back buttons.
-        Style commandStyle = UIManager.getInstance().getComponentStyle("DemoTitleCommand");
+        Style commandStyle = UIManager.getInstance().getComponentStyle("TitleCommand");
         Command backCommand = Command.create("", FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, commandStyle),
                 e-> demo.getParentForm().showBack());
-        
-        Command sourceCommand = Command.create("", FontImage.create("{ }", commandStyle),
+
+        Command sourceCommand = Command.create("", FontImage.create("{ }", UIManager.getInstance().getComponentStyle("TitleCommand")),
                 e-> execute(demo.getSourceCode()));
-        
+
         toolbar.addCommandToRightBar(sourceCommand);
         toolbar.setBackCommand(backCommand);
         if(isTablet()){
             Demo.adjustToTablet(demoContent);
         }
+        // Change the UIID of the source Button.
+        toolbar.getComponentAt(1).setUIID("SourceCommand");
+
         demoForm.add(BorderLayout.CENTER, demoContent);
         demoForm.show();
     }

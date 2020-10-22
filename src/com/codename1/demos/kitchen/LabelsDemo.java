@@ -44,7 +44,7 @@ public class LabelsDemo extends Demo {
         init("Labels", getGlobalResources().getImage("demo-labels.png"), parentForm,
                 "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/LabelsDemo.java");
     }
-     
+
     @Override
     public Container createContentPane() {
         Container demoContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS), "DemoContainer");
@@ -54,7 +54,7 @@ public class LabelsDemo extends Demo {
                                                                 "Label",
                                                                 "Allows displaying a single line of text and",
                                                                 "icon (both optional) with different alignment options. This class is a base class for several "+ 
-                                                                "components allowing them to declare alignment/icon appearance universally.", e->{                                                       
+                                                                "components allowing them to declare alignment/icon appearance universally.", e->{
                                                                     showDemo("Label", createLabelDemo());
                                                                 }));
         
@@ -101,14 +101,14 @@ public class LabelsDemo extends Demo {
         
         SpanLabel labelWithIconWest = new SpanLabel("A multi line label component that can be easily localized, this is simply based on a text area combined with a label.", "DemoLabel");
         labelWithIconWest.setMaterialIcon(FontImage.MATERIAL_INFO);
-        labelWithIconWest.setIconUIID("DemoLabel");
+        labelWithIconWest.setIconUIID("DemoSpanLabelIcon");
         labelWithIconWest.setIconPosition("West");
         Container cnt2 = BoxLayout.encloseY(new Label("SpanLabel with icon (West):", "DemoHeader"), labelWithIconWest);
         cnt2.setUIID("LabelContainer");        
         
         SpanLabel labelWithIconNorth = new SpanLabel("A multi line label component that can be easily localized, this is simply based on a text area combined with a label.", "DemoLabel");
         labelWithIconNorth.setMaterialIcon(FontImage.MATERIAL_INFO);
-        labelWithIconNorth.setIconUIID("DemoLabel");
+        labelWithIconNorth.setIconUIID("DemoSpanLabelIcon");
         labelWithIconNorth.setIconPosition("North");
         Container cnt3 = BoxLayout.encloseY(new Label("SpanLabel with icon (North):", "DemoHeader"), labelWithIconNorth);
         cnt3.setUIID("LabelContainer");
@@ -127,6 +127,7 @@ public class LabelsDemo extends Demo {
                 return d;
             }
         };
+
         imageLabel.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED);
         labelContainer.add(imageLabel);
         labelContainer.add(new Label("   "));
@@ -149,7 +150,13 @@ public class LabelsDemo extends Demo {
         threeImagesContainer.addAll(label1, label2, label3);                           
         labelContainer.add(threeImagesContainer);
         labelContainer.setUIID("LabelContainer");
-                                                                                                                                  
+
+        ScaleImageLabel scaledFill = new ScaleImageLabel(getGlobalResources().getImage("scale-image-label.png"));
+        scaledFill.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
+
+        labelContainer.add(new Label("   "));
+        labelContainer.add(new Label("Scaled Fill:", "DemoLabel"));
+        labelContainer.add(scaledFill);
         return BoxLayout.encloseY(labelContainer);
     }
 }

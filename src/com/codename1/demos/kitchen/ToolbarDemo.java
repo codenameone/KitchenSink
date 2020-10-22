@@ -26,15 +26,13 @@ import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.Switch;
 import com.codename1.components.ToastBar;
 import com.codename1.ui.*;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.plaf.Style;
-import com.codename1.ui.plaf.UIManager;
 
 import static com.codename1.ui.CN.*;
 import static com.codename1.ui.util.Resources.getGlobalResources;
-
 /**
  * Class that demonstrate the usage of the Toolbar component.
  * Toolbar replaces the default title area with a powerful abstraction that allows functionality
@@ -51,64 +49,44 @@ public class ToolbarDemo extends Demo{
 
     @Override
     public Container createContentPane() {
-        Form toolBarForm = new Form("Toolbar", new FlowLayout(Component.CENTER));
+        Form toolBarForm = new Form("Toolbar", new BorderLayout());
         toolBarForm.getContentPane().setUIID("ComponentDemoContainer");
         Toolbar tb = toolBarForm.getToolbar();
         tb.setUIID("DemoToolbar");
         tb.getTitleComponent().setUIID("DemoTitle");
-
-        Button searchButton = new Button("Show Searchbar", ("ToolbarDemoButton"));
-        searchButton.addActionListener(e->{
-            Display.getInstance().getCurrent().setToolbar(tb);
-            tb.showSearchBar(ee->{
-                String text = (String)ee.getSource();
-                // Update the UI depending on the text.
-            });
-            Display.getInstance().getCurrent().revalidate();
+        tb.addSearchCommand(callBack->{
+            String text = (String)callBack.getSource();
+            // Update the UI depending on the text.
         });
 
-        // Toolbar add source and back buttons.
-        Style commandStyle = UIManager.getInstance().getComponentStyle("DemoTitleCommand");
-
-        Command sourceCommand = Command.create("", FontImage.create("{ }", commandStyle),
-                e-> execute(getSourceCode()));
-
-        tb.addCommandToRightBar(sourceCommand);
         if (isTablet()){
             tb.setPermanentSideMenu(true);
         }
 
         Form lastForm = Display.getInstance().getCurrent();
+        Button backButton = new Button("Back", "DemoButton");
+        backButton.addActionListener(e-> lastForm.showBack());
+
         Button homeButton = new Button("Home", FontImage.MATERIAL_HOME, ("ToolbarDemoButton"));
         homeButton.addActionListener(e-> lastForm.showBack());
-
-        Button showSearchButton = new Button("Search", FontImage.MATERIAL_SEARCH, ("ToolbarDemoButton"));
-        showSearchButton.addActionListener(e-> {
-            Container contentPane = toolBarForm.getContentPane();
-            contentPane.setLayout(new FlowLayout(Component.CENTER));
-            contentPane.removeAll();
-            contentPane.add(searchButton);
-            if (!isTablet()){
-                tb.closeSideMenu();
-            }
-            contentPane.revalidate();
-        });
 
         Button settings = new Button("Settings", FontImage.MATERIAL_SETTINGS, ("ToolbarDemoButton"));
         settings.addActionListener(e-> {
             Container contentPane = toolBarForm.getContentPane();
-            contentPane.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-            contentPane.removeAll();
             Container settingsLabel = FlowLayout.encloseCenter(new Label("Settings", "DemoHeader"));
             Container wifi = BorderLayout.west(new Label("Wi-Fi", "DemoToolbarLabel")).add(BorderLayout.EAST, new Switch());
             Container mobileData = BorderLayout.west(new Label("Mobile data", "DemoToolbarLabel")).add(BorderLayout.EAST, new Switch());
             Container airplaneMode = BorderLayout.west(new Label("Airplane mode", "DemoToolbarLabel")).add(BorderLayout.EAST, new Switch());
-            contentPane.addAll(settingsLabel, wifi, mobileData, airplaneMode);
+            contentPane.add(BorderLayout.NORTH, BoxLayout.encloseY(settingsLabel, wifi, mobileData, airplaneMode));
             if (!isTablet()){
                 tb.closeSideMenu();
             }
             contentPane.revalidate();
         });
+
+
+        Button sourceCode = new Button("Source Code", FontImage.MATERIAL_CODE, ("ToolbarDemoButton"));
+        sourceCode.addActionListener(e-> execute(getSourceCode()));
 
         Button logoutButton = new Button("Logout", FontImage.MATERIAL_EXIT_TO_APP, ("ToolbarDemoButton"));
         logoutButton.addActionListener(e-> {
@@ -129,12 +107,17 @@ public class ToolbarDemo extends Demo{
         }
 
         tb.addComponentToSideMenu(homeButton);
-        tb.addComponentToSideMenu(showSearchButton);
         tb.addComponentToSideMenu(settings);
+        tb.addComponentToSideMenu(sourceCode);
         tb.addComponentToSideMenu(logoutButton);
+        toolBarForm.setBackCommand(new Command("") {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                getParentForm().showBack();
+            }
+        });
 
-        toolBarForm.add(searchButton);
-        
+        toolBarForm.add(BorderLayout.SOUTH, backButton);
         toolBarForm.show();
         return null;
     }

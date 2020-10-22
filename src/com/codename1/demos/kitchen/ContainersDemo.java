@@ -130,8 +130,8 @@ public class ContainersDemo extends Demo{
 
     private Container createInfiniteContainerDemo(){
         final String firstURL =  "https://www.codenameone.com/files/kitchensink/dogs/list.json";
-        Image tempPlaceHolder = getGlobalResources().getImage("blured-puppy.jpg");
-        EncodedImage placeholder;placeholder = EncodedImage.createFromImage(tempPlaceHolder, true);
+        Image tempPlaceHolder = getGlobalResources().getImage("blurred-puppy.jpg");
+        EncodedImage placeholder = EncodedImage.createFromImage(tempPlaceHolder, true);
 
         InfiniteContainer infiniteContainer = new InfiniteContainer(10) {
             String nextURL = firstURL;
