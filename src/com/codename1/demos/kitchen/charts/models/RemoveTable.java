@@ -39,6 +39,7 @@ import com.codename1.ui.table.TableModel;
 public class RemoveTable extends Table {
     private FontImage removeImage;
     private OnRemove onRemove;
+
     public RemoveTable(TableModel m, OnRemove onRemove) {
         super(m);
         this.onRemove = onRemove;
@@ -69,6 +70,4 @@ public class RemoveTable extends Table {
         }
         return super.createCell(value, row, column, editable); 
     }
-
-    
 }

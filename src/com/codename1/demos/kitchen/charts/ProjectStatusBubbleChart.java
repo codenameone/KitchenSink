@@ -94,7 +94,7 @@ public class ProjectStatusBubbleChart extends AbstractDemoChart {
         XYSeriesRenderer fixedTicketRenderer = new XYSeriesRenderer();
         fixedTicketRenderer.setColor(ColorUtil.GREEN);
         renderer.addSeriesRenderer(fixedTicketRenderer);
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         setChartSettings(renderer, "Project work status", "Priority", "", 0.5, 5.5, 0, 5, ColorUtil.GRAY,
                 ColorUtil.LTGRAY);

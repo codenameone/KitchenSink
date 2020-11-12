@@ -72,36 +72,30 @@ public class ContainersDemo extends Demo{
                         "Note that the Accordion like many composite components in Codename One is scrollable by default which means "+
                         "you should use it within a non-scrollable hierarchy. If you wish to add it into a scrollable Container you "+
                         "should disable it's default scrollability using setScrollable(false).",
-                e->{
-                    showDemo("Accordion", createAccordionDemo());
-                }));
+                e-> showDemo("Accordion", createAccordionDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("infinite-container.png"),
-                "Infinite Container",
-                "This abstract Container can scroll",
-                "indefinitely (or at least until we run out of data). This class uses the "+
+                  "Infinite Container",
+                 "This abstract Container can scroll",
+                   "indefinitely (or at least until we run out of data). This class uses the "+
                         "InfiniteScrollAdapter to bring more data and the pull to refresh feature to "+
                         "refresh current displayed data.\n\nThe sample code shows the usage of the nestoria "+
                         "API to fill out an infinitely scrolling list.",
-                e->{
-                    showDemo("Infinite Container", createInfiniteContainerDemo());
-                }));
+                        e-> showDemo("Infinite Container", createInfiniteContainerDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("split-pane.png"),
-                "Split Pane",
-                "A split pane can either be horizontal or",
-                "vertical, and provides a draggable divider between two components. If the orientation is HORIZONTAL_SPLIT, "+
+                 "Split Pane",
+                 "A split pane can either be horizontal or",
+                   "vertical, and provides a draggable divider between two components. If the orientation is HORIZONTAL_SPLIT, "+
                         "then the child components will be laid out horizontally (side by side with a vertical bar as a divider). If "+
                         "the orientation is VERTICAL_SPLIT, then the components are laid out vertically. One above the other.\n\nThe bar "+
                         "divider bar includes to collapse and expand the divider also.",
-                e->{
-                    showDemo("Split Pane", createSplitPaneDemo());
-                }));
+                        e-> showDemo("Split Pane", createSplitPaneDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("tabs.png"),
-                "Tabs",
-                "A component that lets the user switch",
-                "between a group if components by clicking on a tab with a given "+
+                  "Tabs",
+                 "A component that lets the user switch",
+                   "between a group if components by clicking on a tab with a given "+
                         "title and/or icon.\n\nTabs/components are added to a Tabs object by using the addTab and insertTab methods. "+
                         "A tab is represented by an index corresponding to the position it was added in, where the first tab has an "+
                         "index equal to 0 and the last tab has an index equal to the tab count minus 1. The Tabs uses a "+
@@ -109,9 +103,7 @@ public class ContainersDemo extends Demo{
                         "count is greater that 0, then there will always be a selected index, which by default will be initialized "+
                         "to the first tab. If the tab count is 0, then the selected index will be -1. A simple Tabs looks like a "+
                         "bit like this.",
-                e->{
-                    showDemo("Tabs", createTabsDemo());
-                }));
+                        e-> showDemo("Tabs", createTabsDemo())));
 
         return demoContainer;
     }
@@ -149,15 +141,13 @@ public class ContainersDemo extends Demo{
 
                 // Request the data from the server.
                 Response<Map> resultData = Rest.get(nextURL).acceptJson().getAsJsonMap();
+                if(resultData == null || resultData.getResponseCode() != 200) {
+                    callSerially(()-> ToastBar.showErrorMessage("Error code from the server"));
+                    return null;
+                }
                 ItemList itemListData = new ItemList();
                 itemListData.getPropertyIndex().populateFromMap(resultData.getResponseData());
 
-                if(resultData.getResponseCode() != 200) {
-                    callSerially(()-> {
-                        ToastBar.showErrorMessage("Error code from the server");
-                    });
-                    return null;
-                }
 
                 nextURL = itemListData.nextPage.get();
                 int itemsCount = itemListData.elements.get();
@@ -166,8 +156,8 @@ public class ContainersDemo extends Demo{
                     return null;
                 }
 
-                List<Item> itemList = new ArrayList();
-                for(Map currItemMap : itemListData.items.asList()){
+                ArrayList<Item> itemList = new ArrayList<>();
+                for(Map<String, Object> currItemMap : itemListData.items.asList()){
                     Item currItem = new Item();
                     currItem.getPropertyIndex().populateFromMap(currItemMap);
                     itemList.add(currItem);
@@ -314,7 +304,7 @@ public class ContainersDemo extends Demo{
             resetMargin(colorsContainer);
             colorsContainer.setLayout(new LayeredLayout());
 
-            // Increese the margin by 3 mm for every Component in the container for better
+            // Increase the margin by 3 mm for every Component in the container for better
             //   visual effect of the LayeredLayout.
             setMarginForLayeredLayout(colorsContainer);
             colorsContainer.animateLayout(1000);
@@ -337,16 +327,15 @@ public class ContainersDemo extends Demo{
 
         // Make some blank Labels with background colors from the CSS file.
         colorLabelList = new ArrayList<>();
-        colorLabelList.clear();
         colorLabelList.add(new Label("                    ", "RedLabel"));
         colorLabelList.add(new Label("                    ", "BlueLabel"));
         colorLabelList.add(new Label("                    ", "GreenLabel"));
         colorLabelList.add(new Label("                    ", "OrangeLabel"));
         colorLabelList.add(new Label("                    ", "PurpleLabel"));
 
-        // Make an anonymous claas that overide calcPreferredSize to fit exactly a half of the screen.
-        // Altervatively you could use TableLayout instead of BorderLayout where i could explicitly define the height in percentages.
-        //   or GridLayout that would divide the ContentPane by 2 for every Component within it. 
+        // Make an anonymous claas that override calcPreferredSize to fit exactly a half of the screen.
+        // Alternatively you could use TableLayout instead of BorderLayout where i could explicitly define the height in percentages.
+        // or GridLayout that would divide the ContentPane by 2 for every Component within it.
         colorsContainer = new Container (new BoxLayout(BoxLayout.Y_AXIS));
 
         colorsContainer.addAll( colorLabelList.get(0),
@@ -357,19 +346,17 @@ public class ContainersDemo extends Demo{
         );
         colorsContainer.setShouldCalcPreferredSize(true);
 
-        Container demoContainer = new SplitPane(new SplitPane.Settings().orientation(SplitPane.VERTICAL_SPLIT), colorsContainer, buttonList);
-
-        return demoContainer;
+        return new SplitPane(new SplitPane.Settings().orientation(SplitPane.VERTICAL_SPLIT), colorsContainer, buttonList);
 
     }
 
-    private class ItemList implements PropertyBusinessObject {
+    private static class ItemList implements PropertyBusinessObject {
         public final Property<String, ItemList> title = new Property<>("title");
         public final IntProperty<ItemList> elements = new IntProperty<>("elements");
         public final Property<String, ItemList> copyright = new Property<>("copyright");
         public final Property<String, ItemList>  page = new Property<>("page");
         public final Property<String, ItemList> nextPage = new Property<>("nextPage");
-        public final ListProperty<Map, ItemList> items = new ListProperty<>("items");
+        public final ListProperty<Map<String, Object>, ItemList> items = new ListProperty<>("items");
 
         private final PropertyIndex idx = new PropertyIndex(this, "Item", title, elements, copyright, page, nextPage, items);
 
@@ -379,7 +366,7 @@ public class ContainersDemo extends Demo{
         }
     }
 
-    private class Item implements PropertyBusinessObject{
+    private static class Item implements PropertyBusinessObject{
         public final Property<String, ItemList> title = new Property<>("title");
         public final Property<String, ItemList> details = new Property<>("details");
         public final Property<String, ItemList> url = new Property<>("url");

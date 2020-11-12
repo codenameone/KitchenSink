@@ -73,34 +73,26 @@ public class ProgressDemo extends Demo {
                                                     "you can either use the infiniteImage theme constant or the setAnimation method. The image "+
                                                     "is rotated automatically so don't use an animated image or anything like that as it would "+
                                                     "fail with the rotation logic.",
-                                                    e->{
-                                                        showDemo("Infinite Progress", createInfiniteProgressDemo());
-                                                    }));
+                                                    e-> showDemo("Infinite Progress", createInfiniteProgressDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("slider.png"),
                                                     "Slider",
                                                     "The slider component serves both as a",
                                                     "slider widget to allow users to select a value on a scale via touch/arrows and also to indicate progress. The slider "+
                                                     "defaults to percentage display but can represent any positive set of values.",
-                                                    e->{
-                                                        showDemo("Slider", createSliderDemo());
-                                                    }));
+                                                    e-> showDemo("Slider", createSliderDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("circle-animation.png"),
                                                     "Circle Animation",
                                                     "A CommonProgressAnimations which shows",
                                                     "radial coloring to show circular progress, like a Pac-Man",
-                                                    e->{
-                                                        showDemo("Circle Animation", createCircleAnimationDemo());
-                                                    }));
+                                                    e-> showDemo("Circle Animation", createCircleAnimationDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("text-loading-animation.png"),
                                                     "Text Loading Animation",
                                                     "A CommonProgressAnimations item used ",
                                                     "to show the text is loading when we are fetching some text data from network/database",
-                                                    e->{
-                                                        showDemo("Text Loading Animation", createTextLoadAnimationDemo());
-                                                    }));
+                                                    e-> showDemo("Text Loading Animation", createTextLoadAnimationDemo())));
         return demoContainer;
     }
     
@@ -108,7 +100,7 @@ public class ProgressDemo extends Demo {
         Dialog ip = new InfiniteProgress().showInfiniteBlocking();
         invokeAndBlock(()->{
             sleep(3000); // do some long operation here.
-            callSerially(()-> ip.dispose());
+            callSerially(ip::dispose);
         });
         InfiniteProgress progress = new InfiniteProgress();
         progress.setAnimation(FontImage.createMaterial(FontImage.MATERIAL_AUTORENEW, UIManager.getInstance().getComponentStyle("DemoInfiniteProgress")));
@@ -189,10 +181,11 @@ public class ProgressDemo extends Demo {
 
             Map<String, Object> data = response.getResponseData();
             StringBuilder sb = new StringBuilder();
-            sb.append("name: " + data.get("name") + "\n");
-            sb.append("gender: " + data.get("gender") + "\n");
-            sb.append("culture: " + data.get("culture") + "\n");
-            sb.append("born: " + data.get("born") + "\n");
+            sb.append("name: " + data.get("name") + "\n").
+                        append("gender: " + data.get("gender") + "\n").
+                        append("culture: " + data.get("culture") + "\n").
+                        append("born: " + data.get("born") + "\n");
+
             List<String> aliases = (ArrayList<String>)data.get("aliases");
 
             sb.append("aliases: \n");

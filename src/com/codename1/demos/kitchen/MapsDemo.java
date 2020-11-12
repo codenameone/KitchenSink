@@ -49,7 +49,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
  */
 public class MapsDemo extends Demo {
     // Should be replaced with real api key in order to activate the demo. 
-    private String googleMapsHTMLKey = null;
+    private final String googleMapsHTMLKey = "AIzaSyD5gChODsBV6_SK6u83PN3Yvz4Z3ODEIOw";
     List<Coord> markerList = new ArrayList<>();
 
     public MapsDemo(Form parentForm) {
@@ -78,7 +78,7 @@ public class MapsDemo extends Demo {
 
         FloatingActionButton moveToCurrentLocation = FloatingActionButton.createFAB(FontImage.MATERIAL_GPS_FIXED, "MapsCurrLocation");
         moveToCurrentLocation.addActionListener(e->{
-                Location currLocation = Display.getInstance().getLocationManager().getCurrentLocationSync();
+            Location currLocation = Display.getInstance().getLocationManager().getCurrentLocationSync();
             if(currLocation != null){
                 map.zoom(new Coord(currLocation.getLatitude(), currLocation.getLongitude()), (map.getMaxZoom() + map.getMinZoom()) / 2);
             }else{
@@ -142,7 +142,6 @@ public class MapsDemo extends Demo {
         TextArea iosKey = new TextArea("ios.afterFinishLaunching=[GMSServices provideAPIKey:@\"YOUR_IOS_API_KEY\"];");
         iosKey.setUIID("DemoTextArea");
         keysGuideContainer.addAll(javascriptKey, androidKey, iosKey);
-
 
         keysGuideContainer.add(new SpanLabel("Make sure to replace the values YOUR_ANDROID_API_KEY, YOUR_IOS_API_KEY, "+
                 "and YOUR_JAVASCRIPT_API_KEY with the values you obtained from the Google Cloud console by following the instructions.\n\nAlso you need to replace "+

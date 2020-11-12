@@ -25,14 +25,14 @@ package com.codename1.demos.kitchen.charts;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.PointStyle;
+import com.codename1.demos.kitchen.charts.models.XYMultipleSeriesEditor;
+import com.codename1.ui.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.demos.kitchen.charts.models.XYMultipleSeriesEditor;
-import com.codename1.ui.Component;
 
 /**
  * Scatter demo chart.
@@ -106,7 +106,7 @@ public class ScatterChart extends AbstractDemoChart {
         for (int i = 0; i < 5 ; i++) {
             ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
         }
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         com.codename1.charts.views.ScatterChart chart = new com.codename1.charts.views.ScatterChart(getDataSet(), renderer);
         return newChart(chart);

@@ -286,7 +286,7 @@ public abstract class AbstractDemoChart implements IDemoChart {
     }
 
     
-    protected void initRendererer(DefaultRenderer renderer) {
+    protected void initRenderer(DefaultRenderer renderer) {
         Style s = UIManager.getInstance().getComponentStyle("DemoChart");
         renderer.setBackgroundColor(s.getBgColor());
         renderer.setApplyBackgroundColor(true);

@@ -18,16 +18,16 @@ package com.codename1.demos.kitchen.charts;
 import com.codename1.charts.ChartComponent;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.LineChart;
 import com.codename1.charts.views.PointStyle;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.demos.kitchen.charts.models.XYMultipleSeriesEditor;
 import com.codename1.ui.Component;
 import com.codename1.ui.Display;
 import com.codename1.ui.animations.Motion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Trigonometric functions demo chart.
@@ -105,7 +105,7 @@ public class TrigonometricFunctionsChart extends AbstractDemoChart {
         renderer.setYLabels(10);
         renderer.setXAxisMin(0);
         renderer.setXAxisMax(50);
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         final Motion m = Motion.createLinearMotion(0, 310, 10000);
 

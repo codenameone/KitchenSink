@@ -26,13 +26,13 @@ package com.codename1.demos.kitchen.charts;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer.Orientation;
 import com.codename1.charts.renderers.XYSeriesRenderer;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.BarChart;
 import com.codename1.charts.views.BarChart.Type;
+import com.codename1.ui.Component;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Component;
 
 /**
  * Sales demo bar chart.
@@ -88,7 +88,7 @@ public class SalesBarChart extends AbstractDemoChart {
         renderer.addXTextLabel(7, "Jul");
         renderer.addXTextLabel(10, "Oct");
         renderer.addXTextLabel(12, "Dec");
-        initRendererer(renderer);
+        initRenderer(renderer);
         int length = renderer.getSeriesRendererCount();
         for (int i = 0; i < length; i++) {
             XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);

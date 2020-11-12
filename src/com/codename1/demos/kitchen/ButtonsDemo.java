@@ -62,50 +62,40 @@ public class ButtonsDemo extends Demo{
                                                                 "Button is the base class for several UI",
                                                                 "widgets allowing clickability. It has 3 States: rollover, pressed and the default state. Button can also "+
                                                                 "have an Action Listener that react when the button is clicked or handle actions via a Command.Button UIID by "+
-                                                                "default.", e->{
-                                                                    showDemo("Buttons", createButtonsDemo());
-                                                                }));
+                                                                "default.", e-> showDemo("Buttons", createButtonsDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("span-button.png"),
                                                                 "Span Buttons",
                                                                 "A complex button similar to MultiButton",
                                                                 "that breaks lines automatically and looks like a regular button(more or less). Unlike the multi button the "+
-                                                                "span buttons has the UIID style of a button.", e->{
-                                                                    showDemo("Span Buttons", createSpanButtonsDemo());
-                                                                }));
+                                                                "span buttons has the UIID style of a button.",
+                                                                 e-> showDemo("Span Buttons", createSpanButtonsDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("multi-buttons.png"),
                                                                 "Multi Buttons",
                                                                 "A powerful button like component that",
                                                                 "allows multiple rows/and an icon to be added every row/icon can have its own UIID.\n\nInternally the "+
-                                                                "multi-button is a container with a lead component. Up to 4 rows are supported.", e->{
-                                                                    showDemo("Multi Buttons", createMultiButtonsDemo());
-                                                                }));
+                                                                "multi-button is a container with a lead component. Up to 4 rows are supported.", e-> showDemo("Multi Buttons", createMultiButtonsDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("scale-image-label.png"),
                                                                 "Scale Image Button",
                                                                 "Button that simplifies the usage of scale to",
                                                                 "fill/fit. This is effectively equivalent to just setting the style image on a button but more convenient "+
-                                                                "for some special circumstances.\n\nOne major difference is that preferred size equals the image in this case.", e->{
-                                                                   showDemo("Scale Image Button", createScaleImageButton());
-                                                                }));
+                                                                "for some special circumstances.\n\nOne major difference is that preferred size equals the image in this case.",
+                                                                e-> showDemo("Scale Image Button", createScaleImageButton())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("floating-action-button.png"),
                                                                 "Floating Action Button",
                                                                 "Floating action buttons are a material design",
                                                                 "element used to promote a special action in a form. They are represented as a floating circle with a "+
-                                                                "flat icon floating above the UI typically in the bottom right area.", e->{
-                                                                   showDemo("Floating Action Button", createFloatingActionButtonDemo());
-                                                                }));
+                                                                "flat icon floating above the UI typically in the bottom right area.", e-> showDemo("Floating Action Button", createFloatingActionButtonDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("share-button.png"),
                                                                 "Share Button",
                                                                 "The share button allows sharing a String",
                                                                 "or an image either thru the defined sharing services or thru native OS sharing support. On Android & iOS the "+
                                                                 "native sharing API is invoked for this class.\n\nThe code below demonstrates image sharing, notice that an "+
-                                                                "image must be stored using the FileSystemStorage API and shouldn't use a different API like Storage.", e->{
-                                                                    showDemo("Share Button", createShareButtonDemo());
-                                                                }));
+                                                                "image must be stored using the FileSystemStorage API and shouldn't use a different API like Storage.", e-> showDemo("Share Button", createShareButtonDemo())));
         return demoContainer;
     }
     
@@ -138,9 +128,9 @@ public class ButtonsDemo extends Demo{
         button.setUIID("DemoButton");
         button.addActionListener(e-> ToastBar.showInfoMessage("Button was pressed"));
         
-        Container SpanLabelContainer = BoxLayout.encloseY(new Label("SpanButton:", "DemoLabel"), button);
-        SpanLabelContainer.setUIID("ButtonContainer");
-        return BoxLayout.encloseY(SpanLabelContainer);
+        Container spanLabelContainer = BoxLayout.encloseY(new Label("SpanButton:", "DemoLabel"), button);
+        spanLabelContainer.setUIID("ButtonContainer");
+        return BoxLayout.encloseY(spanLabelContainer);
     }
     
     private Container createMultiButtonsDemo(){ 
@@ -272,7 +262,7 @@ public class ButtonsDemo extends Demo{
         Container tasksContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         tasksContainer.setScrollableY(true);
         FloatingActionButton addNew = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD, "RedFabDemo");
-        badge = FloatingActionButton.createBadge(String.valueOf("0"));
+        badge = FloatingActionButton.createBadge("0");
 
         FloatingActionButton greenButton = addNew.createSubFAB(FontImage.MATERIAL_ADD_TASK, "");
         greenButton.setUIID("GreenFabDemo");
@@ -283,7 +273,7 @@ public class ButtonsDemo extends Demo{
             Command cancel = new Command("Cancel");
             if (Dialog.show("Enter Note", BoxLayout.encloseY(header, body), ok, cancel) == ok && header.getText().length() != 0){
                 tasksContainer.add(createNote(header.getText(), body.getText(), tasksContainer, true));
-                int taskCount = Integer.valueOf(badge.getText()) + 1;
+                int taskCount = Integer.parseInt(badge.getText()) + 1;
                 badge.setText(String.valueOf(taskCount));
                 tasksContainer.revalidate();
             }
@@ -298,7 +288,7 @@ public class ButtonsDemo extends Demo{
             Command cancel = new Command("Cancel");
             if (Dialog.show("Enter Note", BoxLayout.encloseY(header, body), ok, cancel) == ok && header.getText().length() != 0){
                 tasksContainer.add(createNote(header.getText(), body.getText(), tasksContainer, false));
-                int taskCount = Integer.valueOf(badge.getText()) + 1;
+                int taskCount = Integer.parseInt(badge.getText()) + 1;
                 badge.setText(String.valueOf(taskCount));
                 tasksContainer.revalidate();
             }
@@ -329,7 +319,7 @@ public class ButtonsDemo extends Demo{
         SwipeableContainer note = new SwipeableContainer(deleteButton, noteContainer);
         deleteButton.addActionListener(e->{
             notes.removeComponent(note);
-            int taskCount = Integer.valueOf(badge.getText()) - 1;
+            int taskCount = Integer.parseInt(badge.getText()) - 1;
             badge.setText(String.valueOf(taskCount));
             notes.revalidate();
         });

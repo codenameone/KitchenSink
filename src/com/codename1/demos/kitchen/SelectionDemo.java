@@ -58,44 +58,32 @@ public class SelectionDemo extends Demo{
                                                                 "ComboBox is a list that allows only one",
                                                                 "selection at a time, when a user clicks * the code ComboBox a popup button with the full list of elements allows the "+
                                                                 "selection of * a single element. The ComboBox is a driven by the list model and allows all the rendere * features of the "+
-                                                                "list as well.", e->{
-                                                                    showDemo("Combo Box", createComboBoxDemo());
-                                                                }));
+                                                                "list as well.", e-> showDemo("Combo Box", createComboBoxDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("date-picker.png"),
                                                                 "Date Picker",
                                                                 "Date Picker is a PickerComponent use",
-                                                                "PickerComponent.createDate(null).label(\"Se- lect Birthday\")", e->{
-                                                                    showDemo("Date Picker", createDatePickerDemo());                                           
-                                                                }));
+                                                                "PickerComponent.createDate(null).label(\"Se- lect Birthday\")", e-> showDemo("Date Picker", createDatePickerDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("time-picker.png"),
                                                                 "Time Picker",
                                                                 "Time Picker is a PickerComponent use",
-                                                                "PickerComponent.createTime(null).label(\"Se- lect Alarm time\")", e->{
-                                                                    showDemo("Time Picker", createTimePickerDemo());     
-                                                                }));
+                                                                "PickerComponent.createTime(null).label(\"Se- lect Alarm time\")", e-> showDemo("Time Picker", createTimePickerDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("date-time-picker.png"),
                                                                 "Date Time Picker",
                                                                 "DateTime Picker is a PickerComponent use ",
-                                                                "PickerComponent.createDateTime(null).label (\"Select Meeting schedule\")", e->{
-                                                                    showDemo("Date Time Picker", createDateTimePickerDemo());
-                                                                }));
+                                                                "PickerComponent.createDateTime(null).label (\"Select Meeting schedule\")", e-> showDemo("Date Time Picker", createDateTimePickerDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("minute-picker.png"),
                                                                 "Minute Duration Picker",
                                                                 "Minute Picker is a PickerComponent use",
-                                                                "PickerComponent.createDurationMMInutes (0).label(\"Select Duration\")", e->{
-                                                                    showDemo("Minute Duration Picker", createMinuteDurationPickerDemo());
-                                                                }));
+                                                                "PickerComponent.createDurationMMInutes (0).label(\"Select Duration\")", e-> showDemo("Minute Duration Picker", createMinuteDurationPickerDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("hour-picker.png"),
                                                                 "Minute, Hour, Duration Picker",
                                                                 "Hour Minute Picker is a PickerComponent",
-                                                                "use PickerComponent.createDurationHoursMinutes(0,0).label(\"Select Duration\")", e->{
-                                                                    showDemo("Minute, Hour, Duration Picker", createMinuteHourPickerDemo());                                                           
-                                                                }));
+                                                                "use PickerComponent.createDurationHoursMinutes(0,0).label(\"Select Duration\")", e-> showDemo("Minute, Hour, Duration Picker", createMinuteHourPickerDemo())));
         return demoContainer;
     }
     
@@ -128,8 +116,8 @@ public class SelectionDemo extends Demo{
         
         Button showRating = new Button("Show Rating", "DemoButton");
         showRating.addActionListener(e->{
-            Map selectedItem = combo.getSelectedItem();
-            ToastBar.showInfoMessage((String)selectedItem.get("Line1") + " rating is: " + (String)selectedItem.get("rating"));
+            Map<String, Object> selectedItem = combo.getSelectedItem();
+            ToastBar.showInfoMessage(selectedItem.get("Line1") + " rating is: " + selectedItem.get("rating"));
         });
         demoContainer.add(BorderLayout.SOUTH, showRating);
         
@@ -142,9 +130,8 @@ public class SelectionDemo extends Demo{
         datePicker.setUIID("DemoPicker");
         
         Button save = new Button("Save Birthday", "DemoButton");
-        save.addActionListener(e->{
-            ToastBar.showInfoMessage("Birthday was saved: " + datePicker.getPicker().getText());
-        });
+        save.addActionListener(e-> ToastBar.showInfoMessage("Birthday was saved: " + datePicker.getPicker().getText()));
+
         Container demoContainer = BorderLayout.center(BoxLayout.encloseY(datePicker));
         demoContainer.add(BorderLayout.SOUTH, save);
         
@@ -160,9 +147,8 @@ public class SelectionDemo extends Demo{
         PickerComponent timePicker = PickerComponent.createTime(hours * 60 + minutes).label("Select Alarm Time ");
         timePicker.setUIID("DemoPicker");
         Button setAlarm = new Button("Set Alarm", "DemoButton");
-        setAlarm.addActionListener(e->{
-            ToastBar.showInfoMessage("Alarm set for: " + timePicker.getPicker().getText());
-        });
+        setAlarm.addActionListener(e-> ToastBar.showInfoMessage("Alarm set for: " + timePicker.getPicker().getText()));
+
         Container demoContainer = BorderLayout.center(BoxLayout.encloseY(timePicker));
         demoContainer.add(BorderLayout.SOUTH, setAlarm);
         demoContainer.setUIID("Wrapper");
@@ -173,9 +159,8 @@ public class SelectionDemo extends Demo{
         PickerComponent meetingPicker = PickerComponent.createDateTime(null).label("Select meeting schedule");
         meetingPicker.setUIID("DemoPicker");
         Button scheduleMeeting = new Button("Schedule Meeting", "DemoButton");
-        scheduleMeeting.addActionListener(e->{
-            ToastBar.showInfoMessage("Meeting was scheduled at: " + meetingPicker.getPicker().getText());
-        });
+        scheduleMeeting.addActionListener(e-> ToastBar.showInfoMessage("Meeting was scheduled at: " + meetingPicker.getPicker().getText()));
+
         Container demoContainer = BorderLayout.center(BoxLayout.encloseY(meetingPicker));
         demoContainer.add(BorderLayout.SOUTH, scheduleMeeting);
         demoContainer.setUIID("Wrapper");
@@ -188,9 +173,8 @@ public class SelectionDemo extends Demo{
         durationPicker.setUIID("DemoPicker");
         
         Button setTimer = new Button("Set Timer", "DemoButton");
-        setTimer.addActionListener(e->{
-            ToastBar.showInfoMessage("Timer set for: " + durationPicker.getPicker().getText());
-        });
+        setTimer.addActionListener(e-> ToastBar.showInfoMessage("Timer set for: " + durationPicker.getPicker().getText()));
+
         Container demoContainer = BorderLayout.center(BoxLayout.encloseY(durationPicker));
         demoContainer.add(BorderLayout.SOUTH, setTimer);
         demoContainer.setUIID("Wrapper");
@@ -202,9 +186,8 @@ public class SelectionDemo extends Demo{
         durationPicker.setUIID("DemoPicker");
 
         Button setTimer = new Button("Set Timer", "DemoButton");
-        setTimer.addActionListener(e->{
-            ToastBar.showInfoMessage("Timer set for: " + durationPicker.getPicker().getText());
-        });
+        setTimer.addActionListener(e-> ToastBar.showInfoMessage("Timer set for: " + durationPicker.getPicker().getText()));
+
         Container demoContainer = BorderLayout.center(BoxLayout.encloseY(durationPicker));
         demoContainer.add(BorderLayout.SOUTH, setTimer);
         demoContainer.setUIID("Wrapper");

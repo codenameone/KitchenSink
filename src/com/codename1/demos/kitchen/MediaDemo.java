@@ -31,6 +31,7 @@ import com.codename1.io.*;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
 import com.codename1.ui.*;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -130,11 +131,7 @@ public class MediaDemo extends Demo {
                 Media video = MediaManager.createMedia(fileURI, true);
                 if(video != null){
                     video.prepare();
-                    if(isDesktop() || isSimulator()){
-                        video.setNativePlayerMode(false);
-                    }else{
-                        video.setNativePlayerMode(true);
-                    }
+                    video.setNativePlayerMode(!isDesktop() && !isSimulator());
                     MediaPlayer player = new MediaPlayer(video);
                     player.setAutoplay(true);
 
@@ -165,7 +162,7 @@ public class MediaDemo extends Demo {
         NetworkManager.getInstance().addToQueue(cr);
     }
     
-    private Component createVideoComponent(String firstLine, String secondLine, Image icon, ActionListener actionListener){
+    private Component createVideoComponent(String firstLine, String secondLine, Image icon, ActionListener<ActionEvent> actionListener){
         MultiButton videoComponent = new MultiButton(firstLine);
         videoComponent.setTextLine2(secondLine);
         videoComponent.setUIID("VideoComponent");

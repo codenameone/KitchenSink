@@ -63,9 +63,7 @@ public class DialogDemo extends Demo {
                                                                 "dialog only looks like a dialog, it resides in the layered pane and can be used to implement features "+
                                                                 "where interaction with the background form is still required. Since this code is designed for interaction "+
                                                                 "all \"dialogs\" created through there are modeless and never block.",
-                                                                e->{
-                                                                    showDemo("Interaction Dialog", createInteractionDialogDemo());
-                                                                }));
+                                                                e-> showDemo("Interaction Dialog", createInteractionDialogDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("dialog.png"),
                                                                 "Dialog",
@@ -80,9 +78,7 @@ public class DialogDemo extends Demo {
                                                                 "using getDialogStyle() or setDialogUIID(java.lang. String) methods rather than styling the dialog object "+
                                                                 "directly.\n\nThe Dialog class also includes support for popup dialog which is a dialog type that is positioned "+
                                                                 "text to a component or screen area and points an arrow at the location.",
-                                                                e->{
-                                                                    showDemo("Dialog", createDialogDemo());
-                                                                }));
+                                                                e-> showDemo("Dialog", createDialogDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("sheet.png"),
                                                                 "Sheet",
@@ -93,9 +89,7 @@ public class DialogDemo extends Demo {
                                                                 "which can be retrieved via getContentPane()\n\nUsage:\nThe general usage is to create new sheet instance "+
                                                                 "(or subclass), then call show() to make it appear over the current form. If a different sheet that is "+
                                                                 "currently being displayed, then calling show() will replace it.",
-                                                                e->{
-                                                                    showDemo("Sheet", createSheetDemo());
-                                                                }));
+                                                                e-> showDemo("Sheet", createSheetDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("toast-bar.png"),
                                                                 "ToastBar",
@@ -103,9 +97,7 @@ public class DialogDemo extends Demo {
                                                                 "user in an unobtrusive manner. This is useful if there are background tasks that need to display "+
                                                                 "information to the user. E.g.p If a network request fails, of let the user know that \"Jobs are being "+
                                                                 "synchronized\"",
-                                                                e->{
-                                                                    showDemo("ToastBar", createToastBarDemo());
-                                                                }));
+                                                                e-> showDemo("ToastBar", createToastBarDemo())));
         return demoContainer;
     }
     
@@ -133,8 +125,8 @@ public class DialogDemo extends Demo {
             Command ok = new Command("Ok");
             Command cancel = new Command("Cancel");
             SpanLabel body = new SpanLabel("This is the body of the popup", "DialogDemoSpanLabel");
-            Command[] cmds = {ok, cancel};
-            Dialog.show("Dialog Title", body, cmds, Dialog.TYPE_INFO, null, 0);
+            Command[] commands = {ok, cancel};
+            Dialog.show("Dialog Title", body, commands, Dialog.TYPE_INFO, null, 0);
         });
 
         showPopup.addActionListener(e-> {

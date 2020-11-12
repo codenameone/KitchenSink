@@ -25,12 +25,12 @@ package com.codename1.demos.kitchen.charts;
 
 import com.codename1.charts.ChartComponent;
 import com.codename1.charts.renderers.DefaultRenderer;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.DoughnutChart;
+import com.codename1.ui.Component;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Component;
 
 /**
  * Budget demo pie chart.
@@ -78,7 +78,7 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
         DefaultRenderer renderer = buildCategoryRenderer(colors);
         renderer.setApplyBackgroundColor(true);
         renderer.setLabelsColor(ColorUtil.GRAY);
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         DoughnutChart chart = new DoughnutChart(buildMultipleCategoryDataset("Project budget", titles, values), renderer);
         ChartComponent c = newChart(chart);

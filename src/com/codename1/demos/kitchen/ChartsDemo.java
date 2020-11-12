@@ -97,7 +97,7 @@ public class ChartsDemo extends Demo {
         
         demoContainer.add(createComponent(getGlobalResources().getImage("chart-line.png"),
                                                                 "Line Chart",
-                                                                "The linechart rendering class", e->{
+                                                                "The line chart rendering class", e->{
                                                                     TrigonometricFunctionsChart chart = new TrigonometricFunctionsChart();
                                                                     showChart(chart);
                                                                 }));
@@ -118,7 +118,7 @@ public class ChartsDemo extends Demo {
         
         demoContainer.add(createComponent(getGlobalResources().getImage("chart-scatter.png"),
                                                                 "Scatter Chart",
-                                                                "The scater chart rendering class", e->{
+                                                                "The scatter chart rendering class", e->{
                                                                     ScatterChart chart = new ScatterChart();
                                                                     showChart(chart);
                                                                 }));

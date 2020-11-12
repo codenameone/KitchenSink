@@ -69,9 +69,7 @@ public class TextInputDemo extends Demo{
                                                                 "com.codename1.ui.events.DataChangeList is only available in TextField.\n\nThis is crucial for "+
                                                                 "character by character input event tracking setDoneListener(com. codename1.ui. events.ActionLister) "+
                                                                 "is only available in Text Field Different UIID's (\"TextField\" vs. \"TextArea\").", 
-                                                                e->{                                                                    
-                                                                    showDemo("Text Field", createTextFieldDemo());
-                                                                }));
+                                                                e-> showDemo("Text Field", createTextFieldDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("text-area.png"),
                                                                 "Text Area",
@@ -81,17 +79,13 @@ public class TextInputDemo extends Demo{
                                                                 "components such as SpanLabel & SpanButton.\n\nTextArea & TextField are very similar, we discuss the main "+
                                                                 "differences between the two here. In fact they are so similar that our sample code below was written for "+
                                                                 "TextField but should be interchangeable with TextArea.", 
-                                                                e->{
-                                                                    showDemo("Text Area", createTextAreaDemo());
-                                                                }));
+                                                                e-> showDemo("Text Area", createTextAreaDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("clearable-text-field.png"),
                                                                 "Clearable Text Field",
                                                                 "Wraps a text field so it will have an X to",
                                                                 "clear its content on the right hand side.", 
-                                                                e->{
-                                                                    showDemo("Clearable Text Field", createClearableTextFieldDemo());
-                                                                }));
+                                                                e-> showDemo("Clearable Text Field", createClearableTextFieldDemo())));
  
         demoContainer.add(createComponent(getGlobalResources().getImage("auto-complete-text-field.png"),
                                                                 "Auto Complete Text Field",
@@ -99,9 +93,7 @@ public class TextInputDemo extends Demo{
                                                                 "suggestions that show up in a drop down menu while the user types in text. This class uses the \"TextField\" "+
                                                                 "UIID by default as well as \"AutoCompletePopup\" & \"AutoCompleteList\" for the popup list details. The "+
                                                                 "sample below shows the more trivial use case for this widget.", 
-                                                                e->{
-                                                                    showDemo("Browser", createAutoCompleteDemo());
-                                                                }));
+                                                                e-> showDemo("Browser", createAutoCompleteDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("floating-hint.png"),
                                                                 "Text Component",
@@ -111,9 +103,7 @@ public class TextInputDemo extends Demo{
                                                                         "logic. It is highly recommended to use text component in the context of a TextModeLayout this allows "+
                                                                         "the layout to implicitly adapt to the on-top mode and use a box layout Y mode for iOS and other platforms. "+
                                                                         "This class supports several theme constants.",
-                                                                        e->{
-                                                                            showDemo("Text Component", createTextComponentContainer());
-                                                                        }));
+                                                                        e-> showDemo("Text Component", createTextComponentContainer())));
 
         return demoContainer;
     }
@@ -149,23 +139,17 @@ public class TextInputDemo extends Demo{
 
         num1.addDataChangedListener((i, ii) -> {
             if(num1.getText().length() == 4) {
-                num1.stopEditing(()->{
-                    num2.startEditing();
-                });
+                num1.stopEditing(num2::startEditing);
             }
         });
         num2.addDataChangedListener((i, ii) -> {
             if(num2.getText().length() == 4) {
-                num2.stopEditing(()->{
-                    num3.startEditing();
-                });
+                num2.stopEditing(num3::startEditing);
             }
         });
         num3.addDataChangedListener((i, ii) -> {
             if(num3.getText().length() == 4) {
-                num3.stopEditing(()->{
-                    num4.startEditing();
-                });
+                num3.stopEditing(num4::startEditing);
             }
         });
         num4.addDataChangedListener((i, ii) -> {
@@ -175,9 +159,7 @@ public class TextInputDemo extends Demo{
         });
         
         Button submit = new Button("Submit", "TextFieldsDemoButton");
-        submit.addActionListener(e->{
-            ToastBar.showInfoMessage("Your personal data was saved successfully");
-        });
+        submit.addActionListener(e-> ToastBar.showInfoMessage("Your personal data was saved successfully"));
         
         tl.setGrowHorizontally(true);
         textFields.setLayout(tl);
@@ -241,7 +223,9 @@ public class TextInputDemo extends Demo{
         Container demoContainer = BorderLayout.center(textFields);
         demoContainer.add(BorderLayout.SOUTH, contactUsButton);
         demoContainer.setUIID("Wrapper");
-        return BoxLayout.encloseY(demoContainer);
+        Container cnt =  BoxLayout.encloseY(demoContainer);
+        cnt.setScrollableY(true);
+        return cnt;
     }
     
     private Container createClearableTextFieldDemo(){
@@ -264,12 +248,14 @@ public class TextInputDemo extends Demo{
         Container demoContainer = BorderLayout.center(textFieldsContainer);
         demoContainer.add(BorderLayout.SOUTH, loginButton);
         demoContainer.setUIID("Wrapper");
-        return BoxLayout.encloseY(demoContainer);
+        Container cnt =  BoxLayout.encloseY(demoContainer);
+        cnt.setScrollableY(true);
+        return cnt;
     }
     
     private Container createAutoCompleteDemo(){
         CSVParser parser = new CSVParser();
-        List<String> commonWords = new ArrayList();
+        List<String> commonWords = new ArrayList<>();
         try(InputStream reader = Display.getInstance().getResourceAsStream(getClass(), "/common-words.csv")){
             String[][] data = parser.parse(reader);            
             for (String[] s : data){
@@ -307,7 +293,9 @@ public class TextInputDemo extends Demo{
         
         Container demoContainer = BoxLayout.encloseY(new Label("Search:", "DemoLabel"), ac);
         demoContainer.setUIID("Wrapper");
-        return BoxLayout.encloseY(demoContainer);
+        Container cnt =  BoxLayout.encloseY(demoContainer);
+        cnt.setScrollableY(true);
+        return cnt;
     }    
     
     List<String> searchWords(String text, List<String> wordsList) {        
@@ -372,7 +360,6 @@ public class TextInputDemo extends Demo{
                                             add(BorderLayout.CENTER, textFields);
         textFieldsAndSaveButton.setUIID("Wrapper");
 
-        Container demoContainer = BorderLayout.center(textFieldsAndSaveButton);
-        return demoContainer;
+        return BorderLayout.center(textFieldsAndSaveButton);
     }
 }

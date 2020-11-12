@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2012, Codename One and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Codename One designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Codename One through http://www.codenameone.com/ if you
+ * need additional information or have any questions.
+ */
 package com.codename1.demos.kitchen;
 
 import com.codename1.ui.*;
@@ -8,7 +30,6 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 import static com.codename1.ui.CN.*;
@@ -20,6 +41,7 @@ import static com.codename1.ui.CN.*;
  * @author Sergey Gerashenko.
  */
 public class ClockDemo extends Demo{
+    private long lastRenderedTime = 0;
     private int shortTickLen;  // at 1-minute intervals
     private int medTickLen;  // at 5-minute intervals
     private int longTickLen; // at 15-minute intervals
@@ -73,10 +95,7 @@ public class ClockDemo extends Demo{
     }
 
     private class AnalogClock extends Component {
-        private long lastRenderedTime = 0;
-        private Date currentTime = new Date();
         private final int PADDING = convertToPixels(2);
-
 
         private AnalogClock(String uiid){
             this.setUIID(uiid);
@@ -92,8 +111,8 @@ public class ClockDemo extends Demo{
 
         @Override
         public boolean animate() {
-            if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000){
-                currentTime.setTime(System.currentTimeMillis());
+            if (System.currentTimeMillis() / 1000 != lastRenderedTime / 1000) {
+                lastRenderedTime = System.currentTimeMillis();
                 return true;
             }
             return false;
@@ -107,8 +126,7 @@ public class ClockDemo extends Demo{
             int centerY = getY() + getHeight() / 2;
 
             int radius = Math.min(getWidth(), getHeight()) / 2 - PADDING;
-            int clockColor = this.getAllStyles().getFgColor();
-            drawClock(g, centerX, centerY, getWidth(), getHeight(), radius, 50, 30, 10, false);
+            drawClock(g, centerX, centerY, radius, 50, 30, 10, false);
             start();
         }
     }
@@ -129,15 +147,10 @@ public class ClockDemo extends Demo{
             } else if (i % 5 == 0){
                 // Medium ticks at 5-minute intervals.
                 len = medTickLen;
-            }else{
-                // Short ticks every minute.
-                len = shortTickLen;
             }
 
-            double di = (double)i; // tick num as double for easier math.
-
             // Get the angle from 12 O'Clock to this tick (radians)
-            double angleFrom12 = di / 60.0 * 2.0 * Math.PI;
+            double angleFrom12 = (double)i / 60.0 * 2.0 * Math.PI;
 
             // Get the angle from 3 O'Clock to this tick
             // Note: 3 O'Clock corresponds with zero angle in unit circle
@@ -173,12 +186,10 @@ public class ClockDemo extends Demo{
             int charWidth = g.getFont().stringWidth(hourString);
             int charHeight = g.getFont().getHeight();
 
-            double di = (double)i;  // number as double for easier math
-
             // Calculate the position along the edge of the clock where the number should
             // be drawn.
             // Get the angle from 12 O'Clock to this tick (radians).
-            double angleFrom12 = di / 12.0 * 2.0 * Math.PI;
+            double angleFrom12 = (double)i / 12.0 * 2.0 * Math.PI;
 
             // Get the angle from 3 O'Clock to this tick
             // Note: 3 O'Clock corresponds with zero angle in unit circle
@@ -191,10 +202,10 @@ public class ClockDemo extends Demo{
             int tx = (int)(Math.cos(angleFrom3) * (radius - longTickLen - extraRange));
             int ty = (int)(-Math.sin(angleFrom3) * (radius - longTickLen - extraRange));
 
-            coordinates[i - 1] = new Coordinate(tx + (int)centerX - charWidth / 2, ty + (int)centerY - charHeight / 2);
+            coordinates[i - 1] = new Coordinate(tx + centerX - charWidth / 2, ty + centerY - charHeight / 2);
         }
 
-        // Draw all the numbrs.
+        // Draw all the numbers.
         for (int i = 1; i <= 12; i++) {
             String hourString = ((Integer)i).toString();
             g.drawString(hourString, coordinates[i - 1].x, coordinates[i - 1].y);
@@ -211,10 +222,10 @@ public class ClockDemo extends Demo{
         Calendar calendar =  Calendar.getInstance(TimeZone.getDefault());
 
         // Calculate the angle of the second hand
-        double second = (double)(calendar.get(Calendar.SECOND));
+        double second = calendar.get(Calendar.SECOND);
         double secondAngle = second / 60.0 * 2.0 * Math.PI;
 
-        g.rotateRadians((float)secondAngle, (int)centerX, (int)centerY);
+        g.rotateRadians((float)secondAngle, centerX, centerY);
         g.setColor(0xff0000);
         g.drawShape(
                 translatedSecondHand,
@@ -246,7 +257,7 @@ public class ClockDemo extends Demo{
         double minuteAngle = minute / 60.0 * 2.0 * Math.PI;
 
         // Rotate and draw the minute hand
-        g.rotateRadians((float)minuteAngle, (int)centerX, (int)centerY);
+        g.rotateRadians((float)minuteAngle, centerX, centerY);
         g.setColor(clockColor);
         g.fillShape(translatedMinuteHand);
         g.resetAffine();
@@ -272,13 +283,13 @@ public class ClockDemo extends Demo{
                 (double)(calendar.get(Calendar.MINUTE)) / 60.0;
 
         double angle = hour / 12.0 * 2.0 * Math.PI;
-        g.rotateRadians((float)angle, (int)centerX, (int)centerY);
+        g.rotateRadians((float)angle, centerX, centerY);
         g.setColor(clockColor);
         g.fillShape(translatedHourHand);
         g.resetAffine();
     }
 
-    private void drawClock(Graphics g, int centerX, int centerY, int width, int height, int radius,
+    private void drawClock(Graphics g, int centerX, int centerY, int radius,
                            int longTickLen, int medTickLen, int shortTickLen, boolean smallVersion){
 
         this.longTickLen = longTickLen;
@@ -295,7 +306,6 @@ public class ClockDemo extends Demo{
 
     private class ClockImage extends Image{
         private long lastRenderedTime = 0;
-        private Date currentTime = new Date();
 
         private int width;
         private int height;
@@ -355,7 +365,7 @@ public class ClockDemo extends Demo{
             int radius = Math.min(getWidth(), getHeight()) / 2;
             int centerX = x + w / 2;
             int centerY = y + h / 2;
-            drawClock(g, centerX, centerY, w, h, radius, 10, 6 , 2, true);
+            drawClock(g, centerX, centerY, radius, 10, 6 , 2, true);
         }
 
         @Override
@@ -368,9 +378,9 @@ public class ClockDemo extends Demo{
         }
     }
 
-    private class Coordinate {
-        private int x;
-        private int y;
+    private static class Coordinate {
+        private final int x;
+        private final int y;
 
         private Coordinate(int x, int y) {
             this.x = x;

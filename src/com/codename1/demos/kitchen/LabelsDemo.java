@@ -54,26 +54,22 @@ public class LabelsDemo extends Demo {
                                                                 "Label",
                                                                 "Allows displaying a single line of text and",
                                                                 "icon (both optional) with different alignment options. This class is a base class for several "+ 
-                                                                "components allowing them to declare alignment/icon appearance universally.", e->{
-                                                                    showDemo("Label", createLabelDemo());
-                                                                }));
+                                                                "components allowing them to declare alignment/icon appearance universally.",
+                                                                e-> showDemo("Label", createLabelDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("span-label.png"),
                                                                 "Span Label",
                                                                 "A multi line label component that can be",
-                                                                "easily localized, this is simply based on a text area combined with a label.", e->{
-                                                                   
-                                                                    showDemo("SpanLabel", createSpanLabelDemo());
-                                                                }));
+                                                                "easily localized, this is simply based on a text area combined with a label.",
+                                                                e-> showDemo("SpanLabel", createSpanLabelDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("scale-image-label.png"),
                                                                 "Scale Image Label",
                                                                 "Label that simplifies the usage of scale to",
                                                                 "fill/fit. This is effectively equivalent to just setting "+
                                                                 "the style image on a label but more convenient for some special circumstances\n\nOne major difference is "+
-                                                                "that preferred size equals the image in this case. The default UIID for this component is label", e->{
-                                                                    showDemo("Scale image label", createScaleImageLabelDemo());
-                                                                }));
+                                                                "that preferred size equals the image in this case. The default UIID for this component is label",
+                                                                e-> showDemo("Scale image label", createScaleImageLabelDemo())));
         
         return demoContainer;
     }

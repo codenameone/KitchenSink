@@ -124,7 +124,7 @@ public class KitchenSink {
         Display.getInstance().getCurrent().refreshTheme();
     }
     
-    private void setPopupDialogBorder(Hashtable themeProps){
+    private void setPopupDialogBorder(Hashtable<String, Object> themeProps){
         themeProps.put("PopupDialog.derive", "Dialog");
         themeProps.put("PopupDialog.border", RoundRectBorder.create().
                 cornerRadius(2f).

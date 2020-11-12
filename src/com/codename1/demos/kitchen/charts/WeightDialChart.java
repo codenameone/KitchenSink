@@ -90,7 +90,7 @@ public class WeightDialChart extends AbstractDemoChart {
         renderer.setVisualTypes(new DialRenderer.Type[]{Type.ARROW, Type.NEEDLE, Type.NEEDLE});
         renderer.setMinValue(0);
         renderer.setMaxValue(150);
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         DialChart chart = new DialChart(category, renderer);
         return newChart(chart);

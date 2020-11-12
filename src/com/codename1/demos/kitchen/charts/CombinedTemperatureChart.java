@@ -27,18 +27,13 @@ import com.codename1.charts.models.XYSeries;
 import com.codename1.charts.models.XYValueSeries;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
-import com.codename1.charts.views.BarChart;
-import com.codename1.charts.views.BubbleChart;
-import com.codename1.charts.views.CombinedXYChart;
+import com.codename1.charts.util.ColorUtil;
+import com.codename1.charts.views.*;
 import com.codename1.charts.views.CombinedXYChart.XYCombinedChartDef;
-import com.codename1.charts.views.CubicLineChart;
-import com.codename1.charts.views.LineChart;
-import com.codename1.charts.views.PointStyle;
 import com.codename1.ui.Component;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.codename1.charts.util.ColorUtil;
 
 /**
  * Combined temperature demo chart.
@@ -173,7 +168,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
             new XYCombinedChartDef(BarChart.TYPE, 0, 1), new XYCombinedChartDef(BubbleChart.TYPE, 2),
             new XYCombinedChartDef(LineChart.TYPE, 3), new XYCombinedChartDef(CubicLineChart.TYPE, 4)};
 
-        initRendererer(renderer);
+        initRenderer(renderer);
         CombinedXYChart chart = new CombinedXYChart(dataset, renderer, types);
         return newChart(chart);
 

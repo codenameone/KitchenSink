@@ -45,7 +45,7 @@ public class EmployeeChart extends AbstractDemoChart {
     public Component execute() {
         int[] colors = {ColorUtil.BLUE};
         DefaultRenderer renderer = buildCategoryRenderer(colors);
-        initRendererer(renderer);
+        initRenderer(renderer);
         
         RadarChart chart = new RadarChart(getDataSet(), renderer);
            

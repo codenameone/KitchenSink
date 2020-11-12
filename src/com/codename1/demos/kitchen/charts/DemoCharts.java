@@ -23,7 +23,6 @@
 package com.codename1.demos.kitchen.charts;
 
 
-import static com.codename1.ui.CN.*;
 import com.codename1.charts.ChartComponent;
 import com.codename1.charts.models.CategorySeries;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
@@ -36,18 +35,15 @@ import com.codename1.charts.views.LineChart;
 import com.codename1.charts.views.PieChart;
 import com.codename1.charts.views.PointStyle;
 import com.codename1.l10n.L10NManager;
-import com.codename1.ui.Component;
-import com.codename1.ui.Container;
-import com.codename1.ui.Display;
-import com.codename1.ui.Font;
-import com.codename1.ui.TextArea;
-import com.codename1.ui.TextField;
+import com.codename1.ui.*;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.table.DefaultTableModel;
 import com.codename1.ui.table.Table;
 import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.table.TableModel;
+
+import static com.codename1.ui.CN.convertToPixels;
 
 public class DemoCharts {
     public static Container createCategoriesContainer(){
@@ -70,7 +66,7 @@ public class DemoCharts {
         
         CategorySeries series = new CategorySeries("Sales");
         
-        PieChart chart = new PieChart(series, CreatePieChartRenderer());
+        PieChart chart = new PieChart(series, createPieChartRenderer());
         ChartComponent chartComponent = new ChartComponent(chart){
             // Make an anonymous claas that overide calcPreferredSize to fit exactly a half of the screen.
             @Override
@@ -135,7 +131,7 @@ public class DemoCharts {
         return categories;
     }
     
-    private static DefaultRenderer CreatePieChartRenderer(){
+    private static DefaultRenderer createPieChartRenderer(){
         DefaultRenderer renderer = new DefaultRenderer();
         int[] colors = new int[]{0xff6096, 0xff6096, 0xff6096};
         for (int color : colors) {

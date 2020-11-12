@@ -91,7 +91,7 @@ public class BudgetPieChart extends AbstractDemoChart {
         renderer.setChartTitleTextFont(largeFont);
         renderer.setDisplayValues(true);
         renderer.setShowLabels(true);
-        initRendererer(renderer);
+        initRenderer(renderer);
 
         final CategorySeries seriesSet = buildCategoryDataset("Project budget", values);
         final PieChart chart = new PieChart(seriesSet, renderer);

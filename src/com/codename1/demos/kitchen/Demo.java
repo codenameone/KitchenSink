@@ -25,6 +25,7 @@ package com.codename1.demos.kitchen;
 import com.codename1.components.ScaleImageButton;
 import com.codename1.components.SpanButton;
 import com.codename1.ui.*;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
@@ -126,12 +127,11 @@ public abstract class Demo{
         cnt.addAll(leftSide, rightSide);
     }
 
-    public Component createComponent(Image image, String header, String firstLine, String body, ActionListener listener){
-        Container demoContent = new AccordionComponent(image, header, firstLine, body, listener);
-        return demoContent;
+    public Component createComponent(Image image, String header, String firstLine, String body, ActionListener<ActionEvent> listener){
+        return new AccordionComponent(image, header, firstLine, body, listener);
     }
 
-    public Component createComponent(Image image, String header, String firstLine, ActionListener listener){
+    public Component createComponent(Image image, String header, String firstLine, ActionListener<ActionEvent> listener){
         ScaleImageButton contentImage = new ScaleImageButton(image){
             @Override
             protected Dimension calcPreferredSize() {
@@ -155,14 +155,13 @@ public abstract class Demo{
         return demoContent;
     }
 
-    private class AccordionComponent extends Container{
+    private static class AccordionComponent extends Container{
         private boolean isOpen = false;
-        private Button firstLine;
-        private SpanButton body;
-        private Image openedIcon;
-        private Image closedIcon;
-        private Button openClose;
-        private Container contentContainer;
+        private final Button firstLine;
+        private final SpanButton body;
+        private final Image openedIcon;
+        private final Image closedIcon;
+        private final Button openClose;
 
         /**
          * Demo component that have more then one line of description.
@@ -173,7 +172,7 @@ public abstract class Demo{
          * @param body the rest of the description.
          * @param listener add ActionListener to the image of the component.
          */
-        private AccordionComponent(Image image, String header, String firstLine, String body, ActionListener listener) {
+        private AccordionComponent(Image image, String header, String firstLine, String body, ActionListener<ActionEvent> listener) {
             super(new BorderLayout());
             this.firstLine = new Button(firstLine + " " + body, "DemoContentBody");
             this.body = new SpanButton(firstLine + " " + body, "DemoContentBody");
@@ -181,7 +180,7 @@ public abstract class Demo{
 
             this.firstLine.addActionListener(listener);
             this.body.addActionListener(listener);
-            contentContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+            Container contentContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
             setUIID("DemoContentAccordion");
             ScaleImageButton contentImage = new ScaleImageButton(image){
@@ -212,7 +211,8 @@ public abstract class Demo{
                 }
             });
 
-            contentContainer.addAll(contentHeader, this.firstLine);
+            contentContainer.addAll(contentHeader, this.firstLine, this.body);
+            this.body.setHidden(true);
             add(BorderLayout.NORTH, contentImage);
             add(BorderLayout.CENTER, contentContainer);
             add(BorderLayout.EAST, openClose);
@@ -228,9 +228,9 @@ public abstract class Demo{
             if (!isOpen){
                 isOpen = true;
                 openClose.setIcon(openedIcon);
-                contentContainer.removeComponent(firstLine);
-                contentContainer.add(body);
-                this.getParent().animateLayout(250);
+                this.body.setHidden(false);
+                this.firstLine.setHidden(true);
+                this.getParent().animateLayout(500);
             }
         }
 
@@ -238,10 +238,10 @@ public abstract class Demo{
             if (isOpen){
                 isOpen = false;
                 openClose.setIcon(closedIcon);
-                contentContainer.removeComponent(body);
-                contentContainer.add(firstLine);
+                this.body.setHidden(true);
+                this.firstLine.setHidden(false);
                 if (shouldAnimate){
-                    this.getParent().animateLayout(250);
+                    this.getParent().animateLayout(500);
                 }
             }
         }

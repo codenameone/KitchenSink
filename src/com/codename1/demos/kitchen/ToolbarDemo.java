@@ -60,7 +60,7 @@ public class ToolbarDemo extends Demo{
         });
 
         if (isTablet()){
-            tb.setPermanentSideMenu(true);
+            Toolbar.setPermanentSideMenu(true);
         }
 
         Form lastForm = Display.getInstance().getCurrent();

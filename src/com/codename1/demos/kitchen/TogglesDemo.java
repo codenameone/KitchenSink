@@ -57,17 +57,13 @@ public class TogglesDemo extends Demo {
                                                                 "Checkbox",
                                                                 "Checkbox is a button that can be selected",
                                                                 "or deselected and display its state to the user. Check out RadioButton for a more exclusive selection "+
-                                                                "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.", e->{
-                                                                    showDemo("Checkbox", createCheckboxDemo());
-                                                                }));
+                                                                "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.", e-> showDemo("Checkbox", createCheckboxDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("radio-button.png"),
                                                                 "Radio Button",
                                                                 "Checkbox is a button that can be selected",
                                                                 "or deselected and display its state to the user. Check out RadioButton for a more exclusive selection "+
-                                                                "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.", e->{
-                                                                    showDemo("Radio Button", createRadioButtonDemo());
-                                                                }));
+                                                                "approach. Both components support a toggle button mode using the Button.setToggle (Boolean) API.", e-> showDemo("Radio Button", createRadioButtonDemo())));
         
         demoContainer.add(createComponent(getGlobalResources().getImage("switch.png"),
                                                                 "Switch",
@@ -75,21 +71,15 @@ public class TogglesDemo extends Demo {
                                                                 "The on/off switch is a checkbox of sort (although it derives container) that represents its state as a switch "+
                                                                 "when using the android native theme this implementation follows the Material Design Switch "+
                                                                 "guidelines: https://material.io/guidelines/components/ selection-controls.html#selection-controls- radio-button",
-                                                                e->{
-                                                                    showDemo("Switch", createSwitchDemo());
-                                                                }));
+                                                                e-> showDemo("Switch", createSwitchDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("check-box-list.png"),
                                                                 "Check Box List",
-                                                                "A list of Check Boxes", e->{
-                                                                    showDemo("CheckBox List", createCheckBoxListDemo());
-                                                                }));
+                                                                "A list of Check Boxes", e-> showDemo("CheckBox List", createCheckBoxListDemo())));
 
         demoContainer.add(createComponent(getGlobalResources().getImage("radio-button-list.png"),
                                                                 "RadioButton List (BoxLayout Y)",
-                                                                "A list of Radio Buttons.", e->{
-                                                                    showDemo("RadioButton List (BoxLayout Y)", createRadioButtonListDemo());
-                                                                }));
+                                                                "A list of Radio Buttons.", e-> showDemo("RadioButton List (BoxLayout Y)", createRadioButtonListDemo())));
         
         return demoContainer;
     }
@@ -115,9 +105,7 @@ public class TogglesDemo extends Demo {
         cb4.setSelected(true);
         Container checkBoxContainer = BoxLayout.encloseY(cb1, cb2, cb3, cb4, cb5, cb6, cb7);
         Button completeOrder = new Button("Complete Order", "DemoButton");
-        completeOrder.addActionListener(e->{
-            ToastBar.showInfoMessage("Your order is on the way");
-        });
+        completeOrder.addActionListener(e-> ToastBar.showInfoMessage("Your order is on the way"));
         
         Container completeOrderContainer = FlowLayout.encloseCenter(completeOrder);
         completeOrderContainer.setUIID("CompleteOrderContainer");
@@ -188,7 +176,7 @@ public class TogglesDemo extends Demo {
     }
 
     private Container createCheckBoxListDemo(){
-        DefaultListModel model = new DefaultListModel("Pasta", "Rice", "Bread", "Butter", "Milk", "Eggs", "Cheese", "Salt", "Pepper", "Honey");
+        DefaultListModel<String> model = new DefaultListModel<>("Pasta", "Rice", "Bread", "Butter", "Milk", "Eggs", "Cheese", "Salt", "Pepper", "Honey");
         CheckBoxList list = new CheckBoxList(model);
         list.setScrollableY(true);
         list.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
@@ -246,7 +234,7 @@ public class TogglesDemo extends Demo {
         SpanLabel question = new SpanLabel("Who is the first character in the series to be called \"King in the North\"?", "DemoLabel");
         Button answer = new Button("Answer", "DemoAnswerButton");
 
-        DefaultListModel model = new DefaultListModel("Jon Snow", "Robb Stark", "Ned Stark", "Edmure Tully");
+        DefaultListModel<String> model = new DefaultListModel<>("Jon Snow", "Robb Stark", "Ned Stark", "Edmure Tully");
         RadioButtonList list = new RadioButtonList(model);
         list.setLayout(BoxLayout.y());
 

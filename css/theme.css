@@ -100,7 +100,6 @@ background-image:   url(images/charts/chart-bar.png),
                     url(images/progress/infinite-progress.png),
                     url(images/progress/slider.png),
                     url(images/progress/text-loading-animation.png),
-                    url(images/maps/maps-pin.png),
                     url(images/maps/map-google-component.png),
                     url(images/default-contact-pic.jpg),
                     url(images/code-name-one-icon.png);
@@ -495,10 +494,11 @@ DemoToolbar{
 }
 
 ToolbarSearch{
+    font-family: "native:MainRegular";
     margin: 0;
     background-color: white;
     font-size: 3mm;
-    padding: 1.5mm;
+    padding: 1mm;
 }
 
 MainWindowToolbar{
@@ -601,13 +601,6 @@ WhiteBGLabel{
     border-radius: 2mm;
 }
 
-InputContainer{
-    border: none;
-    background-image: url(images/labels/input-demo-background.jpg);
-    cn1-source-dpi: 0;
-    cn1-background-type: cn1-image-scaled-fill;
-    margin: 0;
-}
 TextComponent{
     background-color: rgba(0, 0, 0, 0);
     padding: 3mm;
@@ -1429,15 +1422,8 @@ SideNavigationPanel{
 
 TextFieldSearch{
     color: black;
-    border: 1px solid gray;
-    margin: 2mm 5mm 2mm 5mm;
-    padding-left: 1.5mm;
-    padding-top: 1mm;
-    padding-bottom: 1mm;
     font-size: 3mm;
-    border-radius: 2mm;
     background-color: rgba(0, 0, 0, 0);
-    text-align: center;
 }
 
 ToolbarSearch{
