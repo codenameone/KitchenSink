@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="kitchensink" target="1.8" />
+      <module name="KitchenSink" target="1.8" />
       <module name="kitchensink-cn1libs" target="1.8" />
       <module name="kitchensink-common" target="1.8" />
       <module name="kitchensink-GoogleMaps" target="1.8" />

@@ -8,3 +8,5 @@
 Versions.properties
 *css.merged
 *.bak
+target
+jdeploy-bundle

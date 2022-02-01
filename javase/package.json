@@ -1,0 +1,26 @@
+{
+  "bin": {"cn1-kitchensink": "jdeploy-bundle/jdeploy.js"},
+  "author": "Codename One",
+  "description": "A demo of Codename One widgets.  An open-source mobile first toolkit for building high quality, cross-platform native apps for Android, iOS, Desktop & Web.",
+  "main": "index.js",
+  "preferGlobal": true,
+  "repository": "https://github.com/codenameone/KitchenSink",
+  "version": "1.0.0",
+  "jdeploy": {
+    "jar": "target/kitchensink-javase-1.0-SNAPSHOT.jar",
+    "javaVersion" : "11",
+    "javafx" : true,
+    "title" : "Codename One Kitchen Sink",
+    "links" : [
+      "https://www.codenameone.com Codename One Website"
+    ]
+  },
+  "dependencies": {
+    "njre": "^0.2.0",
+    "shelljs": "^0.8.4"
+  },
+  "license": "ISC",
+  "name": "jdeploy-demo-cn1-kitchensink",
+  "files": ["jdeploy-bundle"],
+  "scripts": {"test": "echo \"Error: no test specified\" && exit 1"}
+}

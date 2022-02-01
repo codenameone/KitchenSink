@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="codenameone-cli-1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

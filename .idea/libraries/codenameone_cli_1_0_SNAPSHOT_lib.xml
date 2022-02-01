@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="codenameone-cli-1.0-SNAPSHOT.lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.lib/zip4j-1.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.lib/codename1-javase-0.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.lib/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.lib/gson-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/node_modules/codenameone-cli/jdeploy-bundle/codenameone-cli-1.0-SNAPSHOT.lib/commons-cli-1.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
