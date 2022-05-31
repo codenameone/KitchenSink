@@ -54,7 +54,7 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
 public class TextInputDemo extends Demo{
     
     public TextInputDemo(Form parentForm) {
-        init("Text Input", getGlobalResources().getImage("text-field-demo.png"), parentForm, "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/TextInputDemo.java");
+        init("Text Input", getGlobalResources().getImage("text-field-demo.png"), parentForm, "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/TextInputDemo.java");
     }
      
     @Override

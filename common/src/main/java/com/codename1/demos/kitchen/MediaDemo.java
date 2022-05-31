@@ -56,7 +56,7 @@ public class MediaDemo extends Demo {
     
     public MediaDemo(Form parentForm) {
         init("Media", getGlobalResources().getImage("media-demo-icon.png"), parentForm,
-                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/MediaDemo.java");
+                "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/MediaDemo.java");
     }
 
     @Override

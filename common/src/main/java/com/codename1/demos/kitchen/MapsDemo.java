@@ -54,7 +54,7 @@ public class MapsDemo extends Demo {
 
     public MapsDemo(Form parentForm) {
         init("Maps", getGlobalResources().getImage("demo-maps.png"), parentForm,
-                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/MapsDemo.java");
+                "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/MapsDemo.java");
     }
     
     @Override

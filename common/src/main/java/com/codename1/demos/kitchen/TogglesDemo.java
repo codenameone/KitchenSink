@@ -45,7 +45,7 @@ public class TogglesDemo extends Demo {
     
     public TogglesDemo(Form parentForm) {
         init("Toggles", getGlobalResources().getImage("toggles-demo.png"), parentForm,
-                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/TogglesDemo.java");
+                "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/TogglesDemo.java");
     }
      
     @Override

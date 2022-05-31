@@ -46,8 +46,10 @@ import static com.codename1.ui.util.Resources.getGlobalResources;
 public class AdvancedDemo extends Demo{
     private final HashMap<String, List<String>> allNotes = new HashMap<>();
     
+    
+
     public AdvancedDemo(Form parentForm) {
-        init("Advanced", getGlobalResources().getImage("advanced-icon.png"), parentForm, "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/AdvancedDemo.java");
+        init("Advanced", getGlobalResources().getImage("advanced-icon.png"), parentForm, "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/AdvancedDemo.java");
     }
 
     @Override
