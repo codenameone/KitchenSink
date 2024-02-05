@@ -42,7 +42,7 @@ public class ChartsDemo extends Demo {
     
     public ChartsDemo(Form parentForm) {
         init("Charts", getGlobalResources().getImage("charts-demo-icon.png"), parentForm,
-                "https://github.com/codenameone/KitchenSink/blob/master/src/com/codename1/demos/kitchen/ChartsDemo.java");
+                "https://github.com/codenameone/KitchenSink/tree/master/common/src/main/java/com/codename1/demos/kitchen/ChartsDemo.java");
     }
 
     @Override
